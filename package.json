@@ -15,9 +15,13 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "firebase": "^4.3.1",
     "vue": "^2.4.2",
     "vue-router": "^2.7.0",
-    "vuex": "^2.4.0"
+    "vuefire": "^1.4.3",
+    "vuex": "^2.4.0",
+    "vuexfire": "^2.3.0",
+    "weakmap-polyfill": "^2.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

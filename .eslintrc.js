@@ -19,10 +19,6 @@ module.exports = {
   plugins: [
     'html'
   ],
-  // "vue": {
-  //   "env": {
-  //       "vuex": true,
-  //       "vue-route": true,
   // add your custom rules here
   'rules': {
     // allow paren-less arrow functions

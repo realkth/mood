@@ -1,0 +1,51 @@
+@import 'mixin';
+@import 'base';
+// 웹카페 대제목 감추기
+#webcafe-heading{
+    @extend %readable-hidden;
+}
+// 로고 이미지의 최대 크기
+.logo img{
+    max-width: 70px;
+    @include breakpoint(768px){
+        max-width: 100%;
+    }
+}
+// 웹카페 로그인,회원가입 및 커뮤니티 링크
+.info-menu{
+    $btn-info-menu-bg: #7d3016;
+    text-align: right;
+    li, a{
+        display: inline-block;
+    }
+    a{
+        color: #fff;
+        padding: 10px 15px;
+        border-radius: 5px;
+        background: $btn-info-menu-bg;
+        text-decoration: none;
+    }
+}
+// 검색 폼
+#search-form{
+    legend{
+        @extend %readable-hidden;
+    }
+    $btn-size: 30px;
+    input{
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        width: calc(100% - (#{$btn-size} + 10px));
+        height: $btn-size;
+        padding: 1px 1px 1px 15px;
+    }
+    button{
+        border: 0;
+        padding: 0 0 0 $btn-size;
+        width: $btn-size;
+        height: $btn-size;
+        vertical-align: middle;
+        overflow: hidden;
+        background: url(images/btn_search.png) no-repeat 0 0/contain;
+        }
+    }

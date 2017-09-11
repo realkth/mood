@@ -1,0 +1,43 @@
+@import 'mixin';
+%readable-hidden{
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+  padding: 0;
+  margin: -1px;
+}
+%ir{
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: 100% 100%
+}
+// 반응형 콘텐츠
+.responsive-object{
+    max-width: 100%;
+    height: auto ;
+}
+.responsive-svg{
+    width: 100%;
+    height: auto ;
+}
+html{
+    font-size: 10px;
+}
+body{
+    font-size: 1.4rem;
+    @include breakpoint(tablet){
+        font-size: 1.5rem;
+    }
+    @include breakpoint(desktop){
+        font-size: 1.6rem;
+    }
+    color: #181818;
+    font-family: "Noto Sans Regular";
+    line-height: 1.5;
+    background: #fff;
+}

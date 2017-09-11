@@ -8,8 +8,10 @@ module.exports = {
   },
   env: {
     browser: true,
-    // "vuex": false,
-    // "vue-route": false,
+    es6: true
+  },
+  globals: {
+    Vue: true
   },
   // https://github.com/standard/standard/blob/master/docs/RULES-en.md
   extends: 'standard',
@@ -17,10 +19,6 @@ module.exports = {
   plugins: [
     'html'
   ],
-  // "vue": {
-  //   "env": {
-  //       "vuex": true,
-  //       "vue-route": true,
   // add your custom rules here
   'rules': {
     // allow paren-less arrow functions

@@ -1,0 +1,14 @@
+.col{
+    float: left;
+    width: 100%;
+    min-height: 50px;
+    margin-right: -100%;
+}
+@for $i from 1 through 12{
+    .col-#{$i}{
+        width: (100% / 12) * $i;
+    }
+    .col-offset-#{$i}{
+        margin-left: (100% / 12) * $i;
+    }
+}

@@ -1,0 +1,60 @@
+// 반응형 이미지 - RWD Intro
+.rwd-intro{
+    text-align: center;
+}
+// 웹카페 서적 - 제목
+.book-heading{
+    height: 60px;
+    padding-left: 65px;
+    margin: 1em 0;
+    background-image: url(images/sprite_main.png);
+    background-repeat: no-repeat;
+    font-size: 2rem;
+    color: #abd375
+}
+
+// $section-heading-color: (book: red, qna: blue, news: green,);
+
+// @each $section, $text-color in $section-heading-color{
+//     .#{$section}-heading{
+//         color: $text-color;
+//     }
+// }
+
+// 웹카페 서적
+.book{
+    figure{
+        width: 70%;
+        margin: 0 auto;
+        text-align: center;
+    }
+}
+.book-maker {
+    text-align: center;
+    margin: 1em 0;
+    dt{
+        color: #c32222;
+    }
+    dt, dd{
+        display: inline-block;
+        font-weight: bold;
+    }
+    .book-author-name::after{
+        content: " /";
+    }
+    .book-grade{
+        @extend %readable-hidden;
+    }
+    .grade{
+        display: block;
+        color: #7a9108;
+        font-size: 2rem;
+    }
+}
+.news{
+    background: yellow;
+}
+
+
+
+

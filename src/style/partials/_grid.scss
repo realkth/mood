@@ -1,0 +1,102 @@
+@import 'mixin';
+// 컨테이너 및 그리드 최대 너비
+$container-width: 100%;
+$grid-max-width: 1200px;
+// 전체 영역을 포함하는 컨테이너
+.container{
+  width: $container-width;
+}
+// 그리드
+.grid{
+  max-width: $grid-max-width;
+  margin: 0 auto;
+//   background: rgba(255,255,0,0.3);
+  @include clearfix;
+}
+// 가로형 그리드 컬럼 배치를 위한 선언 
+.col{
+  box-sizing: border-box;
+  float: left;
+  position: relative;
+  width: 100%;
+  min-height: 50px;
+//   background: rgba(255,0,0,0.3);
+}
+// 컬럼의 안쪽 여백
+.col{
+    @include mobile{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    @include tablet{
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    @include desktop{
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+}
+// 이중 컬럼 내부의 안쪽 여백 제거
+.alpha{
+    padding-left: 0;
+}
+.omega{
+    padding-right: 0;
+}
+// 미디어쿼리 - 모바일
+@include mobile{
+    @for $i from 1 through 4{
+        .col-m-#{$i}{
+            width: (100% / 4) * $i;
+        }
+        .col-m-push-#{$i}{
+            left: (100% / 4) * $i;
+        }
+        .col-m-pull-#{$i}{
+            right: (100% / 4) * $i;
+        }
+        .col-m-offset-#{$i}{
+            margin-left: (100% / 4) * $i;
+        }
+    }
+}
+@include tablet{
+    @for $i from 1 through 8{
+        .col-t-#{$i}{
+            width: (100% / 8) * $i;
+        }
+        .col-t-push-#{$i}{
+            left: (100% / 8) * $i;
+        }
+        .col-t-pull-#{$i}{
+            right: (100% / 8) * $i;
+        }
+        .col-t-offset-#{$i}{
+            margin-left: (100% / 8) * $i;
+        }
+    }
+}
+@include desktop{
+    @for $i from 1 through 12{
+        .col-d-#{$i}{
+            width: (100% / 12) * $i;
+        }
+        .col-d-push-#{$i}{
+            left: (100% / 12) * $i;
+        }
+        .col-d-pull-#{$i}{
+            right: (100% / 12) * $i;
+        }
+        .col-d-offset-#{$i}{
+            margin-left: (100% / 12) * $i;
+        }
+    }
+}
+
+
+
+
+
+
+

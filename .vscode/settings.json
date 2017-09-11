@@ -11,7 +11,7 @@
       "node_modules": true,   // this excludes the folder 
                               // only from the root of
                               // your workspace
-      "eslint.enable": false
-  },
-  "eslint.enable": false
+      "eslint.enable": true
+  }
+  // "eslint.enable": true
 }

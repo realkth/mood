@@ -38,7 +38,7 @@
   - 작업 일정은 스크럼보드를 활용해서 공유
 --------------------------------------------
 
-> ## [프로토타입](https://ovenapp.io/project/npUx3Fpso9DVMvmLypjoMtRAopfM4gju#G6e95) 
+> ## [프로토타입](https://ovenapp.io/project/npUx3Fpso9DVMvmLypjoMtRAopfM4gju#G6e95)   
 > ## 일별 진행사항은 [스크럼보드](https://docs.google.com/spreadsheets/d/19uk0yIWIGAGDWxCyIE3sBjMY3eeNxImAGhN5P_W6S3M/edit#gid=1954898330)에 개인 별로 작성  
 > ## 프로젝트 진행과정 : [github](https://github.com/realkth/mood/projects/1)
 

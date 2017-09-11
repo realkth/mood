@@ -3,14 +3,20 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from 'axios'
 import {store} from './store/index.js'
 Vue.config.productionTip = false
 
-/* eslint-disable no-new */
+Vue.use(VueRouter)
+Vue.prototype.$http = axios
+
+const router = new VueRouter({
+  mode: 'history',
+  routes
+})
 new Vue({
   el: '#app',
   router,
   store,
-  template: '<App/>',
-  components: { App }
+  render: h => h(App)
 })

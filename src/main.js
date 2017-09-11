@@ -5,7 +5,9 @@ import App from './App'
 import VueRouter from 'vue-router'
 import router from './router'
 import axios from 'axios'
+import * as firebase from 'firebase'
 import {store} from './store'
+
 // Vue.config.productionTip = false
 
 Vue.use(VueRouter)

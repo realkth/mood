@@ -12,7 +12,7 @@
 4. 달력 - 달력에서 날짜를 선택하면 해당 날짜의 일기 쓰기
 5. 일기 쓰기
 6. 감정 이모티콘으로 감정 기록
-7. 감정 별 모아보기
+7. 감정 선택 횟수 통계
 8. 한달에 일기를 얼마나 기록했는지 통계 제공
 ```  
 - 개발 환경
@@ -38,8 +38,9 @@
   - 작업 진행상황은 스크럼보드를 활용해서 공유
 --------------------------------------------
 > ## ![브레인스토밍](./IMG_3600.PNG)
-> ## [프로토타입](https://ovenapp.io/project/npUx3Fpso9DVMvmLypjoMtRAopfM4gju#G6e95)   
-> ## 일별 진행사항은 [스크럼보드](https://docs.google.com/spreadsheets/d/19uk0yIWIGAGDWxCyIE3sBjMY3eeNxImAGhN5P_W6S3M/edit#gid=1954898330)에 개인 별로 작성  
+> ## [프로토타입](https://ovenapp.io/project/npUx3Fpso9DVMvmLypjoMtRAopfM4gju#G6e95)  
+> ## [최종 디자인컨셉](https://goo.gl/TrM2Ps)
+> ## 일별 진행사항은 [스크럼보드](https://docs.google.com/spreadsheets/d/1i7tOWOv7eNiqQlEGzf7wO5ybKPk8lishXqrKqkRDrzU/edit?ts=59b76c7c#gid=0)에 개인 별로 작성  
 > ## 프로젝트 진행과정 : [프로젝트](https://github.com/realkth/mood/projects/1) / [이슈](https://github.com/realkth/mood/issues)
 
 --------------------------------------------

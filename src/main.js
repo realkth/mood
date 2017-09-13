@@ -5,21 +5,37 @@ import App from './App'
 import VueRouter from 'vue-router'
 import router from './router'
 import axios from 'axios'
-import * as firebase from 'firebase'
+import firebase from 'firebase'
 import {store} from './store'
+import VueFire from 'vuefire'
 
 // Vue.config.productionTip = false
 
 Vue.use(VueRouter)
+Vue.use(VueFire)
 Vue.prototype.$http = axios
 
-// const router = new VueRouter({
-//   mode: 'history',
-//   routes
-// })
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
+let app;
+
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyB_z_mvThzaqWKp1vcZKjIOcIuWtYYmiAg",
+    authDomain: "mood-vuex.firebaseapp.com",
+    databaseURL: "https://mood-vuex.firebaseio.com",
+    projectId: "mood-vuex",
+    storageBucket: "mood-vuex.appspot.com",
+    messagingSenderId: "467319904800"
+  };
+  firebase.initializeApp(config);
+  firebase.auth().onAuthStateChanged(function (user) {
+  if (!app) {
+    /* eslint-disable no-new */
+    app = new Vue({
+      el: '#app',
+      template: '<App/>',
+      components: { App },
+      router,
+      store
+    })
+  }
+});

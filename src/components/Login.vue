@@ -1,60 +1,80 @@
 <template>
-  <div class="login">
-    <h3>Sign In</h3>
-    <input type="text" v-model="email" placeholder="Email"><br>
-    <input type="password" v-model="password" placeholder="Password"><br>
-    <button v-on:click="signIn">Connection</button>
-    <p>You don't have an account ? You can <router-link to="/sign-up">create one</router-link></p>
+  <div class="login container">
+    <div class="grid">
+      <div class="box col col-d-6 col-d-offset-3 col-m-4">
+        <div class="col">
+          <h3>로그인</h3>
+        </div>
+        <div class="col">
+          <input type="text" v-model="email" placeholder="Email">
+        </div>
+        <div class="col">
+          <input type="password" v-model="password" placeholder="Password">
+          <p>나도 행복하고 싶다..</p>
+        </div>
+        <div class="col">
+          <button v-on:click="signIn">접속하라!</button>
+        </div>
+        <div class="col">
+          <p>You don't have an account ? You can
+            <router-link to="/sign-up">회원가입!</router-link>
+          </p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-  import firebase from 'firebase'
+import firebase from 'firebase'
 
-  export default {
-    name: 'login',
-    data: function () {
-      return {
-        email: '',
-        password: ''
-      }
-    },
-    methods: {
-      signIn: function () {
-        firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-          (user) => {
-            this.$router.replace('hello')
-          },
-          (err) => {
-            console.log(error)
-            alert('Oops. ' + err.message)
-          }
-        );
-      }
+export default {
+  name: 'login',
+  data: function() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    signIn: function() {
+      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
+        (user) => {
+          this.$router.replace('hello')
+        },
+        (err) => {
+          console.log(error)
+          alert('Oops. ' + err.message)
+        }
+      );
     }
   }
+}
 </script>
 
-<style scoped>  /* "scoped" attribute limit the CSS to this component only */
-  .login {
-    margin-top: 40px;
-  }
-  input {
-    margin: 10px 0;
-    width: 20%;
-    padding: 15px;
-  }
-  button {
-    margin-top: 20px;
-    width: 10%;
-    cursor: pointer;
-  }
-  p {
-    margin-top: 40px;
-    font-size: 13px;
-  }
-  p a {
-    text-decoration: underline;
-    cursor: pointer;
-  }
+<style lang="scss" scoped>
+@import "~style";
+h3 {
+  text-align: center;
+  color: $color-mood;
+  font-size: 1.6rem;
+}
+
+div {
+  text-align: center;
+}
+
+.box {
+  @extend %box-style;
+  display: block;
+  padding: 20px 0;
+}
+
+input {
+  @extend %input-style;
+}
+p{
+  text-align: left;
+  padding-left: 20%;
+}
 </style>

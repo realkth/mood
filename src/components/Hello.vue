@@ -18,6 +18,9 @@
       <li><a href="https://github.com/vuejs/awesome-vue" target="_blank">awesome-vue</a></li>
     </ul>
     <button v-on:click="logout">Logout</button>
+    <button v-on:click="whoamI">난 누구</button>
+    <input type="text" v-model="currentUser"placeholder="유저 네임">
+    <button v-on:click="changeName">이름 변경</button>
   </div>
 </template>
 
@@ -28,7 +31,8 @@ export default {
   name: 'hello',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      currentUser:''
     }
   },
   methods: {
@@ -36,6 +40,15 @@ export default {
       firebase.auth().signOut().then(() => {
         this.$router.replace('login')
       })
+    },
+    whoamI: function(){
+      console.log(firebase.auth().currentUser);
+      this.currentUser = firebase.auth().currentUser;
+      alert(firebase.auth().currentUser.displayName);
+    },
+    changeName: function(){
+      this.currentUser = firebase.auth().currentUser.displayName
+      // firebase.auth().currentUser.displayName
     }
   }
 }

@@ -5,20 +5,20 @@
         <div class="col">
           <h3>로그인</h3>
         </div>
-        <div class="col">
+        <div class="form col">
           <input type="text" v-model="email" placeholder="Email">
         </div>
-        <div class="col">
+        <div class="form col">
           <input type="password" v-model="password" placeholder="Password">
-          <p>나도 행복하고 싶다..</p>
+          <p class="msg">나도 행복하고 싶다..</p>
         </div>
-        <div class="col">
-          <button v-on:click="signIn">접속하라!</button>
-        </div>
-        <div class="col">
-          <p>You don't have an account ? You can
+        <div class="buttons col">
+          <button class="signin" v-on:click="signIn">접속하라!</button>
+          <!-- <p>You don't have an account ? You can -->
+          <button class="signup">
             <router-link to="/sign-up">회원가입!</router-link>
-          </p>
+          </button>
+          <!-- </p> -->
         </div>
       </div>
     </div>
@@ -60,7 +60,11 @@ h3 {
   font-size: 1.6rem;
 }
 
-div {
+input {
+  @extend %input-style;
+}
+
+.form {
   text-align: center;
 }
 
@@ -70,11 +74,56 @@ div {
   padding: 20px 0;
 }
 
-input {
-  @extend %input-style;
-}
-p{
+
+.msg {
   text-align: left;
   padding-left: 20%;
+  margin-top: 10px;
+}
+
+.buttons {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.signin {
+  width: 40%;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background-color: $color-haha;
+  color: $color-happy;
+}
+
+.signup {
+  margin-left: 10%;
+  width: 40%;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background-color: $color-happy;
+  color: $color-haha;
+}
+
+ ::-webkit-input-placeholder {
+  /* Chrome */
+  color: red;
+}
+
+ :-ms-input-placeholder {
+  /* IE 10+ */
+  color: red;
+}
+
+ ::-moz-placeholder {
+  /* Firefox 19+ */
+  color: red;
+  opacity: 1;
+}
+
+ :-moz-placeholder {
+  /* Firefox 4 - 18 */
+  color: red;
+  opacity: 1;
 }
 </style>

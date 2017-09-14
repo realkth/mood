@@ -10,7 +10,7 @@ $grid-max-width: 1200px;
 .grid{
   max-width: $grid-max-width;
   margin: 0 auto;
-//   background: rgba(255,255,0,0.3);
+  background: rgba(255,255,0,0.3);
   @include clearfix;
 }
 // 가로형 그리드 컬럼 배치를 위한 선언 
@@ -20,17 +20,13 @@ $grid-max-width: 1200px;
   position: relative;
   width: 100%;
   min-height: 50px;
-//   background: rgba(255,0,0,0.3);
+  background: rgba(255,0,0,0.3);
 }
 // 컬럼의 안쪽 여백
 .col{
     @include mobile{
         padding-left: 10px;
         padding-right: 10px;
-    }
-    @include tablet{
-        padding-left: 15px;
-        padding-right: 15px;
     }
     @include desktop{
         padding-left: 20px;
@@ -58,22 +54,6 @@ $grid-max-width: 1200px;
         }
         .col-m-offset-#{$i}{
             margin-left: (100% / 4) * $i;
-        }
-    }
-}
-@include tablet{
-    @for $i from 1 through 8{
-        .col-t-#{$i}{
-            width: (100% / 8) * $i;
-        }
-        .col-t-push-#{$i}{
-            left: (100% / 8) * $i;
-        }
-        .col-t-pull-#{$i}{
-            right: (100% / 8) * $i;
-        }
-        .col-t-offset-#{$i}{
-            margin-left: (100% / 8) * $i;
         }
     }
 }

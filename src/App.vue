@@ -11,11 +11,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "~style";
-// h1 {
-//   color: $color-1;
-// }
+<style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

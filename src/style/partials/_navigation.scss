@@ -1,0 +1,16 @@
+@import 'mixin';
+@import 'base';
+//메인 메뉴
+.navigation{
+    $nav-bg: #38302e;
+    text-align: center;
+    font-family: "Noto Sans Bold";
+    background-color: $nav-bg;
+    a{
+        text-decoration: none;
+        color: mix($nav-bg, #fff ,10%);
+        line-height: 50px;
+        text-shadow: 1px 1px 0 darken($nav-bg,50%);
+    }
+}
+

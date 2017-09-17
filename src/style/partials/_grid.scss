@@ -28,10 +28,6 @@ $grid-max-width: 1200px;
         padding-left: 10px;
         padding-right: 10px;
     }
-    // @include tablet{
-    //     padding-left: 15px;
-    //     padding-right: 15px;
-    // }
     @include desktop{
         padding-left: 20px;
         padding-right: 20px;
@@ -61,22 +57,6 @@ $grid-max-width: 1200px;
         }
     }
 }
-// @include tablet{
-//     @for $i from 1 through 8{
-//         .col-t-#{$i}{
-//             width: (100% / 8) * $i;
-//         }
-//         .col-t-push-#{$i}{
-//             left: (100% / 8) * $i;
-//         }
-//         .col-t-pull-#{$i}{
-//             right: (100% / 8) * $i;
-//         }
-//         .col-t-offset-#{$i}{
-//             margin-left: (100% / 8) * $i;
-//         }
-//     }
-// }
 @include desktop{
     @for $i from 1 through 12{
         .col-d-#{$i}{

@@ -18,7 +18,7 @@ Vue.prototype.$http = axios
 let app;
 
   // Initialize Firebase
-  var config = {
+  let config = {
     apiKey: "AIzaSyB_z_mvThzaqWKp1vcZKjIOcIuWtYYmiAg",
     authDomain: "mood-vuex.firebaseapp.com",
     databaseURL: "https://mood-vuex.firebaseio.com",

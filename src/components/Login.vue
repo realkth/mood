@@ -10,13 +10,14 @@
         </div>
         <div class="col">
           <input type="password" v-model="password" placeholder="Password">
+          <p>나도 행복하고 싶다..</p>
         </div>
         <div class="col">
-          <button v-on:click="signIn">Connection</button>
+          <button v-on:click="signIn">접속하라!</button>
         </div>
         <div class="col">
           <p>You don't have an account ? You can
-            <router-link to="/sign-up">create one</router-link>
+            <router-link to="/sign-up">회원가입!</router-link>
           </p>
         </div>
       </div>
@@ -52,35 +53,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  /* "scoped" attribute limit the CSS to this component only */
+@import "~style";
+h3 {
+  text-align: center;
+  color: $color-mood;
+  font-size: 1.6rem;
+}
 
-  @import "~style";
-  div {
-    text-align: center
-  }
-  .box {
-    @extend %box-style; // width: 500px;
-    // height: 500px;
-    display: block;
-  } // .login {
-  //   margin-top: 40px;
-  // }
-  // input {
-  //   margin: 10px 0;
-  //   width: 20%;
-  //   padding: 15px;
-  // }
-  // button {
-  //   margin-top: 20px;
-  //   width: 10%;
-  //   cursor: pointer;
-  // }
-  // p {
-  //   margin-top: 40px;
-  //   font-size: 13px;
-  // }
-  // p a {
-  //   text-decoration: underline;
-  //   cursor: pointer;
-  // }
+div {
+  text-align: center;
+}
+
+.box {
+  @extend %box-style;
+  display: block;
+  padding: 20px 0;
+}
+
+input {
+  @extend %input-style;
+}
+p{
+  text-align: left;
+  padding-left: 20%;
+}
 </style>

@@ -13,6 +13,6 @@ module.exports = {
     video: 'src',
     source: 'src',
     img: 'src',
-    image: 'xlink:href'
+    image: 'xlink:href',
   }
 }

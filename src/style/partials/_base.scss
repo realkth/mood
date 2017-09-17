@@ -41,9 +41,19 @@ body{
     line-height: 1.5;
     background: #fff;
 }
-
-%box-style {
-  background: #fff;
-  border-radius: 3px;
-  box-shadow: 5px 5px 13px rgba(0, 0, 0, 0.2)
+%box-style{
+    background: #fff;
+    border-radius: 3px;
+    box-shadow: 5px 5px 13px rgba(0,0,0,0.2);
+}
+%input-style{
+    width: 60%;
+    border: none;
+    background: none;
+    border-bottom: 1px solid $color-gray;
+    &:active,
+    &:focus,
+    &::selection{
+        border-bottom: 1px solid $color-mood;
+    }
 }

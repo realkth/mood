@@ -5,19 +5,22 @@
         <div class="col">
           <h3>로그인</h3>
         </div>
-        <div class="form col">
-          <input type="text" v-model="email" placeholder="Email" autofocus>
-        </div>
-        <div class="form col">
-          <input type="password" v-model="password" placeholder="Password">
-          <p class="msg">나도 행복하고 싶다..</p>
-        </div>
-        <div class="buttons col">
-          <button class="signin" v-on:click="signIn">접속하라!</button>
-          <button class="signup">
-            <router-link to="/sign-up">회원가입!</router-link>
-          </button>
-        </div>
+        <form>
+          <div class="form col">
+            <input type="text" v-model="email" placeholder="Email" autofocus>
+            <p class="errmsg" id="email_msg">{{ this.err_email_msg }}</p>
+          </div>
+          <div class="form col">
+            <input type="password" v-model="password" placeholder="Password" class="form-password">
+            <p class="errmsg" id="pw_msg">{{ this.err_pw_msg }}</p>
+          </div>
+          <div class="buttons col">
+            <button class="signin" v-on:click="signIn">접속하라!</button>
+            <router-link to="/sign-up">
+              <button class="signup">회원가입!</button>
+            </router-link>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -31,7 +34,9 @@ export default {
   data: function() {
     return {
       email: '',
-      password: ''
+      password: '',
+      err_email_msg: '',
+      err_pw_msg: '',
     }
   },
   methods: {
@@ -41,8 +46,17 @@ export default {
           this.$router.replace('hello')
         },
         (err) => {
-          console.log(err)
-          alert('Oops. ' + err.message)
+          // console.log(err);
+          if(err.code === 'auth/user-not-found'){
+            this.err_email_msg = '등록되지 않은 이메일입니다.';
+          }
+          else if(err.code === 'auth/invalid-email'){
+            this.err_email_msg = '이메일 형식이 유효하지 않습니다.';
+          }
+          else {
+            this.err_pw_msg = '비밀번호가 틀렸습니다.';
+            this.err_email_msg = '';
+          }
         }
       );
     }
@@ -56,6 +70,7 @@ h3 {
   text-align: center;
   color: $color-mood;
   font-size: 1.6rem;
+  margin-bottom: 30px; 
 }
 
 input {
@@ -64,6 +79,10 @@ input {
 
 .form {
   text-align: center;
+}
+
+.form-password {
+  margin-top: 20px;
 }
 
 .box {
@@ -77,7 +96,16 @@ input {
   text-align: left;
   padding-left: 20%;
   margin-top: 10px;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
+  color: $color-gray;
+}
+
+.errmsg {
+  text-align: left;
+  padding-left: 20%;
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: $color-alert;
 }
 
 .buttons {
@@ -104,23 +132,23 @@ input {
   color: $color-haha;
 }
 
- ::-webkit-input-placeholder {
+::-webkit-input-placeholder {
   /* Chrome */
   color: $color-moregray;
 }
 
- :-ms-input-placeholder {
+:-ms-input-placeholder {
   /* IE 10+ */
   color: $color-moregray;
 }
 
- ::-moz-placeholder {
+::-moz-placeholder {
   /* Firefox 19+ */
   color: $color-moregray;
   opacity: 1;
 }
 
- :-moz-placeholder {
+:-moz-placeholder {
   /* Firefox 4 - 18 */
   color: $color-moregray;
   opacity: 1;

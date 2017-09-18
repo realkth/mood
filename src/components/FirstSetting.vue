@@ -1,14 +1,14 @@
 <template>
-  <div class="sign-up container">
+  <div class="first-setting container">
     <div class="grid">
       <div class="box col col-d-6 col-d-offset-3 col-m-4">
         <div class="col">
-          <h3>회원가입</h3>
+          <h3>회원등록</h3>
         </div>
         <form>
           <div class="form col">
-            <input type="text" v-model="email" placeholder="Email" v-focus="true">
-            <p class="ok-msg" v-show="validateEmail.email">사용가능한 이메일입니다.</p>
+            <input type="text" v-model="email" placeholder="닉네임" v-focus="true">
+            <p class="ok-msg" v-show="validateEmail.email"></p>
             <p class="msg" id="email_msg" v-show="!validateEmail.email">{{ err_email_msg }}</p>
           </div>
           <div class="form form-password col">
@@ -64,7 +64,7 @@ export default {
     signUp: function() {
       firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
         (user) => {
-          this.$router.replace('first-setting')
+          this.$router.replace('hello')
         },
         (err) => {
           // console.log('Oops. ' + err.message)

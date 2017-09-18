@@ -41,7 +41,7 @@ export default {
           this.$router.replace('hello')
         },
         (err) => {
-          console.log(error)
+          console.log(err)
           alert('Oops. ' + err.message)
         }
       );
@@ -77,7 +77,7 @@ input {
   text-align: left;
   padding-left: 20%;
   margin-top: 10px;
-  font-size: 0.9rem // color: $mood-
+  font-size: 0.9rem;
 }
 
 .buttons {

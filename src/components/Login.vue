@@ -6,7 +6,7 @@
           <h3>로그인</h3>
         </div>
         <div class="form col">
-          <input type="text" v-model="email" placeholder="Email">
+          <input type="text" v-model="email" placeholder="Email" autofocus>
         </div>
         <div class="form col">
           <input type="password" v-model="password" placeholder="Password">
@@ -14,11 +14,9 @@
         </div>
         <div class="buttons col">
           <button class="signin" v-on:click="signIn">접속하라!</button>
-          <!-- <p>You don't have an account ? You can -->
           <button class="signup">
             <router-link to="/sign-up">회원가입!</router-link>
           </button>
-          <!-- </p> -->
         </div>
       </div>
     </div>
@@ -71,7 +69,7 @@ input {
 .box {
   @extend %box-style;
   display: block;
-  padding: 20px 0;
+  padding: 60px 0;
 }
 
 
@@ -79,6 +77,7 @@ input {
   text-align: left;
   padding-left: 20%;
   margin-top: 10px;
+  font-size: 0.9rem // color: $mood-
 }
 
 .buttons {
@@ -96,7 +95,7 @@ input {
 }
 
 .signup {
-  margin-left: 10%;
+  margin-left: 5%;
   width: 40%;
   height: 50px;
   border: none;
@@ -107,23 +106,23 @@ input {
 
  ::-webkit-input-placeholder {
   /* Chrome */
-  color: red;
+  color: $color-moregray;
 }
 
  :-ms-input-placeholder {
   /* IE 10+ */
-  color: red;
+  color: $color-moregray;
 }
 
  ::-moz-placeholder {
   /* Firefox 19+ */
-  color: red;
+  color: $color-moregray;
   opacity: 1;
 }
 
  :-moz-placeholder {
   /* Firefox 4 - 18 */
-  color: red;
+  color: $color-moregray;
   opacity: 1;
 }
 </style>

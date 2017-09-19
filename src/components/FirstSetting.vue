@@ -3,26 +3,29 @@
     <div class="grid">
       <div class="box col col-d-6 col-d-offset-3 col-m-4">
         <div class="col">
-          <h3>회원등록</h3>
+          <h3>프로필 설정</h3>
         </div>
-        <form>
-          <div class="form col">
-            <input type="text" v-model="email" placeholder="닉네임" v-focus="true">
-            <p class="ok-msg" v-show="validateEmail.email"></p>
-            <p class="msg" id="email_msg" v-show="!validateEmail.email">{{ err_email_msg }}</p>
+        <div class="user-img-wrapper col">
+          <div class="info-wrapper">
+            <div class="radius">
+              <span class="user-img-icon" v-if="!currentUser.photoURL"></span>
+              <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg" v-if="currentUser.photoURL">
+            </div>
+            <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data" @submit.prevent="">
+              <input type="file" class="user-img-input" id="upload" ref="file_input" @change="previewFile">
+              <label for="upload"></label>
+            </form>
+
           </div>
-          <div class="form form-password col">
-            <input type="password" v-model="password" placeholder="Password">
-            <p class="ok-msg" v-if="this.password.length >= 6">사용가능한 비밀번호입니다.</p>
-            <p class="msg" id="pw_msg" v-else>{{ err_pw_msg }}</p>
-          </div>
-          <div class="buttons col">
-            <button class="signup" v-on:click="signUp">회원가입!</button>
-            <router-link to="/login">
-              <button class="cancel">취소</button>
-            </router-link>
-          </div>
-        </form>
+        </div>
+        <div class="form col">
+          <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임" v-focus="true">
+          <p class="errmsg" id="pw_msg">{{ this.err_msg }}</p>
+        </div>
+        <div class="buttons col">
+          <button v-on:click="changeName" class="resister">등록!</button>
+        </div>
+        <button v-on:click="whoamI">난 누구</button>
       </div>
 
     </div>
@@ -43,70 +46,114 @@ export default {
   directives: {focus},
   data: function() {
     return {
-      email: '',
-      password: '',
-      err_email_msg: '',
-      err_pw_msg: '비밀번호는 6자 이상이어야 합니다.',
-    }
-  },
-  computed: {
-    validateEmail: function () {
-      let emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return {
-        email: emailRE.test(this.email)
-      }
-    },
-    validatePassword: function () {
-      return this
+      uploadMyImg: '',
+      currentUser: {
+        photoURL: '',
+        displayName: ''
+      },
+      err_msg: ''
     }
   },
   methods: {
-    signUp: function() {
-      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
-        (user) => {
-          this.$router.replace('hello')
-        },
-        (err) => {
-          // console.log('Oops. ' + err.message)
-          if (err.message === 'Password should be at least 6 characters') {
-            this.err_pw_msg = '비밀번호가 유효하지 않습니다.';
-            let msg_element = document.getElementById('pw_msg');
-            msg_element.classList.remove('msg');
-            msg_element.classList.add('errmsg');
-          }
-          else if (err.message === 'The email address is badly formatted.') {
-            if (this.email === '' && this.password === '') {
-              this.err_pw_msg = '비밀번호를 입력해주세요.';
-              this.err_email_msg = '이메일을 입력해주세요.';
-              let msg_email_element = document.getElementById('email_msg');
-              let msg_pw_element = document.getElementById('pw_msg');
-              msg_email_element.classList.remove('msg');
-              msg_email_element.classList.add('errmsg');
-              msg_pw_element.classList.remove('msg');
-              msg_pw_element.classList.add('errmsg');
-            }
-            else {
-              this.err_email_msg = '이메일 형식이 유효하지 않습니다.';
-              let msg_element = document.getElementById('email_msg');
-              msg_element.classList.remove('msg');
-              msg_element.classList.add('errmsg');
-            }
-          }
+    checkImage(file){
+      if(/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())){
+          return true;
+      }
+    },
+    previewFile(e){
+      let _this = this;
+      let file = e.target.files[0];
+      this.currentUser.photoURL = file;
+      let reader = new FileReader();
+      if(this.checkImage(file)){
+        this.file = file;
+        reader.readAsDataURL(file);
+        reader.onload = data => {
+          this.uploadMyImg = data.srcElement.result;
+          this.currentUser.photoURL = data.srcElement.result;
+          _this.file_url = reader.result;
         }
-      );
-    }
+      } else { alert('이미지 파일만 선택 가능합니다.')}
+    },
+    changeUserName(target, e) {
+      let input = e.target.value;
+      this.currentUser[target] = input;
+    },
+    whoamI: function() {
+      console.log(firebase.auth().currentUser);
+      this.currentUser.currentUser = firebase.auth().currentUser.displayName;
+      alert(firebase.auth().currentUser.displayName);
+    },
+    changeName: function() {
+      let user = firebase.auth().currentUser;
+      if(this.currentUser.displayName.trim() !== ''){
+        user.updateProfile({
+          displayName: this.currentUser.displayName,
+          photoURL: this.currentUser.photoURL
+        }).then(function(response) {
+          //Success
+          // this.$router.replace('hello')
+          console.log(firebase.auth().currentUser.displayName)
+        }, function(error) {
+          //Error
+          console.log(error);
+        });
+        this.$router.replace('hello')
+      }
+      else {
+        this.err_msg = '유저 네임을 설정해주세요.';
+      }
+    },
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~style";
+
 h3 {
   text-align: center;
   color: $color-mood;
   font-size: 1.6rem;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
+
+.user-img-wrapper {
+  text-align: center;
+}
+
+.info-wrapper {
+  position: relative;
+  width: 155px;
+  height: 128px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
+
+.radius {
+  background: $color-moregray;
+  display: inline-block;
+  width: 128px;
+  height: 128px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.user-img-icon {
+  width: 128px;
+  height: 128px;
+  display: block;
+  background: url('../assets/mood-icon-08.svg');
+  background-repeat: no-repeat;
+  background-size: 50px auto;
+  background-position: 50% 40%;
+}
+
+.user-img {
+  width: 100%;
+  height: 100%;
+}
+
 
 input {
   @extend %input-style;
@@ -116,22 +163,56 @@ input {
   text-align: center;
 }
 
-.form-password {
-  margin-top: 20px;
+.user-img-input {
+  width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.user-img-input + label {
+  font-size: 1.25em;
+  font-weight: 700;
+  display: inline-block;
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border: 4px solid $color-white;
+  background: $color-moregray url('../assets/setting-02.svg');
+  background-repeat: no-repeat;
+  background-size: 20px auto;
+  background-position: 50% 50%;
+}
+
+.user-img-input:focus + label,
+.user-img-input + label:hover {
+  background-color: $color-haha;
 }
 
 .box {
   @extend %box-style;
   display: block;
   padding: 60px 0;
+  margin-bottom: 50px;
 }
 
-.msg {
-  text-align: left;
-  padding-left: 20%;
-  margin-top: 10px;
-  font-size: 0.8rem;
-  color: $color-gray;
+.buttons {
+  margin-top: 50px;
+  text-align: center;
+}
+
+.resister {
+  width: 40%;
+  height: 50px;
+  border: none;
+  border-radius: 5px;
+  background-color: $color-haha;
+  color: $color-happy;
 }
 
 .errmsg {
@@ -140,38 +221,6 @@ input {
   margin-top: 10px;
   font-size: 0.8rem;
   color: $color-alert;
-}
-
-.ok-msg {
-  text-align: left;
-  padding-left: 20%;
-  margin-top: 10px;
-  font-size: 0.8rem;
-  color: green;
-}
-
-.buttons {
-  margin-top: 50px;
-  text-align: center;
-}
-
-.cancel {
-  margin-left: 5%;
-  width: 40%;
-  height: 50px;
-  border: none;
-  border-radius: 5px;
-  background-color: $color-moregray;
-  color: $color-black;
-}
-
-.signup {
-  width: 40%;
-  height: 50px;
-  border: none;
-  border-radius: 5px;
-  background-color: $color-happy;
-  color: $color-haha;
 }
 
 ::-webkit-input-placeholder {

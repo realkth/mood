@@ -86,6 +86,7 @@ input {
   @extend %box-style;
   display: block;
   padding: 60px 0;
+  margin-bottom: 50px;
 }
 
 

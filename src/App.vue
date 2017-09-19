@@ -31,7 +31,9 @@ body {
   /* For Firefox 3.6 to 15 */
   background: linear-gradient(#c3c194 10%, #6f8b78 60%, #353e45 100%);
   /* Standard syntax */
-  height: 100vh;
+  min-height: 100vh;
+  max-height: 130vh;
+  // padding-bottom: 50px;
 }
 
 // 모든 요소에 적용될 사항은 app.vue 스타일에 적용하기로 결정

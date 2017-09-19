@@ -5,22 +5,20 @@
         <div class="col">
           <h3>로그인</h3>
         </div>
-        <form>
-          <div class="form col">
-            <input type="text" v-model="email" placeholder="Email" autofocus>
-            <p class="errmsg" id="email_msg">{{ this.err_email_msg }}</p>
-          </div>
-          <div class="form col">
-            <input type="password" v-model="password" placeholder="Password" class="form-password">
-            <p class="errmsg" id="pw_msg">{{ this.err_pw_msg }}</p>
-          </div>
-          <div class="buttons col">
-            <button class="signin" v-on:click="signIn">접속하라!</button>
-            <router-link to="/sign-up">
-              <button class="signup">회원가입!</button>
-            </router-link>
-          </div>
-        </form>
+        <div class="form col">
+          <input type="text" v-model="email" placeholder="Email" autofocus>
+          <p class="errmsg" id="email_msg">{{ this.err_email_msg }}</p>
+        </div>
+        <div class="form col">
+          <input type="password" v-model="password" placeholder="Password" class="form-password">
+          <p class="errmsg" id="pw_msg">{{ this.err_pw_msg }}</p>
+        </div>
+        <div class="buttons col">
+          <button class="signin" v-on:click="signIn">접속하라!</button>
+          <router-link to="/sign-up">
+            <button class="signup">회원가입!</button>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -89,6 +87,7 @@ input {
   @extend %box-style;
   display: block;
   padding: 60px 0;
+  margin-bottom: 50px;
 }
 
 

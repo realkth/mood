@@ -1,5 +1,6 @@
 <template>
   <div class="sign-up container">
+    <home-header></home-header>
     <div class="grid">
       <div class="box col col-d-6 col-d-offset-3 col-m-4">
         <div class="col">
@@ -29,7 +30,7 @@
 
 <script>
 import firebase from 'firebase'
-
+import HomeHeader from './HomeHeader.vue'
 const focus = {
   inserted(el) {
     el.focus()
@@ -38,6 +39,9 @@ const focus = {
 
 export default {
   name: 'signUp',
+  components: {
+    HomeHeader
+  },
   directives: { focus },
   data: function() {
     return {

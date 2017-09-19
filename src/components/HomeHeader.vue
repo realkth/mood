@@ -3,11 +3,10 @@
     <div class="grid">
       <div class="col">
         <h1>
-          <!-- <img src="../assets/l-mood.svg" width="200"> -->
+          <img src="../assets/l-mood.svg" width="200">
         </h1>
       </div>
     </div>
-    <router-view></router-view>
   </div>
 </template>
 
@@ -21,5 +20,6 @@ export default {
 h1 {
   text-align: center;
   margin-bottom: 50px;
+  margin-top: 70px;
 }
 </style>

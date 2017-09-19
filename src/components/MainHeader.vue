@@ -6,10 +6,10 @@
           <img src="../assets/l-mood.svg" height="40px">
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
-          <img class="dropbtn" v-on:click="openMenu" src="../assets/s-mood.svg" height="40px">
+          <img class="dropbtn" @click="openMenu" src="../assets/s-mood.svg" height="40px">
           <div id="myDropdown" class="dropdown-content">
             <a href="#">내 설정</a>
-            <a href="#">로그아웃</a>
+            <a href="#" @click="logout">로그아웃</a>
           </div>
         </div>
       </div>
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import firebase from 'firebase';
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
 
@@ -33,6 +34,7 @@ window.onclick = function(event) {
   }
 }
 export default {
+  name: 'MainHeader',
   data() {
     return {
 
@@ -41,6 +43,11 @@ export default {
   methods: {
     openMenu: function() {
       document.getElementById("myDropdown").classList.toggle("show");
+    },
+    logout: function() {
+      firebase.auth().signOut().then(() => {
+        this.$router.replace('login')
+      })
     },
   }
 }
@@ -110,15 +117,19 @@ img {
 .show {
   display: block;
 }
-.animate{
+
+.animate {
   -webkit-transition: all .3s;
   -moz-transition: all .3s;
   -ms-transition: all .3s;
   -ms-transition: all .3s;
-  transition: all .3s;  
-  backface-visibility:hidden;
-  -webkit-backface-visibility:hidden; /* Chrome and Safari */
-  -moz-backface-visibility:hidden; /* Firefox */
-  -ms-backface-visibility:hidden; /* Internet Explorer */
+  transition: all .3s;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  /* Chrome and Safari */
+  -moz-backface-visibility: hidden;
+  /* Firefox */
+  -ms-backface-visibility: hidden;
+  /* Internet Explorer */
 }
 </style>

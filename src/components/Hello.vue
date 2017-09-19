@@ -1,7 +1,6 @@
 <template>
   <div>
   <main-header></main-header>
-  <home-logo></home-logo>
   <div class="hello">
     <h1>{{ msg }}</h1>
 
@@ -51,13 +50,11 @@
 <script>
 import firebase from 'firebase';
 import MainHeader from './MainHeader.vue';
-import HomeLogo from './HomeLogo.vue';
 
 export default {
   name: 'hello',
   components: {
     MainHeader,
-    HomeLogo
   },
   data() {
     return {

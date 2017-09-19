@@ -1,5 +1,6 @@
 <template>
   <div class="login container">
+    <home-header></home-header>
     <div class="grid">
       <div class="box col col-d-6 col-d-offset-3 col-m-4">
         <div class="col">
@@ -26,9 +27,13 @@
 
 <script>
 import firebase from 'firebase'
+import HomeHeader from './HomeHeader.vue'
 
 export default {
   name: 'login',
+  components: {
+    HomeHeader
+  },
   data: function() {
     return {
       email: '',

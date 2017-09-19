@@ -1,4 +1,7 @@
 <template>
+  <div>
+  <main-header></main-header>
+  <home-logo></home-logo>
   <div class="hello">
     <h1>{{ msg }}</h1>
 
@@ -39,17 +42,23 @@
     <button v-on:click="logout">Logout</button>
     <button v-on:click="whoamI">난 누구</button>
     <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임">
-    <!-- <input type="text" v-model="currentUser" placeholder="유저 네임"> -->
     <button v-on:click="changeName">이름 변경</button>
     <button v-on:click="nowTime">오늘 날짜, 현재 시간</button>
+  </div>
   </div>
 </template>
 
 <script>
 import firebase from 'firebase';
+import MainHeader from './MainHeader.vue';
+import HomeLogo from './HomeLogo.vue';
 
 export default {
   name: 'hello',
+  components: {
+    MainHeader,
+    HomeLogo
+  },
   data() {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -97,7 +106,7 @@ export default {
       if (currentdate.getHours() > 12) {
         var time = "PM " + ((currentdate.getHours() + 24) % 12 || 12) + "시 "
       } else {
-      var time = currentdate.getHours() + "시 "
+        var time = currentdate.getHours() + "시 "
       }
       var datetime = currentdate.getFullYear() + "년 "
         + (currentdate.getMonth() + 1) + "월 "

@@ -27,7 +27,6 @@ let app;
     messagingSenderId: "467319904800"
   };
   firebase.initializeApp(config);
-  // let usersRef = firebase.database().ref('users');
   firebase.auth().onAuthStateChanged(function (user) {
   if (!app) {
     /* eslint-disable no-new */

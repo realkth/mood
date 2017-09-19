@@ -5,22 +5,20 @@
         <div class="col">
           <h3>로그인</h3>
         </div>
-        <form>
-          <div class="form col">
-            <input type="text" v-model="email" placeholder="Email" autofocus>
-            <p class="errmsg" id="email_msg">{{ this.err_email_msg }}</p>
-          </div>
-          <div class="form col">
-            <input type="password" v-model="password" placeholder="Password" class="form-password">
-            <p class="errmsg" id="pw_msg">{{ this.err_pw_msg }}</p>
-          </div>
-          <div class="buttons col">
-            <button class="signin" v-on:click="signIn">접속하라!</button>
-            <router-link to="/sign-up">
-              <button class="signup">회원가입!</button>
-            </router-link>
-          </div>
-        </form>
+        <div class="form col">
+          <input type="text" v-model="email" placeholder="Email" autofocus>
+          <p class="errmsg" id="email_msg">{{ this.err_email_msg }}</p>
+        </div>
+        <div class="form col">
+          <input type="password" v-model="password" placeholder="Password" class="form-password">
+          <p class="errmsg" id="pw_msg">{{ this.err_pw_msg }}</p>
+        </div>
+        <div class="buttons col">
+          <button class="signin" v-on:click="signIn">접속하라!</button>
+          <router-link to="/sign-up">
+            <button class="signup">회원가입!</button>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -46,11 +44,10 @@ export default {
           this.$router.replace('hello')
         },
         (err) => {
-          // console.log(err);
-          if(err.code === 'auth/user-not-found'){
+          if (err.code === 'auth/user-not-found') {
             this.err_email_msg = '등록되지 않은 이메일입니다.';
           }
-          else if(err.code === 'auth/invalid-email'){
+          else if (err.code === 'auth/invalid-email') {
             this.err_email_msg = '이메일 형식이 유효하지 않습니다.';
           }
           else {
@@ -70,7 +67,7 @@ h3 {
   text-align: center;
   color: $color-mood;
   font-size: 1.6rem;
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
 }
 
 input {

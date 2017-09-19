@@ -31,14 +31,14 @@
 import firebase from 'firebase'
 
 const focus = {
-    inserted(el) {
-      el.focus()
-    },
-  }
+  inserted(el) {
+    el.focus()
+  },
+}
 
 export default {
   name: 'signUp',
-  directives: {focus},
+  directives: { focus },
   data: function() {
     return {
       email: '',
@@ -48,7 +48,7 @@ export default {
     }
   },
   computed: {
-    validateEmail: function () {
+    validateEmail: function() {
       let emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return {
         email: emailRE.test(this.email)

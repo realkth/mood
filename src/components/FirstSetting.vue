@@ -42,7 +42,7 @@ const focus = {
   }
 
 export default {
-  name: 'signUp',
+  name: 'firstSetting',
   directives: {focus},
   data: function() {
     return {

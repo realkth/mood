@@ -44,11 +44,10 @@ export default {
           this.$router.replace('hello')
         },
         (err) => {
-          // console.log(err);
-          if(err.code === 'auth/user-not-found'){
+          if (err.code === 'auth/user-not-found') {
             this.err_email_msg = '등록되지 않은 이메일입니다.';
           }
-          else if(err.code === 'auth/invalid-email'){
+          else if (err.code === 'auth/invalid-email') {
             this.err_email_msg = '이메일 형식이 유효하지 않습니다.';
           }
           else {
@@ -68,7 +67,7 @@ h3 {
   text-align: center;
   color: $color-mood;
   font-size: 1.6rem;
-  margin-bottom: 30px; 
+  margin-bottom: 30px;
 }
 
 input {

@@ -1,15 +1,6 @@
 <template>
   <div id="app">
-    <div class="container main-logo">
-      <div class="grid">
-        <div class="col">
-          <h1>
-            <img src="./assets/l-mood.svg" width="200">
-          </h1>
-        </div>
-      </div>
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -40,11 +31,16 @@ body {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale; // text-align: center;
-  padding-top: 60px;
+  // margin-top: 60px;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 50px;
+body {
+  padding: 0;
+  margin: 0;
 }
+
+// h1 {
+//   text-align: center;
+//   margin-bottom: 50px;
+// }
 </style>

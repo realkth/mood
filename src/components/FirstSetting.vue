@@ -1,5 +1,6 @@
 <template>
   <div class="first-setting container">
+    <home-header></home-header>
     <div class="grid">
       <div class="box col col-d-6 col-d-offset-3 col-m-4">
         <div class="col">
@@ -25,7 +26,7 @@
         <div class="buttons col">
           <button v-on:click="changeName" class="resister">등록!</button>
         </div>
-        <button v-on:click="whoamI">난 누구</button>
+        <!-- <button v-on:click="whoamI">난 누구</button> -->
       </div>
 
     </div>
@@ -34,16 +35,19 @@
 
 <script>
 import firebase from 'firebase'
-
+import HomeHeader from './HomeHeader.vue'
 const focus = {
-    inserted(el) {
-      el.focus()
-    },
-  }
+  inserted(el) {
+    el.focus()
+  },
+}
 
 export default {
   name: 'firstSetting',
-  directives: {focus},
+  directives: { focus },
+  components: {
+    HomeHeader
+  },
   data: function() {
     return {
       uploadMyImg: '',
@@ -55,17 +59,17 @@ export default {
     }
   },
   methods: {
-    checkImage(file){
-      if(/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())){
-          return true;
+    checkImage(file) {
+      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
+        return true;
       }
     },
-    previewFile(e){
+    previewFile(e) {
       let _this = this;
       let file = e.target.files[0];
       this.currentUser.photoURL = file;
       let reader = new FileReader();
-      if(this.checkImage(file)){
+      if (this.checkImage(file)) {
         this.file = file;
         reader.readAsDataURL(file);
         reader.onload = data => {
@@ -73,7 +77,7 @@ export default {
           this.currentUser.photoURL = data.srcElement.result;
           _this.file_url = reader.result;
         }
-      } else { alert('이미지 파일만 선택 가능합니다.')}
+      } else { alert('이미지 파일만 선택 가능합니다.') }
     },
     changeUserName(target, e) {
       let input = e.target.value;
@@ -86,7 +90,7 @@ export default {
     },
     changeName: function() {
       let user = firebase.auth().currentUser;
-      if(this.currentUser.displayName.trim() !== ''){
+      if (this.currentUser.displayName.trim() !== '') {
         user.updateProfile({
           displayName: this.currentUser.displayName,
           photoURL: this.currentUser.photoURL
@@ -165,13 +169,14 @@ input {
 
 .user-img-input {
   width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
-.user-img-input + label {
+
+.user-img-input+label {
   font-size: 1.25em;
   font-weight: 700;
   display: inline-block;
@@ -189,8 +194,8 @@ input {
   background-position: 50% 50%;
 }
 
-.user-img-input:focus + label,
-.user-img-input + label:hover {
+.user-img-input:focus+label,
+.user-img-input+label:hover {
   background-color: $color-haha;
 }
 

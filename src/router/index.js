@@ -1,23 +1,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Hello from '@/components/Hello'
-import Login from '@/components/Login'
-import SignUp from '@/components/SignUp'
-import FirstSetting from '@/components/FirstSetting'
+import Hello from '../components/Hello'
+import Login from '../components/Login'
+import SignUp from '../components/SignUp'
+import FirstSetting from '../components/FirstSetting'
 import firebase from 'firebase'
 
 Vue.use(Router)
 
-let router = new Router({
+const router = new Router({
+  mode: 'history',
   routes: [
     {
       path: '*',
-      redirect: '/login'
+      redirect: '/login',
     },
     {
       path: '/',
-      redirect: '/login'
+      redirect: '/login',
     },
     {
       path: '/login',

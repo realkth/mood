@@ -5,24 +5,22 @@
         <div class="col">
           <h3>회원가입</h3>
         </div>
-        <form>
-          <div class="form col">
-            <input type="text" v-model="email" placeholder="Email" v-focus="true">
-            <p class="ok-msg" v-show="validateEmail.email">사용가능한 이메일입니다.</p>
-            <p class="msg" id="email_msg" v-show="!validateEmail.email">{{ err_email_msg }}</p>
-          </div>
-          <div class="form form-password col">
-            <input type="password" v-model="password" placeholder="Password">
-            <p class="ok-msg" v-if="this.password.length >= 6">사용가능한 비밀번호입니다.</p>
-            <p class="msg" id="pw_msg" v-else>{{ err_pw_msg }}</p>
-          </div>
-          <div class="buttons col">
-            <button class="signup" v-on:click="signUp">회원가입!</button>
-            <router-link to="/login">
-              <button class="cancel">취소</button>
-            </router-link>
-          </div>
-        </form>
+        <div class="form col">
+          <input type="text" v-model="email" placeholder="Email" v-focus="true">
+          <p class="ok-msg" v-show="validateEmail.email">사용가능한 이메일입니다.</p>
+          <p class="msg" id="email_msg" v-show="!validateEmail.email">{{ err_email_msg }}</p>
+        </div>
+        <div class="form form-password col">
+          <input type="password" v-model="password" placeholder="Password">
+          <p class="ok-msg" v-if="this.password.length >= 6">사용가능한 비밀번호입니다.</p>
+          <p class="msg" id="pw_msg" v-else>{{ err_pw_msg }}</p>
+        </div>
+        <div class="buttons col">
+          <button class="signup" v-on:click="signUp">회원가입!</button>
+          <router-link to="/login">
+            <button class="cancel">취소</button>
+          </router-link>
+        </div>
       </div>
 
     </div>
@@ -56,9 +54,6 @@ export default {
         email: emailRE.test(this.email)
       }
     },
-    validatePassword: function () {
-      return this
-    }
   },
   methods: {
     signUp: function() {
@@ -67,12 +62,19 @@ export default {
           this.$router.replace('first-setting')
         },
         (err) => {
-          // console.log('Oops. ' + err.message)
+          console.log('Oops. ' + err.message);
           if (err.message === 'Password should be at least 6 characters') {
             this.err_pw_msg = '비밀번호가 유효하지 않습니다.';
             let msg_element = document.getElementById('pw_msg');
             msg_element.classList.remove('msg');
             msg_element.classList.add('errmsg');
+          }
+          else if (err.message === 'The email address is already in use by another account.') {
+            this.err_email_msg = '이미 가입된 이메일입니다.';
+            let msg_element = document.getElementById('email_msg');
+            msg_element.classList.remove('msg');
+            msg_element.classList.add('errmsg');
+            this.email = this.email + '  ';
           }
           else if (err.message === 'The email address is badly formatted.') {
             if (this.email === '' && this.password === '') {
@@ -124,6 +126,7 @@ input {
   @extend %box-style;
   display: block;
   padding: 60px 0;
+  margin-bottom: 50px;
 }
 
 .msg {

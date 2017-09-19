@@ -1,31 +1,27 @@
 <template>
-  <div class="first-setting container">
+  <div class="second-setting container">
     <home-header></home-header>
     <div class="grid">
       <div class="box col col-d-6 col-d-offset-3 col-m-4">
         <div class="col">
-          <h3>프로필 설정</h3>
+          <h3>이메일 인증</h3>
         </div>
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="!currentUser.photoURL"></span>
-              <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg" v-if="currentUser.photoURL">
+              <span class="user-img-icon" v-if="(this.photoUrl === null)"></span>
+              <img class="user-img" alt="회원 이미지" :src="this.photoUrl" v-if="(this.photoUrl !== null)">
             </div>
-            <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data" @submit.prevent="">
-              <input type="file" class="user-img-input" id="upload" ref="file_input" @change="previewFile">
-              <label for="upload"></label>
-            </form>
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임" v-focus="true">
-          <p class="errmsg" id="pw_msg">{{ this.err_msg }}</p>
+          <input class="nickTest" type="email" :placeholder="email" disabled>
+          <p class="infomsg">이메일 인증을 하셔야 정상적인 서비스 이용이 가능합니다.</p>
         </div>
         <div class="buttons col">
-          <button v-on:click="changeName" class="resister">등록!</button>
+          <button v-on:click="changeName" class="resister">인증하기!</button>
         </div>
-        <!-- <button v-on:click="whoamI">난 누구</button> -->
+        <button v-on:click="whoamI">난 누구</button>
       </div>
 
     </div>
@@ -35,17 +31,14 @@
 <script>
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
-const focus = {
-  inserted(el) {
-    el.focus()
-  },
-}
 
 export default {
-  name: 'firstSetting',
-  directives: { focus },
+  name: 'secondSetting',
   components: {
     HomeHeader
+  },
+  created() {
+    this.getUserInfo()
   },
   data: function() {
     return {
@@ -54,34 +47,12 @@ export default {
         photoURL: '',
         displayName: ''
       },
-      err_msg: ''
+      err_msg: '',
+      photoUrl: '',
+      email:''
     }
   },
   methods: {
-    checkImage(file) {
-      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
-        return true;
-      }
-    },
-    previewFile(e) {
-      let _this = this;
-      let file = e.target.files[0];
-      this.currentUser.photoURL = file;
-      let reader = new FileReader();
-      if (this.checkImage(file)) {
-        this.file = file;
-        reader.readAsDataURL(file);
-        reader.onload = data => {
-          this.uploadMyImg = data.srcElement.result;
-          this.currentUser.photoURL = data.srcElement.result;
-          _this.file_url = reader.result;
-        }
-      } else { alert('이미지 파일만 선택 가능합니다.') }
-    },
-    changeUserName(target, e) {
-      let input = e.target.value;
-      this.currentUser[target] = input;
-    },
     whoamI: function() {
       console.log(firebase.auth().currentUser);
       this.currentUser.currentUser = firebase.auth().currentUser.displayName;
@@ -89,27 +60,30 @@ export default {
     },
     changeName: function() {
       let user = firebase.auth().currentUser;
-      if (this.currentUser.displayName.trim() !== '') {
-        user.updateProfile({
-          displayName: this.currentUser.displayName,
-          photoURL: this.currentUser.photoURL
-        }).then(function(response) {
-          //Success
-          // this.$router.replace('hello')
-          // console.log(firebase.auth().currentUser.displayName)
-          // console.log(firebase.auth().currentUser.photoURL)
-        }, function(error) {
-          //Error
-          console.log(error);
-        });
-        this.$router.replace('second-setting')
-      }
-      else {
-        this.err_msg = '유저 네임을 설정해주세요.';
-      }
+      user.sendEmailVerification().then(function() {
+        // Email sent.
+      }, function(error) {
+        // An error happened.
+      });
+      this.$router.replace('hello')
     },
+    getUserInfo: function() {
+      var user = firebase.auth().currentUser;
+      var name, email, photoUrl, uid, emailVerified;
+
+      if (user != null) {
+        name = user.displayName;
+        email = user.email;
+        photoUrl = user.photoURL;
+        emailVerified = user.emailVerified;
+        uid = user.uid;
+      }
+      this.photoUrl = photoUrl
+      this.email = email
+    }
   }
 }
+
 </script>
 
 <style lang="scss" scoped>
@@ -220,7 +194,7 @@ input {
   color: $color-happy;
 }
 
-.errmsg {
+.infomsg {
   text-align: left;
   padding-left: 20%;
   margin-top: 10px;

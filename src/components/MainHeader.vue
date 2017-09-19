@@ -5,21 +5,13 @@
         <div class="logo col col-m-2 col-m-offset-1 col-d-4 col-d-offset-4">
           <img src="../assets/l-mood.svg" height="40px">
         </div>
-        <a href="#" class="mysetting col col-m-1 col-d-offset-3 col-d-1">
-          <img class="profile" src="../assets/l-mood.svg" height="40px">
-          <article class="dropdown">
-              <div class="dropdownmenu">
-                <ul>
-                  <li>
-                    내 정보
-                  </li>
-                  <li>
-                    로그아웃
-                  </li>
-                </ul>
-              </div>
-            </article>
-        </a>
+        <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
+          <img class="dropbtn" v-on:click="openMenu" src="../assets/s-mood.svg" height="40px">
+          <div id="myDropdown" class="dropdown-content">
+            <a href="#">내 설정</a>
+            <a href="#">로그아웃</a>
+          </div>
+        </div>
       </div>
     </div>
     </div>
@@ -64,20 +56,69 @@ export default {
 }
 
 .logo {
-  text-align: center; // display: inline-block;
+  text-align: center;
 }
 
 img {
   padding: 5px 0 5px 0;
 }
 
-.mysetting {
+.dropdown {
   text-align: right; // display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
-.profile {
+.dropbtn {
   border-radius: 50%;
   width: 50px;
+  cursor: pointer;
+  text-align: right;
 }
 
+.dropbtn:hover,
+.dropbtn:focus {
+  opacity: 0.65;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 55px;
+  background-color: $color-white;
+  color: $color-angry;
+  min-width: 120px;
+  box-shadow: 5px 5px 13px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 5px;
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  text-decoration: none;
+  color: $color-black;
+  display: block;
+  border-radius: 5px;
+}
+
+.dropdown-content a:hover {
+  background-color: #e5e6d6;
+  color: $color-black;
+}
+
+.show {
+  display: block;
+}
+.animate{
+  -webkit-transition: all .3s;
+  -moz-transition: all .3s;
+  -ms-transition: all .3s;
+  -ms-transition: all .3s;
+  transition: all .3s;  
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden; /* Chrome and Safari */
+  -moz-backface-visibility:hidden; /* Firefox */
+  -ms-backface-visibility:hidden; /* Internet Explorer */
+}
 </style>

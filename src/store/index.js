@@ -11,6 +11,7 @@ export const store = new Vuex.Store({
 
   },
   state: {
+    photoUrl: '',
     getUserInfo: function () {
       var user = firebase.auth().currentUser;
       var name, email, photoUrl, uid, emailVerified;
@@ -29,6 +30,9 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
+    photoUrl(state){
+      return state.photoUrl;
+    }
 
   },
   mutations: {

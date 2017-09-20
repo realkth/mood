@@ -6,7 +6,7 @@
           <img src="../assets/l-mood.svg" height="40px">
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
-          <img class="dropbtn" @click="openMenu" src="../assets/s-mood.svg" height="40px">
+          <img class="dropbtn" @click="openMenu" :src="this.photoUrl" height="40px">
           <div id="myDropdown" class="dropdown-content">
             <a href="#">내 설정</a>
             <a href="#" @click="logout">로그아웃</a>
@@ -20,6 +20,7 @@
 
 <script>
 import firebase from 'firebase';
+
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
 
@@ -37,8 +38,11 @@ export default {
   name: 'MainHeader',
   data() {
     return {
-
+      photoUrl: ''
     }
+  },
+  mounted() {
+    this.getUserInfo()
   },
   methods: {
     openMenu: function() {
@@ -49,6 +53,19 @@ export default {
         this.$router.replace('login')
       })
     },
+    getUserInfo: function() {
+      var user = firebase.auth().currentUser;
+      var name, email, photoUrl, uid, emailVerified;
+
+      if (user != null) {
+        name = user.displayName;
+        email = user.email;
+        photoUrl = user.photoURL;
+        emailVerified = user.emailVerified;
+        uid = user.uid;
+      }
+      this.photoUrl = photoUrl
+    }
   }
 }
 </script>
@@ -78,7 +95,7 @@ img {
 
 .dropbtn {
   border-radius: 50%;
-  width: 50px;
+  width: 40px;
   cursor: pointer;
   text-align: right;
 }

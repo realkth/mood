@@ -11,6 +11,9 @@ export const store = new Vuex.Store({
 
   },
   state: {
+    photoUrl: '',
+  },
+  getters: {
     getUserInfo: function () {
       var user = firebase.auth().currentUser;
       var name, email, photoUrl, uid, emailVerified;
@@ -24,12 +27,7 @@ export const store = new Vuex.Store({
         // this value to authenticate with your backend server, if
         // you have one. Use User.getToken() instead.
       }
-      console.log(email)
-      console.log(uid)
     }
-  },
-  getters: {
-
   },
   mutations: {
 

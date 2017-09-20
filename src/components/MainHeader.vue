@@ -20,8 +20,6 @@
 
 <script>
 import firebase from 'firebase';
-// import {mapGetters, mapMutations, mapActions} from 'vuex'
-import {mapGetters} from 'vuex'
 
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -43,14 +41,9 @@ export default {
       photoUrl: ''
     }
   },
-  created(){
-    this.getUserInfo();
+  mounted() {
+    this.getUserInfo()
   },
-  // computed: {
-  //   ...mapGetters([
-  //     'photoUrl'
-  //   ])
-  // },
   methods: {
     openMenu: function() {
       document.getElementById("myDropdown").classList.toggle("show");
@@ -60,7 +53,7 @@ export default {
         this.$router.replace('login')
       })
     },
-    getUserInfo: function () {
+    getUserInfo: function() {
       var user = firebase.auth().currentUser;
       var name, email, photoUrl, uid, emailVerified;
 
@@ -69,13 +62,9 @@ export default {
         email = user.email;
         photoUrl = user.photoURL;
         emailVerified = user.emailVerified;
-        uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
-        // this value to authenticate with your backend server, if
-        // you have one. Use User.getToken() instead.
+        uid = user.uid;
       }
-      this.photoUrl = photoUrl;
-      // console.log('this.photourl',this.photoUrl)
-      // console.log(uid)
+      this.photoUrl = photoUrl
     }
   }
 }

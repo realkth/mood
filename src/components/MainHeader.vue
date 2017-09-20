@@ -95,7 +95,7 @@ img {
 
 .dropbtn {
   border-radius: 50%;
-  width: 50px;
+  width: 40px;
   cursor: pointer;
   text-align: right;
 }

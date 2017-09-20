@@ -2,6 +2,7 @@
   <div>
   <main-header></main-header>
   <calendar></calendar>
+  <write-modal></write-modal>
   <div class="hello">
     <br>
     <br>
@@ -20,12 +21,14 @@
 import firebase from 'firebase';
 import MainHeader from './MainHeader.vue';
 import Calendar from './Calendar.vue';
+import WriteModal from './WriteModal.vue';
 
 export default {
   name: 'hello',
   components: {
     MainHeader,
-    Calendar
+    Calendar,
+    WriteModal
   },
   data() {
     return {

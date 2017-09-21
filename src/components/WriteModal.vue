@@ -7,14 +7,6 @@
           <h3> {{ nowTime(new Date()) }} </h3>
         </header>
         <section class="modal-body">
-          <!-- <div class="emoji-wrapper">
-                  <img class="haha" src="../assets/emoji-haha.svg" alt="뿌듯" height="40px">
-                  <img class="happy" src="../assets/emoji-happy.svg" alt="행복" height="40px">
-                  <img class="soso" src="../assets/emoji-soso.svg" alt="그저그래" height="40px">
-                  <img class="sad" src="../assets/emoji-sad.svg" alt="슬픔" height="40px">
-                  <img class="surprised" src="../assets/emoji-surprised.svg" alt="놀람" height="40px">
-                  <img class="angry" src="../assets/emoji-angry.svg" alt="화남" height="40px">
-                  </div> -->
           <form class="emoji-wrapper">
             <input type="radio" id="haha" name="emotion">
             <label class="haha" for="haha"></label>
@@ -58,7 +50,7 @@ export default {
       default: false,
     },
   },
-  created () {
+  created() {
     this.getUserInfo()
   },
   data() {
@@ -67,13 +59,14 @@ export default {
       write: {
         content: ''
       },
-      name:''
+      name: ''
     }
   },
   methods: {
     closeModal() {
       this.write.content = '';
       this.visible = false;
+      this.$parent.blur = null;
     },
     writePost(target, e) {
       let input = e.target.value;
@@ -109,7 +102,7 @@ export default {
       }
       this.name = name
     },
-    placeholder: function(){
+    placeholder: function() {
       return this.name + "님, 오늘 하루는 어떠셨나요?"
     }
   }
@@ -124,6 +117,7 @@ export default {
   padding: 40px 0 0 0;
   overflow: hidden;
   text-align: center;
+  // z-index: 3;
 }
 
 h3 {
@@ -206,11 +200,11 @@ input[type="radio"]:checked+label {
 }
 
 .modal-bg {
-  background: $color-black;
+  background: $color-white;
   min-height: 100vh;
   width: 100%;
   top: 0;
-  opacity: 0.8;
+  opacity: 0;
   position: absolute;
   z-index: 2;
 }

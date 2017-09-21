@@ -86,20 +86,25 @@
         </tr>
       </tbody>
     </table>
-    <write-modal ref='write_modal'></write-modal>
   </main>
 </template>
 
 <script>
-import WriteModal from './WriteModal.vue';
 
 export default {
   components: {
-    WriteModal
+
   },
   methods: {
     openWriteModal() {
-      this.$refs.write_modal.visible = true;
+      this.$parent.$refs.write_modal.visible = true;
+      this.$parent.blur = {
+        '-webkit-filter': 'blur(30px)',
+        '-moz-filter': 'blur(30px)',
+        '-o-filter': 'blur(30px)',
+        '-ms-filter': 'blur(30px)',
+        'filter': 'blur(30px)'
+      }
     },
   }
 }

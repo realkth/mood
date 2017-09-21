@@ -116,10 +116,16 @@ export default {
           console.log(error);
         });
         // this.$router.replace('second-setting')
+        this.closeModal();
+        // console.log('성공');
       }
       else {
-        // this.err_msg = '유저 네임을 설정해주세요.';
+        this.err_msg = '유저 네임을 설정해주세요.';
       }
+      // this.currentUser.displayName = '';
+      // this.closeModal();
+      // this.visible = false;
+      
     },
   }
 }

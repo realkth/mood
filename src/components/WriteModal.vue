@@ -228,8 +228,8 @@ input[type="radio"]:checked+label {
   height: 50px;
   border: none;
   padding: 0;
-  background-color: $color-haha;
-  color: $color-happy;
+  background-color: $color-happy;
+  color: $color-haha;
   outline: none;
 }
 
@@ -238,8 +238,8 @@ input[type="radio"]:checked+label {
   height: 50px;
   border: none;
   padding: 0;
-  background-color: $color-happy;
-  color: $color-haha;
+  background-color: $color-haha;
+  color: $color-happy;
   outline: none;
 }
 </style>

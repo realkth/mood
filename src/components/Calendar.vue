@@ -1,9 +1,9 @@
 <template>
   <main>
     <div class="grid calendar-heading">
-      <h2 class="col col-m-4 col-d-4 col-d-offset-4">
+      <!-- <h2 class="">
         9
-      </h2>
+      </h2> -->
       <doughnut-chart></doughnut-chart>
       <button class="prev-month">
         < </button>
@@ -131,6 +131,9 @@ export default {
 //   width: 500px;
 //   display: inline-block;
 // }
+h2 {
+  position: absolute;
+}
 
 tbody td {
   color: $color-white;

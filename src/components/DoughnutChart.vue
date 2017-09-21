@@ -1,6 +1,8 @@
 <template>
   <div class="container">
-    <doughnut-chart class="doughnut-chart" :chart-data="datacollection" ></doughnut-chart>
+    <doughnut-chart class="doughnut-chart" :chart-data="datacollection"></doughnut-chart>
+    <h2 class="">12</h2>
+    </div>
   </div>
 </template>
 
@@ -22,7 +24,7 @@
     methods: {
       fillData () {
         this.datacollection = {
-          // labels: ['haha', 'happy','soso', 'sad','surprised','angry'],
+          labels: ['haha', 'happy','soso', 'sad','surprised','angry'],
           datasets: [
              {
               label: 'Data One',
@@ -42,23 +44,31 @@
 <style lang="scss" scoped>
 @import '~style';
 
-// .container {
-//   position: relative;
-// }
-.doughnut-chart {
+.container {
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  position: relative;
+}
+h2 {
   position: absolute;
-  // top: 50%;
+  top: 35%;
+  transform: translateY(-35%);
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: $color-mood;
+  z-index: -1;
+}
+.doughnut-chart {
   height: 200px;
   width: 200px;
+  display: inline-block;
 }
 .chart {
   margin-bottom: 20px;
   margin-top: 20px;
 }
 
-
-  // .small {
-  //   max-width: 500px;
-  //   margin:  150px auto;
-  // }
 </style>

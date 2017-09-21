@@ -32,7 +32,6 @@ export default {
   },
   data() {
     return {
-      'isActive': null,
       blur: null,
       currentUser: {
         displayName: ''
@@ -54,12 +53,6 @@ export default {
       this.currentUser.currentUser = firebase.auth().currentUser.displayName;
       alert(firebase.auth().currentUser.displayName);
     },
-    // changeName: function() {
-    //   this.currentUser.currentUser = firebase.auth().currentUser.displayName
-    //   console.log(this.currentUser.currentUser)
-    //   this.currentUser.currentUser = ''
-    //   // firebase.auth().currentUser.displayName
-    // },
     changeName: function() {
       let user = firebase.auth().currentUser;
 

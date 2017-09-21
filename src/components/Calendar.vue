@@ -7,6 +7,8 @@
       <button class="prev-month">
         < </button>
           <button class="next-month"> > </button>
+          <button v-on:click="openWriteModal">글쓰기</button>
+
     </div>
     <table class="grid">
       <colgroup>
@@ -28,12 +30,12 @@
           <td class="thead">금</td>
           <td class="thead">토</td>
           <!-- <td class="thead sun">SUN</td>
-                  <td class="thead">MON</td>
-                  <td class="thead">TUE</td>
-                  <td class="thead">WED</td>
-                  <td class="thead">THU</td>
-                  <td class="thead">FRI</td>
-                  <td class="thead">SAT</td> -->
+                        <td class="thead">MON</td>
+                        <td class="thead">TUE</td>
+                        <td class="thead">WED</td>
+                        <td class="thead">THU</td>
+                        <td class="thead">FRI</td>
+                        <td class="thead">SAT</td> -->
         </tr>
       </thead>
       <tbody>
@@ -84,13 +86,22 @@
         </tr>
       </tbody>
     </table>
-
+    <write-modal ref='write_modal'></write-modal>
   </main>
 </template>
 
 <script>
-export default {
+import WriteModal from './WriteModal.vue';
 
+export default {
+  components: {
+    WriteModal
+  },
+  methods: {
+    openWriteModal() {
+      this.$refs.write_modal.visible = true;
+    },
+  }
 }
 </script>
 

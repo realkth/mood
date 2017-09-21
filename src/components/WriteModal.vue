@@ -66,6 +66,7 @@ export default {
     closeModal() {
       this.write.content = '';
       this.visible = false;
+      this.$parent.blur = null;
     },
     writePost(target, e) {
       let input = e.target.value;
@@ -116,6 +117,7 @@ export default {
   padding: 40px 0 0 0;
   overflow: hidden;
   text-align: center;
+  // z-index: 3;
 }
 
 h3 {
@@ -198,11 +200,11 @@ input[type="radio"]:checked+label {
 }
 
 .modal-bg {
-  background: $color-black;
+  background: $color-white;
   min-height: 100vh;
   width: 100%;
   top: 0;
-  opacity: 0.8;
+  opacity: 0;
   position: absolute;
   z-index: 2;
 }

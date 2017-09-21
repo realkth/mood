@@ -14,6 +14,7 @@
       <button v-on:click="nowTime">오늘 날짜, 현재 시간</button>
     </div>
     <my-setting-modal ref='my_setting_modal'></my-setting-modal>
+    <write-modal ref='write_modal'></write-modal>
   </div>
 </template>
 
@@ -22,13 +23,15 @@ import firebase from 'firebase';
 import MainHeader from './MainHeader.vue';
 import Calendar from './Calendar.vue';
 import MySettingModal from './MySettingModal.vue';
+import WriteModal from './WriteModal.vue';
 
 export default {
   name: 'hello',
   components: {
     MainHeader,
     Calendar,
-    MySettingModal
+    MySettingModal,
+    WriteModal
   },
   data() {
     return {

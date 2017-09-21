@@ -1,18 +1,18 @@
 <template>
   <div>
-  <main-header></main-header>
-  <calendar></calendar>
-  <div class="hello">
-    <br>
-    <br>
-    <br>
-    <br>
-    <button v-on:click="logout">Logout</button>
-    <button v-on:click="whoamI">난 누구</button>
-    <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임">
-    <button v-on:click="changeName">이름 변경</button>
-    <button v-on:click="nowTime">오늘 날짜, 현재 시간</button>
-  </div>
+    <main-header></main-header>
+    <calendar></calendar>
+    <div class="hello">
+      <br>
+      <br>
+      <br>
+      <br>
+      <button v-on:click="logout">Logout</button>
+      <button v-on:click="whoamI">난 누구</button>
+      <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임">
+      <button v-on:click="changeName">이름 변경</button>
+      <button v-on:click="nowTime">오늘 날짜, 현재 시간</button>
+    </div>
   </div>
 </template>
 
@@ -29,7 +29,6 @@ export default {
   },
   data() {
     return {
-      
       currentUser: {
         displayName: ''
       }
@@ -50,12 +49,6 @@ export default {
       this.currentUser.currentUser = firebase.auth().currentUser.displayName;
       alert(firebase.auth().currentUser.displayName);
     },
-    // changeName: function() {
-    //   this.currentUser.currentUser = firebase.auth().currentUser.displayName
-    //   console.log(this.currentUser.currentUser)
-    //   this.currentUser.currentUser = ''
-    //   // firebase.auth().currentUser.displayName
-    // },
     changeName: function() {
       let user = firebase.auth().currentUser;
 

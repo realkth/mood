@@ -8,18 +8,20 @@
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
           <img class="dropbtn" @click="openMenu" :src="this.photoUrl" height="40px">
           <div id="myDropdown" class="dropdown-content">
-            <a href="#">내 설정</a>
-            <a href="#" @click="logout">로그아웃</a>
+            <a href="" @click.prevent="openMySettingModal">내 설정</a>
+            <a href="" @click.prevent="logout">로그아웃</a>
           </div>
         </div>
       </div>
     </div>
     </div>
+    <!-- <my-setting-modal ref='my_setting_modal'></my-setting-modal> -->
   </header>
 </template>
 
 <script>
 import firebase from 'firebase';
+// import MySettingModal from './MySettingModal';
 
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -36,9 +38,12 @@ window.onclick = function(event) {
 }
 export default {
   name: 'MainHeader',
+  components:{
+    // MySettingModal
+  },
   data() {
     return {
-      photoUrl: ''
+      photoUrl: '',
     }
   },
   mounted() {
@@ -65,13 +70,26 @@ export default {
         uid = user.uid;
       }
       this.photoUrl = photoUrl
-    }
+    },
+    openMySettingModal() {
+      this.$parent.$refs.my_setting_modal.visible = true;
+      this.$parent.blur = {
+        '-webkit-filter': 'blur(30px)',
+        '-moz-filter': 'blur(30px)',
+        '-o-filter': 'blur(30px)',
+        '-ms-filter': 'blur(30px)',
+        'filter': 'blur(30px)'
+      }
+      // console.log('부모??',this.$parent);
+      // this.$refs.my_setting_modal.visible = true;
+    },
   }
 }
 </script>
 
 <style lang="scss" scoped>
 @import "~style";
+
 .header {
   background: $color-white;
   width: 100%;

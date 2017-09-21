@@ -8,11 +8,14 @@ import axios from 'axios'
 import firebase from 'firebase'
 import {store} from './store'
 import VueFire from 'vuefire'
+// import VueCharts from 'vue-chartjs'
+// import { Bar, Line } from 'vue-chartjs'
 
 // Vue.config.productionTip = false
 
 Vue.use(VueRouter)
 Vue.use(VueFire)
+// Vue.use(VueCharts);
 Vue.prototype.$http = axios
 
 let app;

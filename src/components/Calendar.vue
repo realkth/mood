@@ -4,6 +4,7 @@
       <h2 class="col col-m-4 col-d-4 col-d-offset-4">
         9
       </h2>
+      <doughnut-chart></doughnut-chart>
       <button class="prev-month">
         < </button>
           <button class="next-month"> > </button>
@@ -91,10 +92,11 @@
 </template>
 
 <script>
+import DoughnutChart from './DoughnutChart.vue';
 
 export default {
   components: {
-
+    DoughnutChart
   },
   methods: {
     openWriteModal() {
@@ -123,6 +125,13 @@ export default {
 
 <style lang="scss" scoped>
 @import "~style";
+
+// .chart {
+//   // margin-bottom: 50px;
+//   width: 500px;
+//   display: inline-block;
+// }
+
 tbody td {
   color: $color-white;
   cursor: pointer;

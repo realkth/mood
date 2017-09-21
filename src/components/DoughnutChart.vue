@@ -1,0 +1,64 @@
+<template>
+  <div class="container">
+    <doughnut-chart class="doughnut-chart" :chart-data="datacollection" ></doughnut-chart>
+  </div>
+</template>
+
+<script>
+  import DoughnutChart from './DoughnutChart.js'
+
+  export default {
+    components: {
+      DoughnutChart
+    },
+    data () {
+      return {
+        datacollection: null,
+      }
+    },
+    mounted () {
+      this.fillData()
+    },
+    methods: {
+      fillData () {
+        this.datacollection = {
+          // labels: ['haha', 'happy','soso', 'sad','surprised','angry'],
+          datasets: [
+             {
+              label: 'Data One',
+              backgroundColor: ['#6f8b78','#e4d49e','#e5e6d6','#4d8696','#c96466','#5f1a2b'],
+              data: [this.getRandomInt(), this.getRandomInt(),this.getRandomInt(),this.getRandomInt(),this.getRandomInt(),this.getRandomInt()]
+            }
+          ]
+        }
+      },
+      getRandomInt () {
+        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
+      }
+    }
+  }
+</script>
+
+<style lang="scss" scoped>
+@import '~style';
+
+// .container {
+//   position: relative;
+// }
+.doughnut-chart {
+  position: absolute;
+  // top: 50%;
+  height: 200px;
+  width: 200px;
+}
+.chart {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+
+  // .small {
+  //   max-width: 500px;
+  //   margin:  150px auto;
+  // }
+</style>

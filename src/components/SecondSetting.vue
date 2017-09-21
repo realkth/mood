@@ -9,8 +9,8 @@
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="(this.photoUrl === null)"></span>
-              <img class="user-img" alt="회원 이미지" :src="this.photoUrl" v-if="(this.photoUrl !== null)">
+              <span class="user-img-icon" v-if="(this.photoURL === null)"></span>
+              <img class="user-img" alt="회원 이미지" :src="this.photoURL" v-if="(this.photoURL !== null)">
             </div>
           </div>
         </div>
@@ -48,7 +48,7 @@ export default {
         displayName: ''
       },
       err_msg: '',
-      photoUrl: '',
+      photoURL: '',
       email:''
     }
   },
@@ -69,16 +69,16 @@ export default {
     },
     getUserInfo: function() {
       var user = firebase.auth().currentUser;
-      var name, email, photoUrl, uid, emailVerified;
+      var name, email, photoURL, uid, emailVerified;
 
       if (user != null) {
         name = user.displayName;
         email = user.email;
-        photoUrl = user.photoURL;
+        photoURL = user.photoURL;
         emailVerified = user.emailVerified;
         uid = user.uid;
       }
-      this.photoUrl = photoUrl
+      this.photoURL = photoURL
       this.email = email
     }
   }

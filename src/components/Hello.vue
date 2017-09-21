@@ -15,6 +15,7 @@
     </div>
     <my-setting-modal ref='my_setting_modal'></my-setting-modal>
     <write-modal ref='write_modal'></write-modal>
+    <my-post-modal ref='my_post_modal'></my-post-modal>
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import MainHeader from './MainHeader.vue';
 import Calendar from './Calendar.vue';
 import MySettingModal from './MySettingModal.vue';
 import WriteModal from './WriteModal.vue';
+import MyPostModal from './MyPostModal.vue';
 
 export default {
   name: 'hello',
@@ -31,6 +33,7 @@ export default {
     MainHeader,
     Calendar,
     MySettingModal,
+    MyPostModal,
     WriteModal
   },
   data() {
@@ -85,12 +88,12 @@ export default {
     },
     getUserInfo: function() {
       let user = firebase.auth().currentUser;
-      let name, email, photoUrl, uid, emailVerified;
+      let name, email, photoURL, uid, emailVerified;
 
       if (user != null) {
         name = user.displayName;
         email = user.email;
-        photoUrl = user.photoURL;
+        photoURL = user.photoURL;
         emailVerified = user.emailVerified;
         uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
         // this value to authenticate with your backend server, if

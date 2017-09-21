@@ -1,18 +1,19 @@
 <template>
   <div>
-  <main-header></main-header>
-  <calendar></calendar>
-  <div class="hello">
-    <br>
-    <br>
-    <br>
-    <br>
-    <button v-on:click="logout">Logout</button>
-    <button v-on:click="whoamI">난 누구</button>
-    <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임">
-    <button v-on:click="changeName">이름 변경</button>
-    <button v-on:click="nowTime">오늘 날짜, 현재 시간</button>
-  </div>
+    <main-header ref="main_header" v-bind:style="blur"></main-header>
+    <calendar ref="calendar" v-bind:style="blur"></calendar>
+    <div class="hello">
+      <br>
+      <br>
+      <br>
+      <br>
+      <button v-on:click="logout">Logout</button>
+      <button v-on:click="whoamI">난 누구</button>
+      <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임">
+      <button v-on:click="changeName">이름 변경</button>
+      <button v-on:click="nowTime">오늘 날짜, 현재 시간</button>
+    </div>
+    <my-setting-modal ref='my_setting_modal'></my-setting-modal>
   </div>
 </template>
 
@@ -20,16 +21,19 @@
 import firebase from 'firebase';
 import MainHeader from './MainHeader.vue';
 import Calendar from './Calendar.vue';
+import MySettingModal from './MySettingModal.vue';
 
 export default {
   name: 'hello',
   components: {
     MainHeader,
-    Calendar
+    Calendar,
+    MySettingModal
   },
   data() {
     return {
-      
+      'isActive': null,
+      blur: null,
       currentUser: {
         displayName: ''
       }
@@ -122,5 +126,12 @@ li {
 
 a {
   color: #42b983;
+}
+.blur {
+  -webkit-filter: blur(30px);
+  -moz-filter: blur(30px);
+  -o-filter: blur(30px);
+  -ms-filter: blur(30px);
+  filter: blur(30px);
 }
 </style>

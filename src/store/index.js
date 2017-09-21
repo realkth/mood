@@ -11,17 +11,21 @@ export const store = new Vuex.Store({
 
   },
   state: {
-    photoUrl: '',
+    photoURL: '',
+    currentUser: {
+      photoURL: '',
+      displayName: ''
+    },
   },
   getters: {
     getUserInfo: function () {
       var user = firebase.auth().currentUser;
-      var name, email, photoUrl, uid, emailVerified;
+      var name, email, photoURL, uid, emailVerified;
 
       if (user != null) {
         name = user.displayName;
         email = user.email;
-        photoUrl = user.photoURL;
+        photoURL = user.photoURL;
         emailVerified = user.emailVerified;
         uid = user.uid;  // The user's ID, unique to the Firebase project. Do NOT use
         // this value to authenticate with your backend server, if

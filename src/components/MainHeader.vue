@@ -6,7 +6,7 @@
           <img src="../assets/l-mood.svg" height="40px">
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
-          <img class="dropbtn" @click="openMenu" :src="this.photoUrl" height="40px">
+          <img class="dropbtn" @click="openMenu" :src="this.photoURL" height="40px">
           <div id="myDropdown" class="dropdown-content">
             <a href="" @click.prevent="openMySettingModal">내 설정</a>
             <a href="" @click.prevent="logout">로그아웃</a>
@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      photoUrl: '',
+      photoURL: '',
     }
   },
   mounted() {
@@ -60,16 +60,16 @@ export default {
     },
     getUserInfo: function() {
       var user = firebase.auth().currentUser;
-      var name, email, photoUrl, uid, emailVerified;
+      var name, email, photoURL, uid, emailVerified;
 
       if (user != null) {
         name = user.displayName;
         email = user.email;
-        photoUrl = user.photoURL;
+        photoURL = user.photoURL;
         emailVerified = user.emailVerified;
         uid = user.uid;
       }
-      this.photoUrl = photoUrl
+      this.photoURL = photoURL
     },
     openMySettingModal() {
       this.$parent.$refs.my_setting_modal.visible = true;

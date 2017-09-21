@@ -8,6 +8,7 @@
         < </button>
           <button class="next-month"> > </button>
           <button v-on:click="openWriteModal">글쓰기</button>
+          <button v-on:click="openPostModal">글보기</button>
 
     </div>
     <table class="grid">
@@ -98,6 +99,16 @@ export default {
   methods: {
     openWriteModal() {
       this.$parent.$refs.write_modal.visible = true;
+      this.$parent.blur = {
+        '-webkit-filter': 'blur(30px)',
+        '-moz-filter': 'blur(30px)',
+        '-o-filter': 'blur(30px)',
+        '-ms-filter': 'blur(30px)',
+        'filter': 'blur(30px)'
+      }
+    },
+    openPostModal() {
+      this.$parent.$refs.my_post_modal.visible = true;
       this.$parent.blur = {
         '-webkit-filter': 'blur(30px)',
         '-moz-filter': 'blur(30px)',

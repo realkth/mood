@@ -14,7 +14,7 @@
               <span class="user-img-icon" v-if="!currentUser.photoURL"></span>
               <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg" v-if="currentUser.photoURL">
             </div>
-            <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data" @submit.prevent="">
+            <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
               <input type="file" class="user-img-input" id="upload" ref="file_input" @change="previewFile">
               <label for="upload"></label>
             </form>

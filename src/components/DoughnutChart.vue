@@ -1,13 +1,12 @@
 <template>
-  <div class="container">
+  <div class="chart-wrapper">
     <doughnut-chart class="doughnut-chart" :chart-data="datacollection"></doughnut-chart>
     <h2 class="">12</h2>
-    </div>
   </div>
 </template>
 
 <script>
-  import DoughnutChart from './DoughnutChart.js'
+  import DoughnutChart from '../DoughnutChart.js'
 
   export default {
     components: {
@@ -44,11 +43,12 @@
 <style lang="scss" scoped>
 @import '~style';
 
-.container {
+.chart-wrapper {
   text-align: center;
-  margin-bottom: 20px;
-  margin-top: 20px;
+  // margin-bottom: 20px;
+  // margin-top: 20px;
   position: relative;
+  margin: 20px 20px;
 }
 h2 {
   position: absolute;

@@ -120,7 +120,7 @@ h3 {
   width: 128px;
   height: 128px;
   display: block;
-  background: url('../assets/mood-icon-08.svg');
+  background: url('../assets/mood-icon-profile.svg');
   background-repeat: no-repeat;
   background-size: 50px auto;
   background-position: 50% 40%;

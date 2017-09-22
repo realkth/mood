@@ -15,7 +15,7 @@
           <p class="errmsg" id="pw_msg">{{ this.err_pw_msg }}</p>
         </div>
         <div class="buttons col">
-          <button class="signin" v-on:click="signIn">접속하라!</button>
+          <button class="signin" v-on:click="a_logInUser({e: email, p: password})">접속하라!</button>
           <router-link to="/sign-up">
             <button class="signup">회원가입!</button>
           </router-link>
@@ -28,40 +28,27 @@
 <script>
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
-
+import {mapGetters, mapMutations, state, mapActions} from 'vuex'
 export default {
   name: 'login',
   components: {
     HomeHeader
   },
+  computed: {
+    // ...mapGetters(['isEmail', 'isPassword'])
+  },
   data: function() {
     return {
-      email: '',
-      password: '',
+      email:'',
+      password:'',
       err_email_msg: '',
       err_pw_msg: '',
     }
   },
   methods: {
-    signIn: function() {
-      firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(
-        (user) => {
-          this.$router.replace('hello')
-        },
-        (err) => {
-          if (err.code === 'auth/user-not-found') {
-            this.err_email_msg = '등록되지 않은 이메일입니다.';
-          }
-          else if (err.code === 'auth/invalid-email') {
-            this.err_email_msg = '이메일 형식이 유효하지 않습니다.';
-          }
-          else {
-            this.err_pw_msg = '비밀번호가 틀렸습니다.';
-            this.err_email_msg = '';
-          }
-        }
-      );
-    }
+    ...mapActions([
+            'a_logInUser','a_authStateObserver'
+        ])
   }
 }
 </script>

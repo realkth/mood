@@ -5,14 +5,24 @@
         9
       </h2> -->
       <doughnut-chart></doughnut-chart>
-      <button class="prev-month">
-        < </button>
-          <button class="next-month"> > </button>
-          <button v-on:click="openWriteModal">글쓰기</button>
-          <button v-on:click="openPostModal">글보기</button>
+      <div class="container buttons">
+        <div class="grid">
+        <button class="prev-month col col-d-offset-2 col-d-1 col-m-1"></button>
+        <button class="next-month col col-d-offset-6 col-d-1 col-m-1 col-m-offset-2"></button>
+        </div>
+      </div>
+      <!-- <div class="grid">
+        <h3 class="col col-d-1">2017년</h3>
+        <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
+      </div> -->
+          <!-- <button v-on:click="openWriteModal">글쓰기</button> -->
 
     </div>
     <table class="grid">
+      <caption>
+        <h3 class="year">2017년</h3>
+        <button class="btn-today">today</button>
+      </caption>
       <colgroup>
         <col width="100">
         <col width="100">
@@ -30,7 +40,7 @@
           <td class="thead">수</td>
           <td class="thead">목</td>
           <td class="thead">금</td>
-          <td class="thead">토</td>
+          <td class="thead sat">토</td>
           <!-- <td class="thead sun">SUN</td>
                         <td class="thead">MON</td>
                         <td class="thead">TUE</td>
@@ -43,8 +53,8 @@
       <tbody>
         <tr>
           <td class="state-happy">1</td>
-          <td>2</td>
-          <td>3</td>
+          <td v-on:click="openWriteModal">2</td>
+          <td v-on:click="openPostModal">3</td>
           <td class="state-haha">4</td>
           <td>5</td>
           <td class="state-angry">6</td>
@@ -126,13 +136,68 @@ export default {
 <style lang="scss" scoped>
 @import "~style";
 
-// .chart {
-//   // margin-bottom: 50px;
-//   width: 500px;
-//   display: inline-block;
-// }
 h2 {
   position: absolute;
+}
+@media screen and (min-width: 0px) and (max-width: 767px) {
+  .buttons {
+    transform: translateY(-280%);
+  }
+  .prev-month {
+    background: url('../assets/mood-icon-prev.svg') no-repeat;
+    background-size: 10px;
+    background-position: 30% 50%;
+    border: none;
+  }
+
+  .next-month {
+    background: url('../assets/mood-icon-next.svg') no-repeat;
+    background-size: 10px;
+    background-position: 70% 50%;
+    border: none;
+  }
+}
+@media screen and (min-width: 768px) {
+  .buttons {
+    transform: translateY(-280%);
+  }
+  .prev-month {
+    background: url('../assets/mood-icon-prev.svg') no-repeat;
+    background-position: 50% 50%;
+    border: none;
+  }
+
+  .next-month {
+    background: url('../assets/mood-icon-next.svg') no-repeat;
+    background-position:50% 50%;
+    border: none;
+  }
+}
+
+caption {
+  position: relative;
+}
+
+.year {
+  display: inline;
+  font-weight: 900;
+  font-size: 1.6rem;
+  color: $color-mood;
+  position: absolute;
+  top: -40px;
+  left: 4px;
+}
+.btn-today {
+  display: inline;
+  right: 4px;
+  position: absolute;
+  top: -40px;
+  background: $color-mood;
+  color: $color-happy;
+  font-weight: 600;
+  border: none;
+  border-radius: 3px;
+  padding: 7px 20px;
 }
 
 tbody td {
@@ -149,13 +214,21 @@ tbody td {
   text-align: center;
   vertical-align: middle;
   background: $color-white;
+  // border: 5px solid $color-opacity;
+  position: relative;
+  // border: none;
 }
 
 .sun {
   color: $color-sunday;
+  border-left: 5px solid $color-opacity;
 }
 
-td {
+.sat {
+  border-right: 5px solid $color-opacity;
+}
+
+tbody td {
   height: 70px;
   border: 5px solid $color-opacity;
   padding: 7px;

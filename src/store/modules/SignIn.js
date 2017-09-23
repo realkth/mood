@@ -10,7 +10,7 @@ export default {
     photoURL: '',
     error_email_msg: '',
     error_pw_msg: '',
-    token:''
+    token: ''
   },
   getters: {
     isEmail: (state) => {
@@ -22,7 +22,7 @@ export default {
     isErrPwMsg: (state) => {
       return state.error_pw_msg;
     },
-    isToken: (state)=>{
+    isToken: (state) => {
       return state.token;
     }
   },

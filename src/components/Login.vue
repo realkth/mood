@@ -8,11 +8,11 @@
         </div>
         <div class="form col">
           <input type="text" v-model="email" placeholder="Email" autofocus>
-          <p class="errmsg" id="email_msg">{{ this.err_email_msg }}</p>
+          <p class="errmsg" id="email_msg">{{ isErrEmailMsg }}</p>
         </div>
         <div class="form col">
           <input type="password" v-model="password" placeholder="Password" class="form-password">
-          <p class="errmsg" id="pw_msg">{{ this.err_pw_msg }}</p>
+          <p class="errmsg" id="pw_msg">{{ isErrPwMsg }}</p>
         </div>
         <div class="buttons col">
           <button class="signin" v-on:click="a_logInUser({e: email, p: password})">접속하라!</button>
@@ -28,27 +28,27 @@
 <script>
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
-import {mapGetters, mapMutations, state, mapActions} from 'vuex'
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'login',
   components: {
     HomeHeader
   },
   computed: {
-    // ...mapGetters(['isEmail', 'isPassword'])
+    ...mapGetters(['isEmail', 'isErrEmailMsg', 'isErrPwMsg'])
   },
   data: function() {
     return {
-      email:'',
-      password:'',
+      email: '',
+      password: '',
       err_email_msg: '',
       err_pw_msg: '',
     }
   },
   methods: {
     ...mapActions([
-            'a_logInUser','a_authStateObserver'
-        ])
+      'a_logInUser', 'a_authStateObserver'
+    ]),
   }
 }
 </script>

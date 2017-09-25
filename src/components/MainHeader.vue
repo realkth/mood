@@ -58,19 +58,19 @@ export default {
         this.$router.replace('login')
       })
     },
-    // getUserInfo: function() {
-    //   var user = firebase.auth().currentUser;
-    //   var name, email, photoURL, uid, emailVerified;
+    getUserInfo: function() {
+      var user = firebase.auth().currentUser;
+      var name, email, photoURL, uid, emailVerified;
 
-    //   if (user != null) {
-    //     name = user.displayName;
-    //     email = user.email;
-    //     photoURL = user.photoURL;
-    //     emailVerified = user.emailVerified;
-    //     uid = user.uid;
-    //   }
-    //   this.photoURL = photoURL
-    // },
+      if (user != null) {
+        name = user.displayName;
+        email = user.email;
+        photoURL = user.photoURL;
+        emailVerified = user.emailVerified;
+        uid = user.uid;
+      }
+      this.photoURL = photoURL
+    },
     openMySettingModal() {
       this.$parent.$refs.my_setting_modal.visible = true;
       this.$parent.blur = {

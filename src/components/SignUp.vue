@@ -31,6 +31,8 @@
 <script>
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
+import {mapActions, mapMutations, mapGetters} from 'vuex'
+
 const focus = {
   inserted(el) {
     el.focus()

@@ -13,7 +13,7 @@
               <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg" v-if="currentUser.photoURL">
             </div>
             <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
-              <input type="file" class="user-img-input" id="upload" ref="file_input" @change="previewFile" @input="setting_first_photo">
+              <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_first_photo">
               <label for="upload"></label>
             </form>
           </div>
@@ -62,35 +62,53 @@ export default {
     ...mapGetters(['isFirst_uploadMyImg', 'isFirst_setting_err_msg', 'isFirst_currentUser'])
   },
   methods: {
-    ...mapActions(['a_firstSetting', 'a_firstSettingAuthState']),
-    setting_first_previewFile(e) {
-      this.$store.dispatch('m_setFirstPreviewFile', e.target.value)
-    },
+    ...mapActions(['a_firstSetting']),
+    // setting_first_previewFile(e) {
+    //   this.$store.dispatch('', e.target.value)
+    // },
     setting_first_photo(e) {
-      this.$store.dispatch('a_setFirstPhoto', e.target.value)
+      let _this = this;
+      let file = e.target.files[0];
+      // console.log('file',file);
+      let reader = new FileReader();
+      this.file = file;
+      reader.readAsDataURL(file);
+      reader.onload = data => {
+        this.$store.dispatch('a_setFirstPhoto', data.srcElement.result)
+        this.uploadMyImg = data.srcElement.result;
+      }
+      console.log('여기서는 어떻게 나오니',this.file);
+      // this.$store.dispatch('a_setFirstPhoto', this.uploadMyImg)
     },
     setting_first_displayname(e) {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)
     },
-    checkImage(file) {
-      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
-        return true;
-      }
-    },
+    // checkImage(file) {
+    //   if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
+    //     return true;
+    //   }
+    // },
     previewFile(e) {
       let _this = this;
       let file = e.target.files[0];
       this.currentUser.photoURL = file;
       let reader = new FileReader();
-      if (this.checkImage(file)) {
-        this.file = file;
+      this.file = file;
         reader.readAsDataURL(file);
         reader.onload = data => {
           this.uploadMyImg = data.srcElement.result;
           this.currentUser.photoURL = data.srcElement.result;
-          _this.file_url = reader.result;
         }
-      } else { alert('이미지 파일만 선택 가능합니다.') }
+        // console.log('preview',this.currentUser.photoURL);
+      // if (this.checkImage(file)) {
+      //   this.file = file;
+      //   reader.readAsDataURL(file);
+      //   reader.onload = data => {
+      //     this.uploadMyImg = data.srcElement.result;
+      //     this.currentUser.photoURL = data.srcElement.result;
+      //     // _this.file_url = reader.result;
+      //   }
+      // } else { alert('이미지 파일만 선택 가능합니다.') }
     },
     // changeUserName(target, e) {
     //   let input = e.target.value;

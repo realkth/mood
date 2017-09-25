@@ -38,9 +38,9 @@ export default {
       // window.localStorage.setItem('token', state.token)
       router.replace('second-setting')
     },
-    m_setFirstPreviewFile: (state, payload) => {
-      state.first_uploadMyImg = payload
-    },
+    // m_setFirstPreviewFile: (state, payload) => {
+    //   state.first_uploadMyImg = payload
+    // },
     m_setFirstPhoto: (state, payload) => {
       state.first_currentUser.photoURL = payload
     },
@@ -54,6 +54,12 @@ export default {
     //   context.commit('m_setFirstPreviewFile', val)
     // },
     a_setFirstPhoto: (context, val) => {
+      // let reader = new FileReader();
+      // reader.readAsDataURL(context);
+      // reader.onload = data => {
+      //   state.first_uploadMyImg = data.srcElement.result;
+      //   state.first_currentUser.photoURL = data.srcElement.result;
+      // }
       context.commit('m_setFirstPhoto', val)
     },
     a_setFirstDisplayName: (context, val) => {
@@ -74,23 +80,30 @@ export default {
     //     }
     //   } else { alert('이미지 파일만 선택 가능합니다.') }
     // },
-    a_firstSetting: ({ state, dispatch, commit }, currentUser) => {
+    a_firstSetting: ({state, dispatch}, currentUser) => {
       let user = firebase.auth().currentUser;
-
+      // let reader = new FileReader();
+      // let file = state.first_currentUser.photoURL;
+      // reader.readAsDataURL(file);
+      // reader.onload = data => {
+      //   state.first_uploadMyImg = data.srcElement.result;
+      //   state.first_currentUser.photoURL = data.srcElement.result;
+      // }
+      console.log('사진',state.first_currentUser.photoURL);
       if (state.first_currentUser.displayName.trim() !== '') {
         user.updateProfile({
           photoURL: state.first_currentUser.photoURL,
           displayName: state.first_currentUser.displayName
           // displayName: this.currentUser.displayName,
           // photoURL: this.currentUser.photoURL
-        }).then(function (response) {
-          console.log('photo', state.first_currentUser.photoURL);
-          console.log('name', state.first_currentUser.displayName);
+        }).then(function(response) {
+          console.log('photo',state.first_currentUser.photoURL);
+          console.log('name',state.first_currentUser.displayName);
           //Success
           // this.$router.replace('hello')
           // console.log(firebase.auth().currentUser.displayName)
           // console.log(firebase.auth().currentUser.photoURL)
-        }, function (error) {
+        }, function(error) {
           //Error
           console.log(error);
         });
@@ -99,9 +112,9 @@ export default {
       else {
         state.first_setting_err_msg = '유저 네임을 설정해주세요.';
       }
-      dispatch('a_firstSettingAuthState');
+      dispatch('a_authStateObserver');
     },
-    a_firstSettingAuthState: ({ commit, state }) => {
+    a_authStateObserver: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.

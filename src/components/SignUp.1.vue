@@ -7,17 +7,17 @@
           <h3>회원가입</h3>
         </div>
         <div class="form col">
-          <input id='email-input' type="email" v-model="email" @input="sign_email" placeholder="Email" v-focus="true">
+          <input type="text" v-model="email" placeholder="Email" v-focus="true">
           <p class="ok-msg" v-show="validateEmail.email">사용가능한 이메일입니다.</p>
-          <p class="msg" id="email_msg" v-show="!validateEmail.email">{{ isSignupErrEmailMsg }}</p>
+          <p class="msg" id="email_msg" v-show="!validateEmail.email">{{ err_email_msg }}</p>
         </div>
         <div class="form form-password col">
-          <input type="password" v-model="password" @input="sign_password" placeholder="Password">
+          <input type="password" v-model="password" placeholder="Password">
           <p class="ok-msg" v-if="this.password.length >= 6">사용가능한 비밀번호입니다.</p>
-          <p class="msg" id="pw_msg" v-else>{{ isSignupErrPsMsg }}</p>
+          <p class="msg" id="pw_msg" v-else>{{ err_pw_msg }}</p>
         </div>
         <div class="buttons col">
-          <button class="signup" v-on:click="a_signUp({e:sign_email, p:sign_password})">회원가입!</button>
+          <button class="signup" v-on:click="signUp">회원가입!</button>
           <router-link to="/login">
             <button class="cancel">취소</button>
           </router-link>
@@ -41,7 +41,7 @@ const focus = {
 
 export default {
   name: 'signUp',
-  components: { 
+  components: {
     HomeHeader
   },
   directives: { focus },
@@ -54,12 +54,6 @@ export default {
     }
   },
   computed: {
-    ...mapGetters([
-      'isSignupErrEmailMsg',
-      'isSignupErrPsMsg',
-      // 'isSignupEmail',
-      // 'isSignupPassword'
-    ]),
     validateEmail: function() {
       let emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return {
@@ -68,17 +62,46 @@ export default {
     },
   },
   methods: {
-    ...mapActions([
-      'a_signUp',
-      'setEmail',
-      'setPassword'
-      // 'validateEmail'
-    ]),
-    sign_email(e){
-      this.$store.dispatch('setEmail', e.target.value)
-    },
-    sign_password(e){
-      this.$store.dispatch('setPassword', e.target.value)
+    signUp: function() {
+      firebase.auth().createUserWithEmailAndPassword(this.email, this.password).then(
+        (user) => {
+          this.$router.replace('first-setting')
+        },
+        (err) => {
+          console.log('Oops. ' + err.message);
+          if (err.message === 'Password should be at least 6 characters') {
+            this.err_pw_msg = '비밀번호가 유효하지 않습니다.';
+            let msg_element = document.getElementById('pw_msg');
+            msg_element.classList.remove('msg');
+            msg_element.classList.add('errmsg');
+          }
+          else if (err.message === 'The email address is already in use by another account.') {
+            this.err_email_msg = '이미 가입된 이메일입니다.';
+            let msg_element = document.getElementById('email_msg');
+            msg_element.classList.remove('msg');
+            msg_element.classList.add('errmsg');
+            this.email = this.email + '  ';
+          }
+          else if (err.message === 'The email address is badly formatted.') {
+            if (this.email === '' && this.password === '') {
+              this.err_pw_msg = '비밀번호를 입력해주세요.';
+              this.err_email_msg = '이메일을 입력해주세요.';
+              let msg_email_element = document.getElementById('email_msg');
+              let msg_pw_element = document.getElementById('pw_msg');
+              msg_email_element.classList.remove('msg');
+              msg_email_element.classList.add('errmsg');
+              msg_pw_element.classList.remove('msg');
+              msg_pw_element.classList.add('errmsg');
+            }
+            else {
+              this.err_email_msg = '이메일 형식이 유효하지 않습니다.';
+              let msg_element = document.getElementById('email_msg');
+              msg_element.classList.remove('msg');
+              msg_element.classList.add('errmsg');
+            }
+          }
+        }
+      );
     }
   }
 }

@@ -5,39 +5,39 @@ import * as firebase from 'firebase'
 export default {
   state: {
     loggedIn: false,
-    userName: 'Guest',
-    errorMessage: '',
-    displayName:'',
-    photoURL:'',
+    email: 'Guest',
+    displayName: '',
+    photoURL: '',
     error_email_msg: '',
     error_pw_msg: '',
+    token: '',
   },
   getters: {
-    error_email_msg(state){
-      return state.error_email_msg
+    // isEmail: (state) => {
+    //   return state.email;
+    // },
+    isErrEmailMsg: (state) => {
+      return state.error_email_msg;
     },
-    error_pw_msg(state){
-      return state.error_pw_msg
+    isErrPwMsg: (state) => {
+      return state.error_pw_msg;
+    },
+    isToken: (state) => {
+      return state.token;
     }
-
   },
   mutations: {
     m_logInUser: (state) => {
       state.loggedIn = true;
+      window.localStorage.setItem('token', state.token)
       router.replace('hello')
-    }
+    },
   },
   actions: {
     a_logInUser: ({ state, dispatch }, user) => {
-      firebase.auth().signInWithEmailAndPassword(user.e, user.p).then(
-        (user) => {
-          console.log('user',user);
-        }
-      ).catch(function (error) {
+      firebase.auth().signInWithEmailAndPassword(user.e, user.p).catch(function (error) {
         // Handle Errors here.
-        state.errorMessage = error.message;
-        // console.log('error',error);
-        // console.log('errormsg',state);
+        console.log(error.code)
         if (error.code === 'auth/user-not-found') {
           state.error_email_msg = '등록되지 않은 이메일입니다.';
         }
@@ -50,21 +50,22 @@ export default {
         }
       });
       dispatch('a_authStateObserver');
+
     },
     a_authStateObserver: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
           state.displayName = user.displayName;
-          state.userName = user.email;
+          state.email = user.email;
           state.photoURL = user.photoURL;
+          state.token = user.o;
           commit('m_logInUser');
-          // this.$router.replace('hello')
         } else {
           // User is signed out.
-          // …
+          // ...
         }
       });
-    },
+    }
   }
 }

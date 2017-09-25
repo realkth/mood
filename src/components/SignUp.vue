@@ -7,17 +7,17 @@
           <h3>회원가입</h3>
         </div>
         <div class="form col">
-          <input id='email-input' type="email" v-model="email" @input="sign_email" placeholder="Email" v-focus="true">
-          <p class="ok-msg" v-show="validateEmail.email">사용가능한 이메일입니다.</p>
-          <p class="msg" id="email_msg" v-show="!validateEmail.email">{{ isSignupErrEmailMsg }}</p>
+          <input type="text" @input="sign_email" placeholder="Email" v-focus="true">
+          <p class="ok-msg" v-show="validateEmail.sign_email">사용가능한 이메일입니다.</p>
+          <p class="msg" id="email_msg" v-show="!validateEmail.sign_email">{{ isSignup_err_email_msg }}</p>
         </div>
         <div class="form form-password col">
-          <input type="password" v-model="password" @input="sign_password" placeholder="Password">
+          <input type="password" @input="sign_pw" v-model="password" placeholder="Password">
           <p class="ok-msg" v-if="this.password.length >= 6">사용가능한 비밀번호입니다.</p>
-          <p class="msg" id="pw_msg" v-else>{{ isSignupErrPsMsg }}</p>
+          <p class="msg" id="pw_msg" v-else>{{ isSignup_err_pw_msg }}</p>
         </div>
         <div class="buttons col">
-          <button class="signup" v-on:click="a_signUp({e:sign_email, p:sign_password})">회원가입!</button>
+          <button class="signup" v-on:click="a_signUp({e: sign_email, p: sign_pw})">회원가입!</button>
           <router-link to="/login">
             <button class="cancel">취소</button>
           </router-link>
@@ -31,7 +31,7 @@
 <script>
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
-import { state, mapGetters, mapMutations, mapActions} from 'vuex'
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
 const focus = {
   inserted(el) {
@@ -44,42 +44,26 @@ export default {
   components: { 
     HomeHeader
   },
+
   directives: { focus },
   data: function() {
     return {
-      email: '',
       password: '',
-      err_email_msg: '',
-      err_pw_msg: '비밀번호는 6자 이상이어야 합니다.',
     }
   },
   computed: {
-    ...mapGetters([
-      'isSignupErrEmailMsg',
-      'isSignupErrPsMsg',
-      // 'isSignupEmail',
-      // 'isSignupPassword'
-    ]),
-    validateEmail: function() {
-      let emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      return {
-        email: emailRE.test(this.email)
-      }
-    },
+    ...mapGetters(['isSignup_err_pw_msg', 'isSignup_err_email_msg', 'validateEmail'])
   },
   methods: {
-    ...mapActions([
-      'a_signUp',
-      'setEmail',
-      'setPassword'
-      // 'validateEmail'
-    ]),
-    sign_email(e){
-      this.$store.dispatch('setEmail', e.target.value)
+    ...mapActions(['a_signUp', 'a_authStateObserver',
+     'a_setEmail', 'a_setPw']),
+    sign_email(e) {
+      this.$store.dispatch('a_setEmail', e.target.value)
     },
-    sign_password(e){
-      this.$store.dispatch('setPassword', e.target.value)
+    sign_pw(e) {
+      this.$store.dispatch('a_setPw', e.target.value)
     }
+
   }
 }
 </script>

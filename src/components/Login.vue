@@ -7,15 +7,15 @@
           <h3>로그인</h3>
         </div>
         <div class="form col">
-          <input type="text" v-model="email" placeholder="Email" autofocus>
+          <input type="text" @input="email" placeholder="Email" autofocus>
           <p class="errmsg" id="email_msg">{{ isErrEmailMsg }}</p>
         </div>
         <div class="form col">
-          <input type="password" v-model="password" placeholder="Password" class="form-password">
+          <input type="password" @input="password" placeholder="Password" class="form-password">
           <p class="errmsg" id="pw_msg">{{ isErrPwMsg }}</p>
         </div>
         <div class="buttons col">
-          <button class="signin" v-on:click="a_logInUser({e: email, p: password})">접속하라!</button>
+          <button class="signin" v-on:click="a_logInUser({e: email, p: input_pw})">접속하라!</button>
           <router-link to="/sign-up">
             <button class="signup">회원가입!</button>
           </router-link>
@@ -39,16 +39,22 @@ export default {
   },
   data: function() {
     return {
-      email: '',
-      password: '',
+      // email: '',
+      input_pw: '',
       err_email_msg: '',
       err_pw_msg: '',
     }
   },
   methods: {
     ...mapActions([
-      'a_logInUser', 'a_authStateObserver'
+      'a_logInUser', 'a_signInAuthState','a_email','a_password'
     ]),
+    email(e) {
+      this.$store.dispatch('a_email', e.target.value)
+    },
+    password(e) {
+      this.$store.dispatch('a_password', e.target.value)
+    }
   }
 }
 </script>

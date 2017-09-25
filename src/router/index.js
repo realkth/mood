@@ -25,14 +25,14 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login,
-      // beforeEnter (to, from, next) {
-      //   let token = window.localStorage.getItem('token');
-      //   if (!!token) {
-      //     next('/hello');
-      //   } else {
-      //     next();
-      //   }
-      // }
+      beforeEnter (to, from, next) {
+        let token = window.localStorage.getItem('token');
+        if (!!token) {
+          next('/hello');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/sign-up',

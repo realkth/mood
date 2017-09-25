@@ -13,17 +13,17 @@
               <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg" v-if="currentUser.photoURL">
             </div>
             <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
-              <input type="file" class="user-img-input" id="upload" ref="file_input" @change="previewFile">
+              <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_first_photo">
               <label for="upload"></label>
             </form>
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임" v-focus="true">
-          <p class="errmsg" id="pw_msg">{{ this.err_msg }}</p>
+          <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임" v-focus="true">
+          <p class="errmsg" id="pw_msg">{{ isFirst_setting_err_msg }}</p>
         </div>
         <div class="buttons col">
-          <button v-on:click="changeName" class="resister">등록!</button>
+          <button v-on:click="a_firstSetting" class="resister">등록!</button>
         </div>
         <!-- <button v-on:click="whoamI">난 누구</button> -->
       </div>
@@ -58,57 +58,88 @@ export default {
       err_msg: ''
     }
   },
+  computed: {
+    ...mapGetters(['isFirst_uploadMyImg', 'isFirst_setting_err_msg', 'isFirst_currentUser'])
+  },
   methods: {
-    checkImage(file) {
-      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
-        return true;
+    ...mapActions(['a_firstSetting']),
+    // setting_first_previewFile(e) {
+    //   this.$store.dispatch('', e.target.value)
+    // },
+    setting_first_photo(e) {
+      let _this = this;
+      let file = e.target.files[0];
+      // console.log('file',file);
+      let reader = new FileReader();
+      this.file = file;
+      reader.readAsDataURL(file);
+      reader.onload = data => {
+        this.$store.dispatch('a_setFirstPhoto', data.srcElement.result)
+        this.uploadMyImg = data.srcElement.result;
       }
+      console.log('여기서는 어떻게 나오니',this.file);
+      // this.$store.dispatch('a_setFirstPhoto', this.uploadMyImg)
     },
+    setting_first_displayname(e) {
+      this.$store.dispatch('a_setFirstDisplayName', e.target.value)
+    },
+    // checkImage(file) {
+    //   if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
+    //     return true;
+    //   }
+    // },
     previewFile(e) {
       let _this = this;
       let file = e.target.files[0];
       this.currentUser.photoURL = file;
       let reader = new FileReader();
-      if (this.checkImage(file)) {
-        this.file = file;
+      this.file = file;
         reader.readAsDataURL(file);
         reader.onload = data => {
           this.uploadMyImg = data.srcElement.result;
           this.currentUser.photoURL = data.srcElement.result;
-          _this.file_url = reader.result;
         }
-      } else { alert('이미지 파일만 선택 가능합니다.') }
+        // console.log('preview',this.currentUser.photoURL);
+      // if (this.checkImage(file)) {
+      //   this.file = file;
+      //   reader.readAsDataURL(file);
+      //   reader.onload = data => {
+      //     this.uploadMyImg = data.srcElement.result;
+      //     this.currentUser.photoURL = data.srcElement.result;
+      //     // _this.file_url = reader.result;
+      //   }
+      // } else { alert('이미지 파일만 선택 가능합니다.') }
     },
-    changeUserName(target, e) {
-      let input = e.target.value;
-      this.currentUser[target] = input;
-    },
-    whoamI: function() {
-      console.log(firebase.auth().currentUser);
-      this.currentUser.currentUser = firebase.auth().currentUser.displayName;
-      alert(firebase.auth().currentUser.displayName);
-    },
-    changeName: function() {
-      let user = firebase.auth().currentUser;
-      if (this.currentUser.displayName.trim() !== '') {
-        user.updateProfile({
-          displayName: this.currentUser.displayName,
-          photoURL: this.currentUser.photoURL
-        }).then(function(response) {
-          //Success
-          // this.$router.replace('hello')
-          // console.log(firebase.auth().currentUser.displayName)
-          // console.log(firebase.auth().currentUser.photoURL)
-        }, function(error) {
-          //Error
-          console.log(error);
-        });
-        this.$router.replace('second-setting')
-      }
-      else {
-        this.err_msg = '유저 네임을 설정해주세요.';
-      }
-    },
+    // changeUserName(target, e) {
+    //   let input = e.target.value;
+    //   this.currentUser[target] = input;
+    // },
+    // whoamI: function() {
+    //   console.log(firebase.auth().currentUser);
+    //   this.currentUser.currentUser = firebase.auth().currentUser.displayName;
+    //   alert(firebase.auth().currentUser.displayName);
+    // },
+    // changeName: function() {
+    //   let user = firebase.auth().currentUser;
+    //   if (this.currentUser.displayName.trim() !== '') {
+    //     user.updateProfile({
+    //       displayName: this.currentUser.displayName,
+    //       photoURL: this.currentUser.photoURL
+    //     }).then(function(response) {
+    //       //Success
+    //       // this.$router.replace('hello')
+    //       // console.log(firebase.auth().currentUser.displayName)
+    //       // console.log(firebase.auth().currentUser.photoURL)
+    //     }, function(error) {
+    //       //Error
+    //       console.log(error);
+    //     });
+    //     this.$router.replace('second-setting')
+    //   }
+    //   else {
+    //     this.err_msg = '유저 네임을 설정해주세요.';
+    //   }
+    // },
   }
 }
 </script>

@@ -4,53 +4,53 @@ import * as firebase from 'firebase'
 
 export default {
   state: {
-    signup_err_email_msg: '',
     signup_err_pw_msg: '비밀번호는 6자 이상이어야 합니다.',
-    signup_email: '',
-    signup_password:'',
+    signup_err_email_msg: '',
+    sign_email: '',
+    sign_Pw: ''
   },
   getters: {
-    isSignupErrEmailMsg: (state) => {
-      return state.signup_err_email_msg;
+    isSignup_err_pw_msg: (state) => {
+      return state.signup_err_pw_msg
     },
-    isSignupErrPsMsg: (state) => {
-      return state.signup_err_pw_msg;
+    isSignup_err_email_msg: (state) => {
+      return state.signup_err_email_msg
     },
-    // isSignupEmail: (state) => {
-    //   return state.signup_email;
-    // },
-    // isSignupPassword: (state) => {
-    //   return state.signup_password;
-    // },
+    validateEmail: (state) => {
+      let emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return {
+        sign_email: emailRE.test(state.sign_email)
+      }
+    }
   },
   mutations: {
     m_nextSetting: (state) => {
       state.loggedIn = true;
-      window.localStorage.setItem('token', state.token)
+      // window.localStorage.setItem('token', state.token)
       router.replace('first-setting')
     },
-    setEmail(state, payload){
-      state.signup_email = payload;
+    m_setEmail: (state, payload) => {
+      state.sign_email = payload
     },
-    setPassword(state, payload){
-      state.signup_password = payload;
+    m_setPw: (state, payload) => {
+      state.sign_Pw = payload
+    },
+    m_setWrongEmail: (state, payload) => {
+      state.sign_email = state.sign_email + '';
     }
   },
   actions: {
-    setEmail: (context, val) => {
-      context.commit('setEmail', val)
-    },
-    setPassword: (context, val) => {
-      context.commit('setPassword', val)
-    },
-    a_signUp: ({state, dispatch, commit}, user) => {
-      firebase.auth().createUserWithEmailAndPassword(state.signup_email, state.signup_password).then(
+    a_setEmail: (context, val) => { context.commit('m_setEmail', val) },
+    a_setPw: (context, val) => { context.commit('m_setPw', val) },
+
+    a_signUp: ({ state, dispatch, commit}, user) => {
+      firebase.auth().createUserWithEmailAndPassword( state.sign_email, state.sign_Pw).then(
         (user) => {
           // this.$router.replace('first-setting')
         },
         (err) => {
           console.log('Oops. ' + err.message);
-          console.log('state',state.signup_err_email_msg);
+          console.log('state', state.signup_err_email_msg);
           if (err.message === 'Password should be at least 6 characters') {
             state.signup_err_pw_msg = '비밀번호가 유효하지 않습니다.';
             let msg_element = document.getElementById('pw_msg');
@@ -62,13 +62,11 @@ export default {
             let msg_element = document.getElementById('email_msg');
             msg_element.classList.remove('msg');
             msg_element.classList.add('errmsg');
-            let value = document.getElementById('email-input').value;
-            console.log('value',value);
-            // value = value + '  ';
-            value = `${value}` + 'aa';
+            commit('m_setWrongEmail');
+            // state.sign_email = state.sign_email + '  ';
           }
           else if (err.message === 'The email address is badly formatted.') {
-            if (user.e === '' && user.p === '') {
+            if (state.sign_email === '' && state.sign_Pw === '') {
               state.signup_err_pw_msg = '비밀번호를 입력해주세요.';
               state.signup_err_email_msg = '이메일을 입력해주세요.';
               let msg_email_element = document.getElementById('email_msg');
@@ -93,11 +91,10 @@ export default {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
-          state.displayName = user.displayName;
-          state.email = user.email;
-          state.photoURL = user.photoURL;
-          state.token = user.o;
-          commit('m_logInUser');
+          // console.log(getters.isDisplayName)
+          // getters.isDisplayName = user.displayName;
+          // getters.isphotoURL = user.photoURL;
+          commit('m_nextSetting');
         } else {
           // User is signed out.
           // ...

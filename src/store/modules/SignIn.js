@@ -8,7 +8,7 @@ export default {
     email: 'Guest',
     password: '',
     displayName: '',
-    photoURL: '',
+    // photoURL: '',
     error_email_msg: '',
     error_pw_msg: '',
     token: '',
@@ -29,9 +29,7 @@ export default {
     isDisplayName: (state) => {
       return state.displayName;
     },
-    isPhotoURL: (state) => {
-      return state.photoURL;
-    }
+
   },
   mutations: {
     m_logInUser: (state) => {
@@ -52,6 +50,7 @@ export default {
       firebase.auth().signInWithEmailAndPassword(state.email, state.password).then(() => {
           state.error_email_msg = '',
           state.error_pw_msg = ''
+          
       }
       ).catch(function (error) {
         // Handle Errors here.

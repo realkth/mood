@@ -9,8 +9,8 @@
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="!currentUser.photoURL"></span>
-              <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg" v-if="currentUser.photoURL">
+              <span class="user-img-icon" v-if="!isFirst_currentUser.photoURL"></span>
+              <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg">
             </div>
             <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
               <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_first_photo">
@@ -36,6 +36,7 @@
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
+
 const focus = {
   inserted(el) {
     el.focus()
@@ -63,13 +64,9 @@ export default {
   },
   methods: {
     ...mapActions(['a_firstSetting']),
-    // setting_first_previewFile(e) {
-    //   this.$store.dispatch('', e.target.value)
-    // },
     setting_first_photo(e) {
       let _this = this;
       let file = e.target.files[0];
-      // console.log('file',file);
       let reader = new FileReader();
       this.file = file;
       reader.readAsDataURL(file);
@@ -77,69 +74,22 @@ export default {
         this.$store.dispatch('a_setFirstPhoto', data.srcElement.result)
         this.uploadMyImg = data.srcElement.result;
       }
-      console.log('여기서는 어떻게 나오니',this.file);
-      // this.$store.dispatch('a_setFirstPhoto', this.uploadMyImg)
     },
     setting_first_displayname(e) {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)
     },
-    // checkImage(file) {
-    //   if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
-    //     return true;
-    //   }
-    // },
     previewFile(e) {
       let _this = this;
       let file = e.target.files[0];
       this.currentUser.photoURL = file;
       let reader = new FileReader();
       this.file = file;
-        reader.readAsDataURL(file);
-        reader.onload = data => {
-          this.uploadMyImg = data.srcElement.result;
-          this.currentUser.photoURL = data.srcElement.result;
-        }
-        // console.log('preview',this.currentUser.photoURL);
-      // if (this.checkImage(file)) {
-      //   this.file = file;
-      //   reader.readAsDataURL(file);
-      //   reader.onload = data => {
-      //     this.uploadMyImg = data.srcElement.result;
-      //     this.currentUser.photoURL = data.srcElement.result;
-      //     // _this.file_url = reader.result;
-      //   }
-      // } else { alert('이미지 파일만 선택 가능합니다.') }
+      reader.readAsDataURL(file);
+      reader.onload = data => {
+        this.uploadMyImg = data.srcElement.result;
+        this.currentUser.photoURL = data.srcElement.result;
+      }
     },
-    // changeUserName(target, e) {
-    //   let input = e.target.value;
-    //   this.currentUser[target] = input;
-    // },
-    // whoamI: function() {
-    //   console.log(firebase.auth().currentUser);
-    //   this.currentUser.currentUser = firebase.auth().currentUser.displayName;
-    //   alert(firebase.auth().currentUser.displayName);
-    // },
-    // changeName: function() {
-    //   let user = firebase.auth().currentUser;
-    //   if (this.currentUser.displayName.trim() !== '') {
-    //     user.updateProfile({
-    //       displayName: this.currentUser.displayName,
-    //       photoURL: this.currentUser.photoURL
-    //     }).then(function(response) {
-    //       //Success
-    //       // this.$router.replace('hello')
-    //       // console.log(firebase.auth().currentUser.displayName)
-    //       // console.log(firebase.auth().currentUser.photoURL)
-    //     }, function(error) {
-    //       //Error
-    //       console.log(error);
-    //     });
-    //     this.$router.replace('second-setting')
-    //   }
-    //   else {
-    //     this.err_msg = '유저 네임을 설정해주세요.';
-    //   }
-    // },
   }
 }
 </script>

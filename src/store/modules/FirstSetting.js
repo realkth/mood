@@ -6,6 +6,7 @@ export default {
   state: {
     first_uploadMyImg: '',
     first_setting_err_msg: '',
+    // photoURL: '',
     first_currentUser: {
       photoURL: '',
       displayName: ''
@@ -21,11 +22,6 @@ export default {
     isFirst_currentUser: (state) => {
       return state.first_currentUser
     },
-    // checkImage: (file) => {
-    //   if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
-    //     return true;
-    //   }
-    // },
   },
   mutations: {
     // checkImage: (file) => {
@@ -35,12 +31,10 @@ export default {
     // },
     m_secondSetting: (state) => {
       state.loggedIn = true;
-      // window.localStorage.setItem('token', state.token)
+      // state.photoURL = state.first_currentUser.photoURL
       router.replace('second-setting')
     },
-    // m_setFirstPreviewFile: (state, payload) => {
-    //   state.first_uploadMyImg = payload
-    // },
+
     m_setFirstPhoto: (state, payload) => {
       state.first_currentUser.photoURL = payload
     },
@@ -50,77 +44,36 @@ export default {
 
   },
   actions: {
-    // a_setFirstPreviewFile: (context, val) => {
-    //   context.commit('m_setFirstPreviewFile', val)
-    // },
+
     a_setFirstPhoto: (context, val) => {
-      // let reader = new FileReader();
-      // reader.readAsDataURL(context);
-      // reader.onload = data => {
-      //   state.first_uploadMyImg = data.srcElement.result;
-      //   state.first_currentUser.photoURL = data.srcElement.result;
-      // }
       context.commit('m_setFirstPhoto', val)
     },
     a_setFirstDisplayName: (context, val) => {
       context.commit('m_setFirstDisplayName', val)
     },
-    // previewFile(e) {
-    //   let _this = this;
-    //   let file = e.target.files[0];
-    //   this.currentUser.photoURL = file;
-    //   let reader = new FileReader();
-    //   if (this.checkImage(file)) {
-    //     this.file = file;
-    //     reader.readAsDataURL(file);
-    //     reader.onload = data => {
-    //       this.uploadMyImg = data.srcElement.result;
-    //       this.currentUser.photoURL = data.srcElement.result;
-    //       _this.file_url = reader.result;
-    //     }
-    //   } else { alert('이미지 파일만 선택 가능합니다.') }
-    // },
-    a_firstSetting: ({state, dispatch}, currentUser) => {
+    a_firstSetting: ({ state, dispatch }, currentUser) => {
       let user = firebase.auth().currentUser;
-      // let reader = new FileReader();
-      // let file = state.first_currentUser.photoURL;
-      // reader.readAsDataURL(file);
-      // reader.onload = data => {
-      //   state.first_uploadMyImg = data.srcElement.result;
-      //   state.first_currentUser.photoURL = data.srcElement.result;
-      // }
-      console.log('사진',state.first_currentUser.photoURL);
+
       if (state.first_currentUser.displayName.trim() !== '') {
         user.updateProfile({
           photoURL: state.first_currentUser.photoURL,
           displayName: state.first_currentUser.displayName
-          // displayName: this.currentUser.displayName,
-          // photoURL: this.currentUser.photoURL
-        }).then(function(response) {
-          console.log('photo',state.first_currentUser.photoURL);
-          console.log('name',state.first_currentUser.displayName);
-          //Success
-          // this.$router.replace('hello')
-          // console.log(firebase.auth().currentUser.displayName)
-          // console.log(firebase.auth().currentUser.photoURL)
-        }, function(error) {
+        }).then(function (response) {
+          // commit('m_secondSetting');
+        }, function (error) {
           //Error
           console.log(error);
         });
-        // this.$router.replace('second-setting')
       }
       else {
         state.first_setting_err_msg = '유저 네임을 설정해주세요.';
       }
-      dispatch('a_authStateObserver');
+      dispatch('a_firstSettingAuthState');
     },
-    a_authStateObserver: ({ commit, state }) => {
+    a_firstSettingAuthState: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
-          // console.log(getters.isDisplayName)
-          // getters.isDisplayName = user.displayName;
-          // getters.isphotoURL = user.photoURL;
           commit('m_secondSetting');
         } else {
           // User is signed out.

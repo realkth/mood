@@ -16,6 +16,9 @@ export default {
     isSignup_err_email_msg: (state) => {
       return state.signup_err_email_msg
     },
+    isSignup_email: (state) => {
+      return state.sign_email
+    },
     validateEmail: (state) => {
       let emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return {
@@ -46,6 +49,7 @@ export default {
     a_signUp: ({ state, dispatch, commit }, user) => {
       firebase.auth().createUserWithEmailAndPassword(state.sign_email, state.sign_Pw).then(
         (user) => {
+          commit('m_nextSetting');
           // this.$router.replace('first-setting')
         },
         (err) => {
@@ -90,7 +94,7 @@ export default {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
-          commit('m_nextSetting');
+          // commit('m_nextSetting');
         } else {
           // User is signed out.
           // ...

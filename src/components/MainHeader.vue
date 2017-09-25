@@ -55,6 +55,7 @@ export default {
     },
     logout: function() {
       firebase.auth().signOut().then(() => {
+        window.localStorage.removeItem('token')
         this.$router.replace('login')
       })
     },

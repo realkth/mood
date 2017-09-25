@@ -16,38 +16,78 @@ const router = new Router({
     {
       path: '*',
       redirect: '/login',
+      beforeEnter (to, from, next) {
+        let token = window.localStorage.getItem('token');
+        if (!!token) {
+          next('/hello');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/',
       redirect: '/login',
+      beforeEnter (to, from, next) {
+        let token = window.localStorage.getItem('token');
+        if (!!token) {
+          next('/hello');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/login',
       name: 'Login',
       component: Login,
-      // beforeEnter (to, from, next) {
-      //   let token = window.localStorage.getItem('token');
-      //   if (!!token) {
-      //     next('/hello');
-      //   } else {
-      //     next();
-      //   }
-      // }
+      beforeEnter (to, from, next) {
+        let token = window.localStorage.getItem('token');
+        if (!!token) {
+          next('/hello');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/sign-up',
       name: 'SignUp',
-      component: SignUp
+      component: SignUp,
+      beforeEnter (to, from, next) {
+        let token = window.localStorage.getItem('token');
+        if (!!token) {
+          next('/hello');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/first-setting',
       name: 'FirstSetting',
-      component: FirstSetting
+      component: FirstSetting,
+      beforeEnter (to, from, next) {
+        let token = window.localStorage.getItem('token');
+        if (!!token) {
+          next('/hello');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/second-setting',
       name: 'SecondSetting',
-      component: SecondSetting
+      component: SecondSetting,
+      beforeEnter (to, from, next) {
+        let token = window.localStorage.getItem('token');
+        if (!!token) {
+          next('/hello');
+        } else {
+          next();
+        }
+      }
     },
     {
       path: '/hello',

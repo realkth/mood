@@ -29,28 +29,27 @@ export default {
       // window.localStorage.setItem('token', state.token)
       router.replace('first-setting')
     },
-    m_setEmail(state, payload) {
+    m_setEmail: (state, payload) => {
       state.sign_email = payload
     },
-    m_setPw(state, payload) {
+    m_setPw: (state, payload) => {
       state.sign_Pw = payload
     },
-    m_setWrongEmail(state, payload){
-      state.sign_email = state.sign_email + '';
+    m_setWrongEmail: (state, payload) => {
+      state.sign_email = state.sign_email + ' ';
     }
   },
   actions: {
     a_setEmail: (context, val) => { context.commit('m_setEmail', val) },
     a_setPw: (context, val) => { context.commit('m_setPw', val) },
 
-    a_signUp: ({ state, dispatch, commit}, user) => {
-      firebase.auth().createUserWithEmailAndPassword( state.sign_email, state.sign_Pw).then(
+    a_signUp: ({ state, dispatch, commit }, user) => {
+      firebase.auth().createUserWithEmailAndPassword(state.sign_email, state.sign_Pw).then(
         (user) => {
           // this.$router.replace('first-setting')
         },
         (err) => {
           console.log('Oops. ' + err.message);
-          console.log('state', state.signup_err_email_msg);
           if (err.message === 'Password should be at least 6 characters') {
             state.signup_err_pw_msg = '비밀번호가 유효하지 않습니다.';
             let msg_element = document.getElementById('pw_msg');
@@ -85,15 +84,12 @@ export default {
           }
         }
       );
-      dispatch('a_authStateObserver');
+      dispatch('a_signUpAuthState');
     },
-    a_authStateObserver: ({ commit, state }) => {
+    a_signUpAuthState: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
-          // console.log(getters.isDisplayName)
-          // getters.isDisplayName = user.displayName;
-          // getters.isphotoURL = user.photoURL;
           commit('m_nextSetting');
         } else {
           // User is signed out.

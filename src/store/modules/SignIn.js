@@ -36,13 +36,12 @@ export default {
   mutations: {
     m_logInUser: (state) => {
       state.loggedIn = true;
-      // window.localStorage.setItem('token', state.token)
       router.replace('hello')
     },
-    m_email(state, payload) {
+    m_email: (state, payload) => {
       state.email = payload
     },
-    m_password(state, payload) {
+    m_password: (state, payload) => {
       state.password = payload
     }
   },
@@ -78,7 +77,8 @@ export default {
           state.displayName = user.displayName;
           state.email = user.email;
           state.photoURL = user.photoURL;
-          state.token = user.o;
+          state.token = user.uid;
+          window.localStorage.setItem('token', state.token)
           commit('m_logInUser');
         } else {
           // User is signed out.

@@ -1,13 +1,11 @@
 <template>
-<div class="my-setting-modal" v-if="visible">
-  <div class="modal-bg glass" @click="closeModal()"></div>
-  <div class="container">
-    <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
-      <button class="modal-close" alt="모달창 닫기" @click="closeModal()"></button>
-      <header class="col">
-        <h3>프로필 설정</h3>
-      </header>
-      <section>
+  <div class="first-setting container">
+    <home-header></home-header>
+    <div class="grid">
+      <div class="box col col-d-6 col-d-offset-3 col-m-4">
+        <div class="col">
+          <h3>프로필 설정</h3>
+        </div>
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
@@ -24,19 +22,19 @@
           <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임" v-focus="true">
           <p class="errmsg" id="pw_msg">{{ this.err_msg }}</p>
         </div>
-      </section>
-      <footer class="buttons col">
-        <button v-on:click="changeProfile" class="resister">등록!</button>
-      </footer>
-      <!-- <button v-on:click="whoamI">난 누구</button> -->
+        <div class="buttons col">
+          <button v-on:click="changeName" class="resister">등록!</button>
+        </div>
+        <!-- <button v-on:click="whoamI">난 누구</button> -->
+      </div>
+
     </div>
   </div>
-</div>
 </template>
 
 <script>
 import firebase from 'firebase'
-
+import HomeHeader from './HomeHeader.vue'
 const focus = {
   inserted(el) {
     el.focus()
@@ -44,19 +42,13 @@ const focus = {
 }
 
 export default {
-  name: 'mysettngmodal',
+  name: 'firstSetting',
   directives: { focus },
   components: {
-  },
-  props: {
-    is_visible: {
-      type: Boolean,
-      default: false
-    }
+    HomeHeader
   },
   data: function() {
     return {
-      visible: this.is_visible,
       uploadMyImg: '',
       currentUser: {
         photoURL: '',
@@ -66,11 +58,6 @@ export default {
     }
   },
   methods: {
-    closeModal(){
-      this.visible = false;
-      this.$parent.blur = null
-      // console.log('부모',this.$parent.blur);
-    },
     checkImage(file) {
       if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
         return true;
@@ -100,7 +87,7 @@ export default {
       this.currentUser.currentUser = firebase.auth().currentUser.displayName;
       alert(firebase.auth().currentUser.displayName);
     },
-    changeProfile: function() {
+    changeName: function() {
       let user = firebase.auth().currentUser;
       if (this.currentUser.displayName.trim() !== '') {
         user.updateProfile({
@@ -115,17 +102,11 @@ export default {
           //Error
           console.log(error);
         });
-        // this.$router.replace('second-setting')
-        this.closeModal();
-        // console.log('성공');
+        this.$router.replace('second-setting')
       }
       else {
         this.err_msg = '유저 네임을 설정해주세요.';
       }
-      // this.currentUser.displayName = '';
-      // this.closeModal();
-      // this.visible = false;
-      
     },
   }
 }
@@ -133,36 +114,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~style";
-
-.modal-bg{
-  background: #fff;
-  // background: $color-black;
-  min-height: 100vh;
-  width: 100%;
-  top: 0;
-  opacity: 0;
-  position: absolute;
-  z-index: 2;
-}
-.modal-content {
-  top: 50%;
-  transform: translateY(-50%);
-  position: absolute;
-  z-index: 3;
-}
-
-.modal-close {
-  background: url('../assets/mood-icon-close.svg') no-repeat;
-  background-size: 10px;
-  background-position: 50%;
-  position: absolute;
-  z-index: 4;
-  top: 20px;
-  right: 20px;
-  width: 20px;
-  height: 20px;
-  border: none;
-}
 
 h3 {
   text-align: center;
@@ -251,8 +202,8 @@ input {
 .box {
   @extend %box-style;
   display: block;
-  padding: 40px 0;
-  // margin-bottom: 50px;
+  padding: 60px 0;
+  margin-bottom: 50px;
 }
 
 .buttons {

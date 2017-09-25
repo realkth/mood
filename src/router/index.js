@@ -24,7 +24,15 @@ const router = new Router({
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      // beforeEnter (to, from, next) {
+      //   let token = window.localStorage.getItem('token');
+      //   if (!!token) {
+      //     next('/hello');
+      //   } else {
+      //     next();
+      //   }
+      // }
     },
     {
       path: '/sign-up',
@@ -62,6 +70,7 @@ router.beforeEach((to, from, next) => {
   if (requiresAuth && !currentUser) next('login')
   // else if (!requiresAuth && currentUser) next('hello')
   else next()
-})
+}
+)
 
 export default router

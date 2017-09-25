@@ -19,16 +19,16 @@
   - Vue.js
   - Vuex
   - Vue-router
-  - Vue-CLI
   - axios
   - Scss
   - HTML
-  - Webpack
-  - Firebase DB 세팅
+  - webpack
+  - Firebase
   
 - 서비스 환경  
   - IE 9+ 이상   
   - 반응형   
+  - 웹 접근성과 웹 표준 준수
   
 - 업무 분담 및 협업 방안
   - 기능별 분담

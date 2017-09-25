@@ -6,6 +6,7 @@ export default {
   state: {
     loggedIn: false,
     email: 'Guest',
+    password: '',
     displayName: '',
     photoURL: '',
     error_email_msg: '',
@@ -24,18 +25,36 @@ export default {
     },
     isToken: (state) => {
       return state.token;
+    },
+    isDisplayName: (state) => {
+      return state.displayName;
+    },
+    isPhotoURL: (state) => {
+      return state.photoURL;
     }
   },
   mutations: {
     m_logInUser: (state) => {
       state.loggedIn = true;
-      window.localStorage.setItem('token', state.token)
+      // window.localStorage.setItem('token', state.token)
       router.replace('hello')
     },
+    m_email(state, payload) {
+      state.email = payload
+    },
+    m_password(state, payload) {
+      state.password = payload
+    }
   },
   actions: {
+    a_email: (context, val) => { context.commit('m_email', val) },
+    a_password: (context, val) => { context.commit('m_password', val) },
     a_logInUser: ({ state, dispatch }, user) => {
-      firebase.auth().signInWithEmailAndPassword(user.e, user.p).catch(function (error) {
+      firebase.auth().signInWithEmailAndPassword(state.email, state.password).then(() => {
+          state.error_email_msg = '',
+          state.error_pw_msg = ''
+      }
+      ).catch(function (error) {
         // Handle Errors here.
         console.log(error.code)
         if (error.code === 'auth/user-not-found') {
@@ -49,10 +68,10 @@ export default {
           state.error_email_msg = '';
         }
       });
-      dispatch('a_authStateObserver');
+      dispatch('a_signInAuthState');
 
     },
-    a_authStateObserver: ({ commit, state }) => {
+    a_signInAuthState: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.

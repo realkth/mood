@@ -11,12 +11,12 @@ export default {
     photoURL: '',
     error_email_msg: '',
     error_pw_msg: '',
-    token: ''
+    token: '',
   },
   getters: {
-    isEmail: (state) => {
-      return state.email;
-    },
+    // isEmail: (state) => {
+    //   return state.email;
+    // },
     isErrEmailMsg: (state) => {
       return state.error_email_msg;
     },

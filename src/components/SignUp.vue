@@ -41,7 +41,7 @@ const focus = {
 
 export default {
   name: 'signUp',
-  components: {
+  components: { 
     HomeHeader
   },
 

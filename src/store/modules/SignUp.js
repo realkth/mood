@@ -29,13 +29,13 @@ export default {
       // window.localStorage.setItem('token', state.token)
       router.replace('first-setting')
     },
-    m_setEmail(state, payload) {
+    m_setEmail: (state, payload) => {
       state.sign_email = payload
     },
-    m_setPw(state, payload) {
+    m_setPw: (state, payload) => {
       state.sign_Pw = payload
     },
-    m_setWrongEmail(state, payload){
+    m_setWrongEmail: (state, payload) => {
       state.sign_email = state.sign_email + '';
     }
   },

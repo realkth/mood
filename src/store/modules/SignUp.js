@@ -16,6 +16,9 @@ export default {
     isSignup_err_email_msg: (state) => {
       return state.signup_err_email_msg
     },
+    isSignup_email: (state) => {
+      return state.sign_email
+    },
     validateEmail: (state) => {
       let emailRE = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return {

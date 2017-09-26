@@ -1,5 +1,5 @@
 @import 'mixin';
-%readable-hidden{
+%readable-hidden {
   position: absolute;
   overflow: hidden;
   width: 1px;
@@ -9,35 +9,59 @@
   padding: 0;
   margin: -1px;
 }
-%ir{
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-repeat: no-repeat;
-    background-size: 100% 100%
+
+%ir {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-repeat: no-repeat;
+  background-size: 100% 100%
 }
+
 // 반응형 콘텐츠
-.responsive-object{
-    max-width: 100%;
-    height: auto ;
+.responsive-object {
+  max-width: 100%;
+  height: auto;
 }
-.responsive-svg{
-    width: 100%;
-    height: auto ;
+
+.responsive-svg {
+  width: 100%;
+  height: auto;
 }
-html{
-    font-size: 10px;
+
+html {
+  font-size: 10px;
 }
-body{
-    font-size: 1.4rem;
-    @include breakpoint(tablet){
-        font-size: 1.5rem;
-    }
-    @include breakpoint(desktop){
-        font-size: 1.6rem;
-    }
-    color: #181818;
-    font-family: "Noto Sans Regular";
-    line-height: 1.5;
-    background: #fff;
+
+body {
+  font-size: 1.4rem;
+  @include breakpoint(tablet) {
+    font-size: 1.5rem;
+  }
+  @include breakpoint(desktop) {
+    font-size: 1.6rem;
+  }
+  color: #181818;
+  font-family: "Noto Sans Regular";
+  line-height: 1.5;
+  background: #fff;
+}
+
+%box-style {
+  background: #fff;
+  border-radius: 3px;
+  box-shadow: 5px 5px 13px rgba(0, 0, 0, 0.2);
+}
+
+%input-style {
+  width: 60%;
+  border: none;
+  background: none;
+  border-bottom: 1px solid $color-moregray;
+  &:active,
+  &:focus,
+  &::selection {
+    border-bottom: 1px solid $color-mood;
+    outline: none;
+  }
 }

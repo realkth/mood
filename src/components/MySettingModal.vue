@@ -12,7 +12,7 @@
           <div class="info-wrapper">
             <div class="radius">
               <span class="user-img-icon" v-if="(isCurrentUser.photoURL === null)"></span>
-              <img class="user-img" alt="회원 이미지 등록" :src="isCurrentUser.photoURL" v-if="(isCurrentUser.photoURL !== null)">
+              <img class="user-img" alt="회원 이미지 등록" :src="isPhotoURL" v-if="(isPhotoURL !== null)">
             </div>
             <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
               <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_first_photo">
@@ -21,7 +21,7 @@
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="text" @input="setting_first_displayname" :placeholder="isCurrentUser.displayName" v-focus="true">
+          <input class="nickTest" type="text" @input="setting_first_displayname" :placeholder="isDisplayName" v-focus="true">
           <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
         </div>
       </section>
@@ -67,7 +67,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isSetting_err_msg', 'isCurrentUser']),
+    ...mapGetters(['isSetting_err_msg', 'isCurrentUser','isPhotoURL','isDisplayName']),
   },
   methods: {
     closeModal(){

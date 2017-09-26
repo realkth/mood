@@ -49,7 +49,7 @@ export default {
     a_signUp: ({ state, dispatch, commit }, user) => {
       firebase.auth().createUserWithEmailAndPassword(state.sign_email, state.sign_Pw).then(
         (user) => {
-          commit('m_nextSetting');
+          // commit('m_nextSetting');
           // this.$router.replace('first-setting')
         },
         (err) => {
@@ -94,7 +94,7 @@ export default {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
-          // commit('m_nextSetting');
+          commit('m_nextSetting');
         } else {
           // User is signed out.
           // ...

@@ -9,8 +9,8 @@
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="!isFirst_currentUser.photoURL"></span>
-              <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg">
+              <span class="user-img-icon" v-if="!isCurrentUser.photoURL"></span>
+              <img class="user-img" alt="회원 이미지 등록" :src="isCurrentUser.photoURL">
             </div>
             <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
               <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_first_photo">
@@ -20,7 +20,7 @@
         </div>
         <div class="form col">
           <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임" v-focus="true">
-          <p class="errmsg" id="pw_msg">{{ isFirst_setting_err_msg }}</p>
+          <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
         </div>
         <div class="buttons col">
           <button v-on:click="a_firstSetting" class="resister">등록!</button>
@@ -36,7 +36,6 @@
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
-
 const focus = {
   inserted(el) {
     el.focus()
@@ -49,46 +48,32 @@ export default {
   components: {
     HomeHeader
   },
-  data: function() {
-    return {
-      uploadMyImg: '',
-      currentUser: {
-        photoURL: '',
-        displayName: ''
-      },
-      err_msg: ''
-    }
-  },
   computed: {
-    ...mapGetters(['isFirst_uploadMyImg', 'isFirst_setting_err_msg', 'isFirst_currentUser'])
+    ...mapGetters(['isSetting_err_msg', 'isCurrentUser']),
   },
   methods: {
+    checkImage(file) {
+      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
+        return true;
+      }
+    },
     ...mapActions(['a_firstSetting']),
     setting_first_photo(e) {
       let _this = this;
       let file = e.target.files[0];
       let reader = new FileReader();
-      this.file = file;
-      reader.readAsDataURL(file);
-      reader.onload = data => {
-        this.$store.dispatch('a_setFirstPhoto', data.srcElement.result)
-        this.uploadMyImg = data.srcElement.result;
-      }
+      if (this.checkImage(file)){
+        this.file = file;
+        reader.readAsDataURL(file);
+        reader.onload = data => {
+          this.$store.dispatch('a_setFirstPhoto', data.srcElement.result);
+          this.$store.dispatch('a_setFirstErrMsg', '')
+        } 
+      } else { this.$store.dispatch('a_setFirstErrMsg', '이미지 파일만 선택 가능합니다.')}
+      // } else { alert('이미지 파일만 선택 가능합니다.') }
     },
     setting_first_displayname(e) {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)
-    },
-    previewFile(e) {
-      let _this = this;
-      let file = e.target.files[0];
-      this.currentUser.photoURL = file;
-      let reader = new FileReader();
-      this.file = file;
-      reader.readAsDataURL(file);
-      reader.onload = data => {
-        this.uploadMyImg = data.srcElement.result;
-        this.currentUser.photoURL = data.srcElement.result;
-      }
     },
   }
 }

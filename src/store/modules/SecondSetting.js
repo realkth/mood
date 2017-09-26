@@ -4,14 +4,14 @@ import * as firebase from 'firebase'
 
 export default {
   state: {
-    photoURL: '',
-    displayName: ''
+    // photoURL: '',
+    // displayName: ''
 
   },
   getters: {
-    isPhotoURL: (state) => {
-      return state.photoURL;
-    }
+    // isPhotoURL: (state) => {
+    //   return state.photoURL;
+    // }
   },
   mutations: {
     m_hello: (state) => {
@@ -19,12 +19,12 @@ export default {
       console.log("됐어? 퍼스트세팅스테이트에서 그냥 스테이트로 변이시킨 것이?")
       // router.replace('hello')
     },
-    m_setPhotoURL: (state, payload) => {
-      state.photoURL = state.first_currentUser.photoURL
-    },
-    m_setDisplayName: (state, payload) => {
-      state.displayName = state.first_currentUser.displayName
-    },
+    // m_setPhotoURL: (state, payload) => {
+    //   state.photoURL = state.first_currentUser.photoURL
+    // },
+    // m_setDisplayName: (state, payload) => {
+    //   state.displayName = state.first_currentUser.displayName
+    // },
 
   },
   actions: {

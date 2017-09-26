@@ -39,7 +39,7 @@ export default {
     HomeHeader
   },
   computed: {
-    ...mapGetters(['isPhotoURL','isFirst_currentUser', 'isSignup_email'])
+    ...mapGetters(['isFirst_currentUser', 'isSignup_email'])
   },
   data: function() {
     return {
@@ -53,29 +53,6 @@ export default {
       this.currentUser.currentUser = firebase.auth().currentUser.displayName;
       alert(firebase.auth().currentUser.displayName);
     },
-    // verfification: function() {
-    //   let user = firebase.auth().currentUser;
-    //   user.sendEmailVerification().then(function() {
-    //     // Email sent.
-    //   }, function(error) {
-    //     // An error happened.
-    //   });
-    //   // this.$router.replace('hello')
-    // },
-    // getUserInfo: function() {
-    //   var user = firebase.auth().currentUser;
-    //   var name, email, photoURL, uid, emailVerified;
-
-    //   if (user != null) {
-    //     name = user.displayName;
-    //     email = user.email;
-    //     photoURL = user.photoURL;
-    //     emailVerified = user.emailVerified;
-    //     uid = user.uid;
-    //   }
-    //   this.photoURL = photoURL
-    //   this.email = email
-    // }
   }
 }
 

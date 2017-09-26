@@ -1,18 +1,16 @@
 <template>
-<div class="my-setting-modal" v-if="visible">
-  <div class="modal-bg glass" @click="closeModal()"></div>
-  <div class="container">
-    <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
-      <button class="modal-close" alt="모달창 닫기" @click="closeModal()"></button>
-      <header class="col">
-        <h3>프로필 설정</h3>
-      </header>
-      <section>
+  <div class="first-setting container">
+    <home-header></home-header>
+    <div class="grid">
+      <div class="box col col-d-6 col-d-offset-3 col-m-4">
+        <div class="col">
+          <h3>프로필 설정</h3>
+        </div>
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="(isCurrentUser.photoURL === null)"></span>
-              <img class="user-img" alt="회원 이미지 등록" :src="isCurrentUser.photoURL" v-if="(isCurrentUser.photoURL !== null)">
+              <span class="user-img-icon" v-if="!isFirst_currentUser.photoURL"></span>
+              <img class="user-img" alt="회원 이미지 등록" :src="uploadMyImg">
             </div>
             <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
               <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_first_photo">
@@ -21,21 +19,22 @@
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="text" @input="setting_first_displayname" :placeholder="isCurrentUser.displayName" v-focus="true">
-          <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
+          <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임" v-focus="true">
+          <p class="errmsg" id="pw_msg">{{ isFirst_setting_err_msg }}</p>
         </div>
-      </section>
-      <footer class="buttons col">
-        <button v-on:click="a_firstSetting" class="resister">등록!</button>
-      </footer>
-      <!-- <button v-on:click="whoamI">난 누구</button> -->
+        <div class="buttons col">
+          <button v-on:click="a_firstSetting" class="resister">등록!</button>
+        </div>
+        <!-- <button v-on:click="whoamI">난 누구</button> -->
+      </div>
+
     </div>
   </div>
-</div>
 </template>
 
 <script>
 import firebase from 'firebase'
+import HomeHeader from './HomeHeader.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
 const focus = {
@@ -45,58 +44,51 @@ const focus = {
 }
 
 export default {
-  name: 'mysettngmodal',
+  name: 'firstSetting',
   directives: { focus },
   components: {
-  },
-  props: {
-    is_visible: {
-      type: Boolean,
-      default: false
-    }
+    HomeHeader
   },
   data: function() {
     return {
-      visible: this.is_visible,
-      // uploadMyImg: '',
-      // currentUser: {
-      //   photoURL: '',
-      //   displayName: ''
-      // },
-      // err_msg: ''
+      uploadMyImg: '',
+      currentUser: {
+        photoURL: '',
+        displayName: ''
+      },
+      err_msg: ''
     }
   },
   computed: {
-    ...mapGetters(['isSetting_err_msg', 'isCurrentUser']),
+    ...mapGetters(['isFirst_uploadMyImg', 'isFirst_setting_err_msg', 'isFirst_currentUser'])
   },
   methods: {
-    closeModal(){
-      this.visible = false;
-      this.$parent.blur = null
-      // console.log('부모',this.$parent.blur);
-    },
-    checkImage(file) {
-      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
-        return true;
-      }
-    },
     ...mapActions(['a_firstSetting']),
     setting_first_photo(e) {
       let _this = this;
       let file = e.target.files[0];
       let reader = new FileReader();
-      if (this.checkImage(file)){
-        this.file = file;
-        reader.readAsDataURL(file);
-        reader.onload = data => {
-          this.$store.dispatch('a_setFirstPhoto', data.srcElement.result);
-          this.$store.dispatch('a_setFirstErrMsg', '')
-        } 
-      } else { this.$store.dispatch('a_setFirstErrMsg', '이미지 파일만 선택 가능합니다.')}
-      // } else { alert('이미지 파일만 선택 가능합니다.') }
+      this.file = file;
+      reader.readAsDataURL(file);
+      reader.onload = data => {
+        this.$store.dispatch('a_setFirstPhoto', data.srcElement.result)
+        this.uploadMyImg = data.srcElement.result;
+      }
     },
     setting_first_displayname(e) {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)
+    },
+    previewFile(e) {
+      let _this = this;
+      let file = e.target.files[0];
+      this.currentUser.photoURL = file;
+      let reader = new FileReader();
+      this.file = file;
+      reader.readAsDataURL(file);
+      reader.onload = data => {
+        this.uploadMyImg = data.srcElement.result;
+        this.currentUser.photoURL = data.srcElement.result;
+      }
     },
   }
 }
@@ -104,36 +96,6 @@ export default {
 
 <style lang="scss" scoped>
 @import "~style";
-
-.modal-bg{
-  background: #fff;
-  // background: $color-black;
-  min-height: 100vh;
-  width: 100%;
-  top: 0;
-  opacity: 0;
-  position: absolute;
-  z-index: 2;
-}
-.modal-content {
-  top: 50%;
-  transform: translateY(-50%);
-  position: absolute;
-  z-index: 3;
-}
-
-.modal-close {
-  background: url('../assets/mood-icon-close.svg') no-repeat;
-  background-size: 10px;
-  background-position: 50%;
-  position: absolute;
-  z-index: 4;
-  top: 20px;
-  right: 20px;
-  width: 20px;
-  height: 20px;
-  border: none;
-}
 
 h3 {
   text-align: center;
@@ -222,8 +184,8 @@ input {
 .box {
   @extend %box-style;
   display: block;
-  padding: 40px 0;
-  // margin-bottom: 50px;
+  padding: 60px 0;
+  margin-bottom: 50px;
 }
 
 .buttons {

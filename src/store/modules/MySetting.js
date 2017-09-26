@@ -4,34 +4,34 @@ import * as firebase from 'firebase'
 
 export default {
   state: {
-    setting_err_msg: '',
-    currentUser: {
+    first_setting_err_msg: '',
+    first_currentUser: {
       photoURL: '',
       displayName: ''
     }
   },
   getters: {
-    isSetting_err_msg: (state) => {
-      return state.setting_err_msg
+    isFirst_setting_err_msg: (state) => {
+      return state.first_setting_err_msg
     },
-    isCurrentUser: (state) => {
-      return state.currentUser
+    isFirst_currentUser: (state) => {
+      return state.first_currentUser
     },
   },
   mutations: {
     m_secondSetting: (state) => {
       state.loggedIn = true;
       // window.localStorage.setItem('token', state.token)
-      // router.replace('second-setting')
+      router.replace('second-setting')
     },
     m_setFirstErrMsg: (state, payload) => {
-      state.setting_err_msg = payload
+      state.first_setting_err_msg = payload
     },
     m_setFirstPhoto: (state, payload) => {
-      state.currentUser.photoURL = payload
+      state.first_currentUser.photoURL = payload
     },
     m_setFirstDisplayName: (state, payload) => {
-      state.currentUser.displayName = payload
+      state.first_currentUser.displayName = payload
     },
 
   },
@@ -47,12 +47,12 @@ export default {
     },
     a_firstSetting: ({state, dispatch}, currentUser) => {
       let user = firebase.auth().currentUser;
-      if (state.currentUser.displayName.trim() !== '') {
+      if (state.first_currentUser.displayName.trim() !== '') {
         user.updateProfile({
-          photoURL: state.currentUser.photoURL,
-          displayName: state.currentUser.displayName
+          photoURL: state.first_currentUser.photoURL,
+          displayName: state.first_currentUser.displayName
         }).then(function(response) {
-          // dispatch('a_FirstSettingAuthState');
+          dispatch('a_FirstSettingAuthState');
           //Success
           // this.$router.replace('hello')
           // console.log(firebase.auth().currentUser.displayName)
@@ -64,9 +64,9 @@ export default {
         // this.$router.replace('second-setting')
       }
       else {
-        state.setting_err_msg = '유저 네임을 설정해주세요.';
+        state.first_setting_err_msg = '유저 네임을 설정해주세요.';
       }
-      dispatch('a_FirstSettingAuthState');
+      // dispatch('a_FirstSettingAuthState');
     },
     a_FirstSettingAuthState: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {

@@ -16,8 +16,8 @@ export default {
   mutations: {
     m_hello: (state) => {
       state.loggedIn = true;
-      console.log("됐어? 퍼스트세팅스테이트에서 그냥 스테이트로 변이시킨 것이?")
-      // router.replace('hello')
+      // console.log("됐어? 퍼스트세팅스테이트에서 그냥 스테이트로 변이시킨 것이?")
+      router.replace('hello')
     },
     // m_setPhotoURL: (state, payload) => {
     //   state.photoURL = state.first_currentUser.photoURL

@@ -22,7 +22,7 @@ export default {
     m_secondSetting: (state) => {
       state.loggedIn = true;
       // window.localStorage.setItem('token', state.token)
-      // router.replace('second-setting')
+      router.replace('second-setting')
     },
     m_setFirstErrMsg: (state, payload) => {
       state.setting_err_msg = payload

@@ -9,17 +9,17 @@
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="(this.photoURL === null)"></span>
-              <img class="user-img" alt="회원 이미지" :src="this.photoURL" v-if="(this.photoURL !== null)">
+              <span class="user-img-icon" v-if="( isCurrentUser.photoURL === null)"></span>
+              <img class="user-img" alt="회원 이미지" :src="isCurrentUser.photoURL" v-if="(isCurrentUser.photoURL !== null)">
             </div>
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="email" :placeholder="email" disabled>
+          <input class="nickTest" type="email" :placeholder="isSignup_email" disabled>
           <p class="infomsg">이메일 인증을 하셔야 정상적인 서비스 이용이 가능합니다.</p>
         </div>
         <div class="buttons col">
-          <button v-on:click="changeName" class="resister">인증하기!</button>
+          <button v-on:click="a_verfification" class="resister">인증하기!</button>
         </div>
         <button v-on:click="whoamI">난 누구</button>
       </div>
@@ -31,56 +31,28 @@
 <script>
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'secondSetting',
   components: {
     HomeHeader
   },
-  created() {
-    this.getUserInfo()
+  computed: {
+    ...mapGetters(['isCurrentUser', 'isSignup_email'])
   },
   data: function() {
     return {
-      uploadMyImg: '',
-      currentUser: {
-        photoURL: '',
-        displayName: ''
-      },
-      err_msg: '',
-      photoURL: '',
-      email:''
+      // email:''
     }
   },
   methods: {
+    ...mapActions(['a_verfification']),
     whoamI: function() {
       console.log(firebase.auth().currentUser);
       this.currentUser.currentUser = firebase.auth().currentUser.displayName;
       alert(firebase.auth().currentUser.displayName);
     },
-    changeName: function() {
-      let user = firebase.auth().currentUser;
-      user.sendEmailVerification().then(function() {
-        // Email sent.
-      }, function(error) {
-        // An error happened.
-      });
-      this.$router.replace('hello')
-    },
-    getUserInfo: function() {
-      var user = firebase.auth().currentUser;
-      var name, email, photoURL, uid, emailVerified;
-
-      if (user != null) {
-        name = user.displayName;
-        email = user.email;
-        photoURL = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;
-      }
-      this.photoURL = photoURL
-      this.email = email
-    }
   }
 }
 

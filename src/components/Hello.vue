@@ -26,6 +26,7 @@ import Calendar from './Calendar.vue';
 import MySettingModal from './MySettingModal.vue';
 import WriteModal from './WriteModal.vue';
 import MyPostModal from './MyPostModal.vue';
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'hello',

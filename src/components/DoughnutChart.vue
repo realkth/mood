@@ -1,7 +1,7 @@
 <template>
   <div class="chart-wrapper">
     <doughnut-chart class="doughnut-chart" :chart-data="datacollection"></doughnut-chart>
-    <h2 class="">12</h2>
+    <h2 class="">{{ calMonth }}</h2>
   </div>
 </template>
 
@@ -17,6 +17,7 @@
         datacollection: null,
       }
     },
+    props:['calMonth'],
     mounted () {
       this.fillData()
     },

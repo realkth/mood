@@ -8,15 +8,15 @@ export default {
     email: 'Guest',
     password: '',
     displayName: '',
-    // photoURL: '',
+    photoURL: '',
     error_email_msg: '',
     error_pw_msg: '',
     token: '',
   },
   getters: {
-    // isEmail: (state) => {
-    //   return state.email;
-    // },
+    isEmail: (state) => {
+      return state.email;
+    },
     isErrEmailMsg: (state) => {
       return state.error_email_msg;
     },
@@ -29,6 +29,9 @@ export default {
     isDisplayName: (state) => {
       return state.displayName;
     },
+    isPhotoURL: (state) => {
+      return state.photoURL;
+    }
 
   },
   mutations: {
@@ -48,9 +51,9 @@ export default {
     a_password: (context, val) => { context.commit('m_password', val) },
     a_logInUser: ({ state, dispatch }, user) => {
       firebase.auth().signInWithEmailAndPassword(state.email, state.password).then(() => {
-          state.error_email_msg = '',
+        state.error_email_msg = '',
           state.error_pw_msg = ''
-          
+
       }
       ).catch(function (error) {
         // Handle Errors here.

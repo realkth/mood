@@ -4,6 +4,7 @@ import SignIn from './modules/SignIn'
 import SignUp from './modules/SignUp'
 import FirstSetting from './modules/FirstSetting'
 import SecondSetting from './modules/SecondSetting'
+import MySettingModal from './modules/MySettingModal'
 import * as firebase from 'firebase'
 import router from './../router/'
 import axios from 'axios'
@@ -14,7 +15,7 @@ export const store = new Vuex.Store({
   // strict: process.env.NODE_ENV !== 'production',
   // 저장소를 모듈화하면 필요. 일단은 그냥 모듈화하지 말고 하나로 만들어보자(나중에 혹시나 필요하면 바꾸면 됨)
   modules: {
-    SignIn, SignUp, FirstSetting, SecondSetting
+    SignIn, SignUp, FirstSetting, SecondSetting, MySettingModal
   },
   state: {
 
@@ -26,7 +27,7 @@ export const store = new Vuex.Store({
 
   },
   actions: {
-    
+
   }
 
 })

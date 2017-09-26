@@ -9,8 +9,8 @@
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="( isFirst_currentUser.photoURL === null)"></span>
-              <img class="user-img" alt="회원 이미지" :src="isFirst_currentUser.photoURL" v-if="(isFirst_currentUser.photoURL !== null)">
+              <span class="user-img-icon" v-if="( isCurrentUser.photoURL === null)"></span>
+              <img class="user-img" alt="회원 이미지" :src="isCurrentUser.photoURL" v-if="(isCurrentUser.photoURL !== null)">
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@ export default {
     HomeHeader
   },
   computed: {
-    ...mapGetters(['isFirst_currentUser', 'isSignup_email'])
+    ...mapGetters(['isCurrentUser', 'isSignup_email'])
   },
   data: function() {
     return {

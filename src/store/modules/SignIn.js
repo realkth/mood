@@ -14,9 +14,9 @@ export default {
     token: '',
   },
   getters: {
-    // isEmail: (state) => {
-    //   return state.email;
-    // },
+    isEmail: (state) => {
+      return state.email;
+    },
     isErrEmailMsg: (state) => {
       return state.error_email_msg;
     },
@@ -32,17 +32,17 @@ export default {
     isPhotoURL: (state) => {
       return state.photoURL;
     }
+
   },
   mutations: {
     m_logInUser: (state) => {
       state.loggedIn = true;
-      // window.localStorage.setItem('token', state.token)
       router.replace('hello')
     },
-    m_email(state, payload) {
+    m_email: (state, payload) => {
       state.email = payload
     },
-    m_password(state, payload) {
+    m_password: (state, payload) => {
       state.password = payload
     }
   },
@@ -51,8 +51,9 @@ export default {
     a_password: (context, val) => { context.commit('m_password', val) },
     a_logInUser: ({ state, dispatch }, user) => {
       firebase.auth().signInWithEmailAndPassword(state.email, state.password).then(() => {
-          state.error_email_msg = '',
+        state.error_email_msg = '',
           state.error_pw_msg = ''
+
       }
       ).catch(function (error) {
         // Handle Errors here.
@@ -78,7 +79,8 @@ export default {
           state.displayName = user.displayName;
           state.email = user.email;
           state.photoURL = user.photoURL;
-          state.token = user.o;
+          state.token = user.uid;
+          window.localStorage.setItem('token', state.token)
           commit('m_logInUser');
         } else {
           // User is signed out.

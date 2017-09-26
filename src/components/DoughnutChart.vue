@@ -12,6 +12,7 @@
     components: {
       DoughnutChart
     },
+    props: ["calMonth"],
     data () {
       return {
         datacollection: null,

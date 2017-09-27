@@ -9,9 +9,9 @@
         </div>
       </div>
       <!-- <div class="grid">
-                      <h3 class="col col-d-1">2017년</h3>
-                      <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
-                    </div> -->
+                        <h3 class="col col-d-1">2017년</h3>
+                        <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
+                      </div> -->
       <!-- <button v-on:click="openWriteModal">글쓰기</button> -->
 
     </div>
@@ -40,12 +40,12 @@
           <td class="thead">금</td>
           <td class="thead sat">토</td>
           <!-- <td class="thead sun">SUN</td>
-                                      <td class="thead">MON</td>
-                                      <td class="thead">TUE</td>
-                                      <td class="thead">WED</td>
-                                      <td class="thead">THU</td>
-                                      <td class="thead">FRI</td>
-                                      <td class="thead">SAT</td> -->
+                                        <td class="thead">MON</td>
+                                        <td class="thead">TUE</td>
+                                        <td class="thead">WED</td>
+                                        <td class="thead">THU</td>
+                                        <td class="thead">FRI</td>
+                                        <td class="thead">SAT</td> -->
         </tr>
       </thead>
       <tbody v-for="n in 5">
@@ -62,52 +62,52 @@
 
       </tbody>
       <!-- <tbody>
-                      <tr>
-                        <td class="state-happy">1</td>
-                        <td v-on:click="openWriteModal">2</td>
-                        <td v-on:click="openPostModal">3</td>
-                        <td class="state-haha">4</td>
-                        <td>5</td>
-                        <td class="state-angry">6</td>
-                        <td class="state-haha">7</td>
-                      </tr>
-                      <tr>
-                        <td>8</td>
-                        <td class="state-surprised">9</td>
-                        <td class="state-angry">10</td>
-                        <td>11</td>
-                        <td class="state-angry">12</td>
-                        <td class="state-surprised">13</td>
-                        <td>14</td>
-                      </tr>
-                      <tr>
-                        <td class="state-soso">15</td>
-                        <td>16</td>
-                        <td class="state-angry">17</td>
-                        <td class="state-soso">18</td>
-                        <td>19</td>
-                        <td class="state-happy">20</td>
-                        <td class="state-happy">21</td>
-                      </tr>
-                      <tr>
-                        <td>22</td>
-                        <td>23</td>
-                        <td class="state-soso">24</td>
-                        <td class="state-sad">25</td>
-                        <td class="state-soso">26</td>
-                        <td>27</td>
-                        <td>28</td>
-                      </tr>
-                      <tr>
-                        <td>29</td>
-                        <td class="state-sad">30</td>
-                        <td class="state-surprised">31</td>
-                        <td>32</td>
-                        <td class="state-happy">33</td>
-                        <td>34</td>
-                        <td>35</td>
-                      </tr>
-                    </tbody> -->
+                        <tr>
+                          <td class="state-happy">1</td>
+                          <td v-on:click="openWriteModal">2</td>
+                          <td v-on:click="openPostModal">3</td>
+                          <td class="state-haha">4</td>
+                          <td>5</td>
+                          <td class="state-angry">6</td>
+                          <td class="state-haha">7</td>
+                        </tr>
+                        <tr>
+                          <td>8</td>
+                          <td class="state-surprised">9</td>
+                          <td class="state-angry">10</td>
+                          <td>11</td>
+                          <td class="state-angry">12</td>
+                          <td class="state-surprised">13</td>
+                          <td>14</td>
+                        </tr>
+                        <tr>
+                          <td class="state-soso">15</td>
+                          <td>16</td>
+                          <td class="state-angry">17</td>
+                          <td class="state-soso">18</td>
+                          <td>19</td>
+                          <td class="state-happy">20</td>
+                          <td class="state-happy">21</td>
+                        </tr>
+                        <tr>
+                          <td>22</td>
+                          <td>23</td>
+                          <td class="state-soso">24</td>
+                          <td class="state-sad">25</td>
+                          <td class="state-soso">26</td>
+                          <td>27</td>
+                          <td>28</td>
+                        </tr>
+                        <tr>
+                          <td>29</td>
+                          <td class="state-sad">30</td>
+                          <td class="state-surprised">31</td>
+                          <td>32</td>
+                          <td class="state-happy">33</td>
+                          <td>34</td>
+                          <td>35</td>
+                        </tr>
+                      </tbody> -->
     </table>
   </main>
 </template>
@@ -152,13 +152,6 @@ export default {
       // + currentdate.getMinutes() + "분"
       return datetime
     },
-    setCurrentMonth(date) {
-      let currentdate = new Date();
-      this.currentDate = date || new Date(currentdate.getCurrentYear(), currentdate.getMonth() + 1, 0);
-      this.currentMonth = this.getCurrentMonth();
-      this.currentYear = this.getCurrentYear();
-      this.makeCalendar();
-    },
     openWriteModal() {
       this.$parent.$refs.write_modal.visible = true;
       this.$parent.blur = {
@@ -179,9 +172,14 @@ export default {
         'filter': 'blur(30px)'
       }
     },
-    // 매달의 달력 생성 함수
+    setCurrentMonth(date) {
+      let currentdate = new Date();
+      this.currentDate = date || new Date(currentdate.getCurrentYear(), currentdate.getMonth() + 1, 0);
+      this.currentMonth = this.getCurrentMonth();
+      this.currentYear = this.getCurrentYear();
+      this.makeCalendar();
+    },
     makeCalendar() {
-      // 기준 일
       let date = this.currentMonth;
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
@@ -254,6 +252,7 @@ export default {
           }
         }
       }
+      this.currentMonth = new Date();
     },
     prevCalendar() {
       let date = this.currentMonth;

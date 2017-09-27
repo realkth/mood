@@ -6,7 +6,10 @@
           <img src="../assets/l-mood.svg" height="40px">
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
-          <img class="dropbtn" @click="openMenu" :src="this.photoURL" height="40px">
+          <div class="img-wrapper">
+            <span class="dropbtn user-icon" @click="openMenu" v-if="this.photoURL === null"></span>
+            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-else height="40px">
+          </div>
           <div id="myDropdown" class="dropdown-content">
             <a href="" @click.prevent="openMySettingModal">내 설정</a>
             <a href="" @click.prevent="logout">로그아웃</a>
@@ -21,6 +24,7 @@
 
 <script>
 import firebase from 'firebase';
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 // import MySettingModal from './MySettingModal';
 
 window.onclick = function(event) {
@@ -43,11 +47,15 @@ export default {
   },
   data() {
     return {
-      photoURL: '',
+      photoURL: window.localStorage.getItem('photoURL'),
+      // photoURL: '',
     }
   },
-  mounted() {
-    this.getUserInfo()
+  // mounted() {
+  //   this.getUserInfo()
+  // },
+  computed: {
+    ...mapGetters(['isCurrentUser', 'isSignup_email', 'isToastMessage'])
   },
   methods: {
     openMenu: function() {
@@ -105,21 +113,42 @@ export default {
   text-align: center;
 }
 
-img {
-  padding: 5px 0 5px 0;
-}
+// img {
+//   padding: 5px 0 5px 0;
+// }
 
+.img-wrapper {
+  background: $color-moregray;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-top: 5px;
+  cursor: pointer;
+}
 .dropdown {
   text-align: right; // display: inline-block;
   position: relative;
   display: inline-block;
 }
 
-.dropbtn {
-  border-radius: 50%;
+.user-icon {
+  display: block;
   width: 40px;
-  cursor: pointer;
-  text-align: right;
+  height: 40px;
+  background: $color-moregray url('../assets/mood-icon-profile.svg');
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: 50% 50%;
+  // margin-top: 50px;
+}
+
+.dropbtn {
+  // border-radius: 50%;
+  // width: 40px;
+  // cursor: pointer;
+  // text-align: right;
 }
 
 .dropbtn:hover,

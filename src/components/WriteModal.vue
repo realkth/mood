@@ -8,17 +8,17 @@
         </header>
         <section class="modal-body">
           <form class="emoji-wrapper">
-            <input type="radio" id="haha" name="emotion">
+            <input type="radio" id="haha" value="emotion-haha" name="emotion">
             <label class="haha" for="haha"></label>
-            <input type="radio" id="happy" name="emotion">
+            <input type="radio" id="happy" value="emotion-happy" name="emotion">
             <label class="happy" for="happy"></label>
-            <input type="radio" id="soso" name="emotion">
+            <input type="radio" id="soso" value="emotion-soso" name="emotion">
             <label class="soso" for="soso"></label>
-            <input type="radio" id="sad" name="emotion">
+            <input type="radio" id="sad" value="emotion-sad" name="emotion">
             <label class="sad" for="sad"></label>
-            <input type="radio" id="surprised" name="emotion">
+            <input type="radio" id="surprised" value="emotion-surprised" name="emotion">
             <label class="surprised" for="surprised"></label>
-            <input type="radio" id="angry" name="emotion">
+            <input type="radio" id="angry" value="emotion-angry" name="emotion">
             <label class="angry" for="angry"></label>
           </form>
           <textarea class="textarea" type="text" @input="writePost('content', $event)" @value='write.content' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
@@ -38,6 +38,7 @@ const focus = {
     el.focus()
   },
 }
+const api = "https://mood-vuex.firebaseio.com/"
 export default {
   directives: { focus },
   props: {
@@ -55,7 +56,8 @@ export default {
       write: {
         content: ''
       },
-      name: ''
+      name: '',
+      // emotion_btn_check: 0
     }
   },
   methods: {
@@ -69,8 +71,24 @@ export default {
       this.write[target] = input;
     },
     writePostSubmit() {
+      let emotion_btn = document.getElementsByName("emotion");
+      //라디오 버튼이 체크되었나 확인하기 위한 변수
+      let emotion_btn_check = 0;
+      for (let i = 0; i < emotion_btn.length; i++) {
+        //만약 라디오 버튼이 체크가 되어있다면 true
+        if (emotion_btn[i].checked == true) {
+          //라디오 버튼 값
+          console.log(emotion_btn[i].value);
+          //라디오 버튼이 체크되면 radio_btn_check를 1로 만들어준다.
+          emotion_btn_check++;
+        }
+      }
+      if (emotion_btn_check === 0) {
+        console.log("감정 버튼을 선택해주세요");
+        return;
+      }
       console.log("작동!");
-      this.visible = false;
+      this.closeModal()
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {
@@ -112,8 +130,7 @@ export default {
   display: block;
   padding: 40px 0 0 0;
   overflow: hidden;
-  text-align: center;
-  // z-index: 3;
+  text-align: center; // z-index: 3;
 }
 
 h3 {
@@ -140,7 +157,7 @@ input[type="radio"]+label {
   padding: 0 0 0 0px;
   margin: 40px 4.8px 0 4.8px;
   opacity: 0.3;
-   &:active,
+  &:active,
   &:focus,
   &:hover,
   &::selection {

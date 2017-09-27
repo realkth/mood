@@ -4,7 +4,7 @@
     <div class="container">
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
-          <h3> {{ nowTime(new Date()) }} </h3>
+          <h3> {{ targetFullDate}} </h3>
         </header>
         <section class="modal-body">
           <div class="emoji-wrapper">
@@ -29,12 +29,13 @@
 import firebase from 'firebase'
 
 export default {
-  props: {
-    is_visible: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  // props: {
+  //   is_visible: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  // },
+  props: ['targetFullDate','targeturldaylist'],
   data() {
     return {
       visible: this.is_visible,

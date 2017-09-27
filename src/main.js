@@ -30,6 +30,7 @@ let app;
     messagingSenderId: "467319904800"
   };
   firebase.initializeApp(config);
+  
   firebase.auth().onAuthStateChanged(function (user) {
   if (!app) {
     /* eslint-disable no-new */
@@ -42,3 +43,7 @@ let app;
     })
   }
 });
+export default{
+  database: firebase.database(),
+  storage: firebase.storage()
+}

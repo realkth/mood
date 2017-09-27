@@ -56,6 +56,9 @@ export default {
     logout: function() {
       firebase.auth().signOut().then(() => {
         window.localStorage.removeItem('token')
+        window.localStorage.removeItem('displayName')
+        window.localStorage.removeItem('email')
+        window.localStorage.removeItem('photoURL')
         this.$router.replace('login')
       })
     },

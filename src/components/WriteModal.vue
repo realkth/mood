@@ -4,7 +4,9 @@
     <div class="container">
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
-          <h3> {{ nowTime(new Date()) }} </h3>
+          <!-- <h3> {{ nowTime(new Date()) }} </h3> -->
+          <!-- <h3> {{ targeturldaylist }} </h3> -->
+          <h3> {{ targetFullDate }} </h3>
         </header>
         <section class="modal-body">
           <form class="emoji-wrapper">
@@ -33,20 +35,22 @@
 
 <script>
 import firebase from 'firebase'
+import axios from 'axios'
 const focus = {
   inserted(el) {
     el.focus()
   },
 }
-const api = "https://mood-vuex.firebaseio.com/"
+const api = "https://mood-vuex.firebaseio.com/post/"
 export default {
   directives: { focus },
-  props: {
-    is_visible: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  // props: {
+  //   is_visible: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  // },
+  props: ['targetFullDate', 'targeturldaylist'],
   created() {
     this.getUserInfo()
   },
@@ -57,6 +61,7 @@ export default {
         content: ''
       },
       name: '',
+      emotion: ''
       // emotion_btn_check: 0
     }
   },
@@ -72,14 +77,10 @@ export default {
     },
     writePostSubmit() {
       let emotion_btn = document.getElementsByName("emotion");
-      //라디오 버튼이 체크되었나 확인하기 위한 변수
       let emotion_btn_check = 0;
       for (let i = 0; i < emotion_btn.length; i++) {
-        //만약 라디오 버튼이 체크가 되어있다면 true
         if (emotion_btn[i].checked == true) {
-          //라디오 버튼 값
-          console.log(emotion_btn[i].value);
-          //라디오 버튼이 체크되면 radio_btn_check를 1로 만들어준다.
+          this.emotion = emotion_btn[i].value
           emotion_btn_check++;
         }
       }
@@ -87,7 +88,17 @@ export default {
         console.log("감정 버튼을 선택해주세요");
         return;
       }
-      console.log("작동!");
+      console.log(this.targeturldaylist)
+
+      axios.post(this.targeturldaylist, {
+        emotion: this.emotion,
+        content: this.write.content,
+      })
+        .then(response => {
+        })
+        .catch(error => {
+          console.log(error);
+        })
       this.closeModal()
     },
     nowTime: function(date) {

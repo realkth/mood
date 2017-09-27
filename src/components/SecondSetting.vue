@@ -23,6 +23,10 @@
         </div>
         <button v-on:click="whoamI">난 누구</button>
       </div>
+      <toast-message v-show="isToastMessage"></toast-message>
+      <!-- <div class="toast-message col">
+        <p class="message">안녕하세요 글자 길어질때 어떻게 되는지 알아보기 위함입니다.</p>
+      </div> -->
 
     </div>
   </div>
@@ -31,15 +35,17 @@
 <script>
 import firebase from 'firebase'
 import HomeHeader from './HomeHeader.vue'
+import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
   name: 'secondSetting',
   components: {
-    HomeHeader
+    HomeHeader,
+    ToastMessage
   },
   computed: {
-    ...mapGetters(['isCurrentUser', 'isSignup_email'])
+    ...mapGetters(['isCurrentUser', 'isSignup_email', 'isToastMessage'])
   },
   data: function() {
     return {
@@ -195,4 +201,6 @@ input {
   color: $color-moregray;
   opacity: 1;
 }
+
+
 </style>

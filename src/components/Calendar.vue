@@ -114,6 +114,8 @@
 
 <script>
 import DoughnutChart from './DoughnutChart.vue';
+const api = "https://mood-7390e.firebaseio.com/post/"
+// const api = "https://mood-vuex.firebaseio.com/post/"
 
 export default {
   components: {
@@ -135,6 +137,7 @@ export default {
       datedatedate: [],
       hasDate: [],
       todayDate: null,
+      targeturldaylist:''
     }
   },
   methods: {
@@ -277,9 +280,21 @@ export default {
         object_date = '0' + object_date;
       }
       let string_date = String(object_date);
-      let fullDate = string_year + string_month + string_date;
-      // this.targetFullDate = fullDate;
-      console.log('선택한 날짜: ', fullDate)
+      let urlDate = string_year + string_month + string_date;
+      let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate()+ '일';
+      console.log(urlDate)
+      this.targetFullDate = fullDate;
+      this.$parent.targetFullDate = fullDate;
+      // 2. 타겟 날짜에 해당되는 daylist url로 만들어 줌
+      let targeturldaylist = api + urlDate;
+
+      console.log(targeturldaylist)
+
+      // data에 해당 daylist url 보관
+      this.targeturldaylist = targeturldaylist + '.json';
+      this.$parent.targeturldaylist = targeturldaylist;
+
+      // this.getDayList();
       // this.openPostModal()
       this.openWriteModal()
     },

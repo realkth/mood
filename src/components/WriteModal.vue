@@ -4,7 +4,9 @@
     <div class="container">
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
-          <h3> {{ nowTime(new Date()) }} </h3>
+          <!-- <h3> {{ nowTime(new Date()) }} </h3> -->
+          <!-- <h3> {{ targeturldaylist }} </h3> -->
+          <h3> {{ targetFullDate }} </h3>
         </header>
         <section class="modal-body">
           <form class="emoji-wrapper">
@@ -33,20 +35,23 @@
 
 <script>
 import firebase from 'firebase'
+import axios from 'axios'
 const focus = {
   inserted(el) {
     el.focus()
   },
 }
-const api = "https://mood-vuex.firebaseio.com/"
+const api = "https://mood-7390e.firebaseio.com/post/"
+// const api = "https://mood-vuex.firebaseio.com/post/"
 export default {
   directives: { focus },
-  props: {
-    is_visible: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  // props: {
+  //   is_visible: {
+  //     type: Boolean,
+  //     default: false,
+  //   },
+  // },
+  props: ['targetFullDate','targeturldaylist'],
   created() {
     this.getUserInfo()
   },
@@ -87,7 +92,13 @@ export default {
         console.log("감정 버튼을 선택해주세요");
         return;
       }
-      console.log("작동!");
+      console.log('주소',this.targeturldaylist)
+     axios.post(this.targeturldaylist + '.json', {key:this.targetFullDate})
+      .then(response => {
+      })
+      .catch(error => {
+        console.log('에러',error);
+      })
       this.closeModal()
     },
     nowTime: function(date) {

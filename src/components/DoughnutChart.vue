@@ -18,6 +18,7 @@
         datacollection: null,
       }
     },
+    props:['calMonth'],
     mounted () {
       this.fillData()
     },

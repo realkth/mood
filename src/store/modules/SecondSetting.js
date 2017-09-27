@@ -37,11 +37,21 @@ export default {
       });
       dispatch('a_secondSettingAuthState')
     },
-    a_secondSettingAuthState: ({ commit, state }) => {
+    a_secondSettingAuthState: ({ commit, state, dispatch }) => {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
-          commit('m_hello')
+          if( user.displayName !== null) {
+            window.localStorage.setItem('token', user.uid);
+            window.localStorage.setItem('email', user.email);
+            window.localStorage.setItem('displayName', user.displayName);
+            window.localStorage.setItem('photoURL', user.photoURL);
+            commit('m_hello')
+          } else { 
+            // state.toastMessage = '잠시만 기다려 주세요.'
+            let message = '잠시만 기다려 주세요.'
+            dispatch('a_setToastMessage',message ) 
+          }
         } else {
           // User is signed out.
           // ...

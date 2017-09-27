@@ -27,9 +27,15 @@ import MySettingModal from './MySettingModal.vue';
 import WriteModal from './WriteModal.vue';
 import MyPostModal from './MyPostModal.vue';
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
-
+// let displayName = window.localStorage.getItem('displayName')
+// // let userEmail = window.localStorage.getItem('email')
+// // let uid = window.localStorage.getItem('token')
+// const api = 'https://mood-vuex.firebaseio.com/users/' + `${displayName}` + '/' + 'post/'
 export default {
   name: 'hello',
+  // created () {
+  //   this.myAPI();
+  // },
   components: {
     MainHeader,
     Calendar,
@@ -44,10 +50,19 @@ export default {
         displayName: ''
       },
       targetFullDate: '',
-      targeturldaylist:''
+      targeturldaylist:'',
+      // api: 'https://mood-vuex.firebaseio.com/users/' + `${displayName}` + '/' + 'post/'
+      api:''
     }
   },
   methods: {
+    // myAPI: () => {
+    //   let displayName = window.localStorage.getItem('displayName')
+    //   // let userEmail = window.localStorage.getItem('email')
+    //   // let uid = window.localStorage.getItem('token')
+    //   const api = 'https://mood-vuex.firebaseio.com/users/' + `${displayName}` + '/' + 'post/'
+    //   this.api = a1pi;
+    // },
     logout: function() {
       firebase.auth().signOut().then(() => {
         this.$router.replace('login')

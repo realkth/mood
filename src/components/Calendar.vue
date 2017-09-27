@@ -9,9 +9,9 @@
         </div>
       </div>
       <!-- <div class="grid">
-                        <h3 class="col col-d-1">2017년</h3>
-                        <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
-                      </div> -->
+                            <h3 class="col col-d-1">2017년</h3>
+                            <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
+                          </div> -->
       <!-- <button v-on:click="openWriteModal">글쓰기</button> -->
 
     </div>
@@ -40,12 +40,12 @@
           <td class="thead">금</td>
           <td class="thead sat">토</td>
           <!-- <td class="thead sun">SUN</td>
-                                        <td class="thead">MON</td>
-                                        <td class="thead">TUE</td>
-                                        <td class="thead">WED</td>
-                                        <td class="thead">THU</td>
-                                        <td class="thead">FRI</td>
-                                        <td class="thead">SAT</td> -->
+                                            <td class="thead">MON</td>
+                                            <td class="thead">TUE</td>
+                                            <td class="thead">WED</td>
+                                            <td class="thead">THU</td>
+                                            <td class="thead">FRI</td>
+                                            <td class="thead">SAT</td> -->
         </tr>
       </thead>
       <tbody v-for="n in 5">
@@ -62,65 +62,65 @@
 
       </tbody>
       <!-- <tbody>
-                        <tr>
-                          <td class="state-happy">1</td>
-                          <td v-on:click="openWriteModal">2</td>
-                          <td v-on:click="openPostModal">3</td>
-                          <td class="state-haha">4</td>
-                          <td>5</td>
-                          <td class="state-angry">6</td>
-                          <td class="state-haha">7</td>
-                        </tr>
-                        <tr>
-                          <td>8</td>
-                          <td class="state-surprised">9</td>
-                          <td class="state-angry">10</td>
-                          <td>11</td>
-                          <td class="state-angry">12</td>
-                          <td class="state-surprised">13</td>
-                          <td>14</td>
-                        </tr>
-                        <tr>
-                          <td class="state-soso">15</td>
-                          <td>16</td>
-                          <td class="state-angry">17</td>
-                          <td class="state-soso">18</td>
-                          <td>19</td>
-                          <td class="state-happy">20</td>
-                          <td class="state-happy">21</td>
-                        </tr>
-                        <tr>
-                          <td>22</td>
-                          <td>23</td>
-                          <td class="state-soso">24</td>
-                          <td class="state-sad">25</td>
-                          <td class="state-soso">26</td>
-                          <td>27</td>
-                          <td>28</td>
-                        </tr>
-                        <tr>
-                          <td>29</td>
-                          <td class="state-sad">30</td>
-                          <td class="state-surprised">31</td>
-                          <td>32</td>
-                          <td class="state-happy">33</td>
-                          <td>34</td>
-                          <td>35</td>
-                        </tr>
-                      </tbody> -->
+                            <tr>
+                              <td class="state-happy">1</td>
+                              <td v-on:click="openWriteModal">2</td>
+                              <td v-on:click="openPostModal">3</td>
+                              <td class="state-haha">4</td>
+                              <td>5</td>
+                              <td class="state-angry">6</td>
+                              <td class="state-haha">7</td>
+                            </tr>
+                            <tr>
+                              <td>8</td>
+                              <td class="state-surprised">9</td>
+                              <td class="state-angry">10</td>
+                              <td>11</td>
+                              <td class="state-angry">12</td>
+                              <td class="state-surprised">13</td>
+                              <td>14</td>
+                            </tr>
+                            <tr>
+                              <td class="state-soso">15</td>
+                              <td>16</td>
+                              <td class="state-angry">17</td>
+                              <td class="state-soso">18</td>
+                              <td>19</td>
+                              <td class="state-happy">20</td>
+                              <td class="state-happy">21</td>
+                            </tr>
+                            <tr>
+                              <td>22</td>
+                              <td>23</td>
+                              <td class="state-soso">24</td>
+                              <td class="state-sad">25</td>
+                              <td class="state-soso">26</td>
+                              <td>27</td>
+                              <td>28</td>
+                            </tr>
+                            <tr>
+                              <td>29</td>
+                              <td class="state-sad">30</td>
+                              <td class="state-surprised">31</td>
+                              <td>32</td>
+                              <td class="state-happy">33</td>
+                              <td>34</td>
+                              <td>35</td>
+                            </tr>
+                          </tbody> -->
     </table>
   </main>
 </template>
 
 <script>
 import DoughnutChart from './DoughnutChart.vue';
-const api = "https://mood-vuex.firebaseio.com/post/"
 export default {
   components: {
     DoughnutChart
   },
   created() {
     this.makeCalendar();
+    this.myAPI();
   },
   data() {
     return {
@@ -135,10 +135,15 @@ export default {
       datedatedate: [],
       hasDate: [],
       todayDate: null,
-      targeturldaylist:''
+      targeturldaylist: '',
     }
   },
   methods: {
+    myAPI: () => {
+      let displayName = window.localStorage.getItem('displayName')
+      let api = 'https://mood-vuex.firebaseio.com/users/' + `${displayName}` + '/' + 'post/'
+      window.localStorage.setItem('myAPI', api)
+    },
     nowTime: () => {
       let currentdate = new Date();
       // if (currentdate.getHours() > 12) {
@@ -279,19 +284,15 @@ export default {
       }
       let string_date = String(object_date);
       let urlDate = string_year + string_month + string_date;
-      let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate()+ '일';
-      console.log(urlDate)
+      let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
       this.$parent.targetFullDate = fullDate;
-      // 2. 타겟 날짜에 해당되는 daylist url로 만들어 줌
-      let targeturldaylist = api + urlDate + '.json';
 
-      // console.log(targeturldaylist)
+      let myAPI = window.localStorage.getItem('myAPI')
+      let targeturldaylist = myAPI + urlDate + '.json';
 
-      // data에 해당 daylist url 보관
-      // this.targeturldaylist = targeturldaylist + '.json';
+
       this.$parent.targeturldaylist = targeturldaylist;
-
       // this.getDayList();
       // this.openPostModal()
       this.openWriteModal()

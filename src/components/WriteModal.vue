@@ -4,8 +4,6 @@
     <div class="container">
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
-          <!-- <h3> {{ nowTime(new Date()) }} </h3> -->
-          <!-- <h3> {{ targeturldaylist }} </h3> -->
           <h3> {{ targetFullDate }} </h3>
         </header>
         <section class="modal-body">
@@ -26,7 +24,8 @@
           <textarea class="textarea" type="text" @input="writePost('content', $event)" @value='write.content' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
         </section>
         <footer class="modal-footer buttons">
-          <button class="write" v-on:click="writePostSubmit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
+          <button class="write" v-on:click="writePostSubmit()">기록 남기기</button>
+          <button class="cancel" @click="closeModal()">취소</button>
         </footer>
       </div>
     </div>
@@ -41,15 +40,8 @@ const focus = {
     el.focus()
   },
 }
-const api = "https://mood-vuex.firebaseio.com/post/"
 export default {
   directives: { focus },
-  // props: {
-  //   is_visible: {
-  //     type: Boolean,
-  //     default: false,
-  //   },
-  // },
   props: ['targetFullDate', 'targeturldaylist'],
   created() {
     this.getUserInfo()
@@ -62,7 +54,6 @@ export default {
       },
       name: '',
       emotion: ''
-      // emotion_btn_check: 0
     }
   },
   methods: {
@@ -76,6 +67,7 @@ export default {
       this.write[target] = input;
     },
     writePostSubmit() {
+      let token = window.localStorage.getItem('token');
       let emotion_btn = document.getElementsByName("emotion");
       let emotion_btn_check = 0;
       for (let i = 0; i < emotion_btn.length; i++) {
@@ -88,9 +80,9 @@ export default {
         console.log("감정 버튼을 선택해주세요");
         return;
       }
-      console.log(this.targeturldaylist)
 
       axios.post(this.targeturldaylist, {
+        user: token,
         emotion: this.emotion,
         content: this.write.content,
       })
@@ -100,37 +92,37 @@ export default {
           console.log(error);
         })
       this.closeModal()
-    },
-    nowTime: function(date) {
-      if (date.getHours() > 12) {
-        var time = "PM " + ((date.getHours() + 24) % 12 || 12) + "시 "
-      } else {
-        var time = date.getHours() + "시 "
-      }
-      var datetime = date.getFullYear() + "년 "
-        + (date.getMonth() + 1) + "월 "
-        + date.getDate() + "일 "
-        + time
-        + date.getMinutes() + "분"
-      return datetime
-    },
-    getUserInfo: function() {
-      var user = firebase.auth().currentUser;
-      var name, email, photoURL, uid, emailVerified;
-
-      if (user != null) {
-        name = user.displayName;
-        email = user.email;
-        photoURL = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;
-      }
-      this.name = name
-    },
-    placeholder: function() {
-      return this.name + "님, 오늘 하루는 어떠셨나요?"
+  },
+  nowTime: function(date) {
+    if (date.getHours() > 12) {
+      var time = "PM " + ((date.getHours() + 24) % 12 || 12) + "시 "
+    } else {
+      var time = date.getHours() + "시 "
     }
+    var datetime = date.getFullYear() + "년 "
+      + (date.getMonth() + 1) + "월 "
+      + date.getDate() + "일 "
+      + time
+      + date.getMinutes() + "분"
+    return datetime
+  },
+  getUserInfo: function() {
+    var user = firebase.auth().currentUser;
+    var name, email, photoURL, uid, emailVerified;
+
+    if (user != null) {
+      name = user.displayName;
+      email = user.email;
+      photoURL = user.photoURL;
+      emailVerified = user.emailVerified;
+      uid = user.uid;
+    }
+    this.name = name
+  },
+  placeholder: function() {
+    return this.name + "님, 오늘 하루는 어떠셨나요?"
   }
+}
 }
 </script>
 

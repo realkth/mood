@@ -9,9 +9,9 @@
         </div>
       </div>
       <!-- <div class="grid">
-                            <h3 class="col col-d-1">2017년</h3>
-                            <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
-                          </div> -->
+                                    <h3 class="col col-d-1">2017년</h3>
+                                    <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
+                                  </div> -->
       <!-- <button v-on:click="openWriteModal">글쓰기</button> -->
 
     </div>
@@ -40,12 +40,12 @@
           <td class="thead">금</td>
           <td class="thead sat">토</td>
           <!-- <td class="thead sun">SUN</td>
-                                            <td class="thead">MON</td>
-                                            <td class="thead">TUE</td>
-                                            <td class="thead">WED</td>
-                                            <td class="thead">THU</td>
-                                            <td class="thead">FRI</td>
-                                            <td class="thead">SAT</td> -->
+                                                    <td class="thead">MON</td>
+                                                    <td class="thead">TUE</td>
+                                                    <td class="thead">WED</td>
+                                                    <td class="thead">THU</td>
+                                                    <td class="thead">FRI</td>
+                                                    <td class="thead">SAT</td> -->
         </tr>
       </thead>
       <tbody v-for="n in 5">
@@ -62,58 +62,60 @@
 
       </tbody>
       <!-- <tbody>
-                            <tr>
-                              <td class="state-happy">1</td>
-                              <td v-on:click="openWriteModal">2</td>
-                              <td v-on:click="openPostModal">3</td>
-                              <td class="state-haha">4</td>
-                              <td>5</td>
-                              <td class="state-angry">6</td>
-                              <td class="state-haha">7</td>
-                            </tr>
-                            <tr>
-                              <td>8</td>
-                              <td class="state-surprised">9</td>
-                              <td class="state-angry">10</td>
-                              <td>11</td>
-                              <td class="state-angry">12</td>
-                              <td class="state-surprised">13</td>
-                              <td>14</td>
-                            </tr>
-                            <tr>
-                              <td class="state-soso">15</td>
-                              <td>16</td>
-                              <td class="state-angry">17</td>
-                              <td class="state-soso">18</td>
-                              <td>19</td>
-                              <td class="state-happy">20</td>
-                              <td class="state-happy">21</td>
-                            </tr>
-                            <tr>
-                              <td>22</td>
-                              <td>23</td>
-                              <td class="state-soso">24</td>
-                              <td class="state-sad">25</td>
-                              <td class="state-soso">26</td>
-                              <td>27</td>
-                              <td>28</td>
-                            </tr>
-                            <tr>
-                              <td>29</td>
-                              <td class="state-sad">30</td>
-                              <td class="state-surprised">31</td>
-                              <td>32</td>
-                              <td class="state-happy">33</td>
-                              <td>34</td>
-                              <td>35</td>
-                            </tr>
-                          </tbody> -->
+                                    <tr>
+                                      <td class="state-happy">1</td>
+                                      <td v-on:click="openWriteModal">2</td>
+                                      <td v-on:click="openPostModal">3</td>
+                                      <td class="state-haha">4</td>
+                                      <td>5</td>
+                                      <td class="state-angry">6</td>
+                                      <td class="state-haha">7</td>
+                                    </tr>
+                                    <tr>
+                                      <td>8</td>
+                                      <td class="state-surprised">9</td>
+                                      <td class="state-angry">10</td>
+                                      <td>11</td>
+                                      <td class="state-angry">12</td>
+                                      <td class="state-surprised">13</td>
+                                      <td>14</td>
+                                    </tr>
+                                    <tr>
+                                      <td class="state-soso">15</td>
+                                      <td>16</td>
+                                      <td class="state-angry">17</td>
+                                      <td class="state-soso">18</td>
+                                      <td>19</td>
+                                      <td class="state-happy">20</td>
+                                      <td class="state-happy">21</td>
+                                    </tr>
+                                    <tr>
+                                      <td>22</td>
+                                      <td>23</td>
+                                      <td class="state-soso">24</td>
+                                      <td class="state-sad">25</td>
+                                      <td class="state-soso">26</td>
+                                      <td>27</td>
+                                      <td>28</td>
+                                    </tr>
+                                    <tr>
+                                      <td>29</td>
+                                      <td class="state-sad">30</td>
+                                      <td class="state-surprised">31</td>
+                                      <td>32</td>
+                                      <td class="state-happy">33</td>
+                                      <td>34</td>
+                                      <td>35</td>
+                                    </tr>
+                                  </tbody> -->
     </table>
   </main>
 </template>
 
 <script>
 import DoughnutChart from './DoughnutChart.vue';
+import axios from 'axios'
+
 export default {
   components: {
     DoughnutChart
@@ -121,6 +123,7 @@ export default {
   created() {
     this.makeCalendar();
     this.myAPI();
+    this.getAllData();
   },
   data() {
     return {
@@ -136,6 +139,7 @@ export default {
       hasDate: [],
       todayDate: null,
       targeturldaylist: '',
+      list: []
     }
   },
   methods: {
@@ -264,11 +268,13 @@ export default {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() - 1);
       this.makeCalendar();
+      this.getAllData()
     },
     nextCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() + 1);
       this.makeCalendar();
+      this.getAllData()
     },
     clickTargetDate(target_date) {
       let object_year = target_date.getFullYear();
@@ -287,7 +293,7 @@ export default {
       let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
       this.$parent.targetFullDate = fullDate;
-
+      console.log(urlDate)
       let myAPI = window.localStorage.getItem('myAPI')
       let targeturldaylist = myAPI + urlDate + '.json';
 
@@ -297,6 +303,32 @@ export default {
       // this.openPostModal()
       this.openWriteModal()
     },
+    getAllData() {
+      let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
+      let token = window.localStorage.getItem('token');
+      axios.get(getAPI, {
+      })
+        .then(response => {
+          let result = response.data;
+          let item = {};
+          for (let prop in result) {
+            item = result[prop]
+            item.key = prop
+            item.value = Object.values(item)
+            this.list.push(item)
+          }
+          for (let i = 0; i < this.list.length; i++) {
+            console.log('날짜: ', this.list[i].value[1])
+            console.log('감정: ', this.list[i].value[0].emotion);
+            console.log('글: ', this.list[i].value[0].content);
+            console.log('%c——————————————————————————————————————————————————', 'color: #00737d');
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 }
 </script>

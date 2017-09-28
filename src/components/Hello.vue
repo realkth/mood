@@ -15,7 +15,7 @@
     </div>
     <my-setting-modal ref='my_setting_modal'></my-setting-modal>
     <write-modal :targetFullDate = "targetFullDate" :targeturldaylist= "targeturldaylist" ref='write_modal'></write-modal>
-    <my-post-modal :targetFullDate = "targetFullDate" :targeturldaylist= " targeturldaylist" ref='my_post_modal'></my-post-modal>
+    <my-post-modal :targetFullDate = "targetFullDate" :targeturldaylist= "targeturldaylist" ref='my_post_modal'></my-post-modal>
   </div>
 </template>
 

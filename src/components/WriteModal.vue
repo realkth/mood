@@ -62,7 +62,8 @@ export default {
         content: ''
       },
       // email: '',
-      emotion: ''
+      emotion: '',
+      list:[]
     }
   },
   methods: {
@@ -79,6 +80,8 @@ export default {
     writePostSubmit() {
       let token = window.localStorage.getItem('token');
       let email = window.localStorage.getItem('email');
+      let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
       let emotion_btn = document.getElementsByName("emotion");
       let emotion_btn_check = 0;
       for (let i = 0; i < emotion_btn.length; i++) {
@@ -96,14 +99,36 @@ export default {
         // user: token,
         userEmail: email,
         emotion: this.emotion,
-        content: this.write.content,
-      })
+        content: this.write.content
+        }
+      )
         .then(response => {
           let message = '오늘의 일기를 기록하셨습니다.'
           this.$store.dispatch('a_setToastMessage', message)
           setTimeout(() => {
             this.closeModal()
           }, 2500);
+                axios.get(getAPI, {
+      })
+        .then(response => {
+          let result = response.data;
+          let item = {};
+          for (let prop in result) {
+            item = result[prop]
+            item.key = prop
+            item.value = Object.values(item)
+            this.list.push(item)
+          }
+          for (let i = 0; i < this.list.length; i++) {
+            console.log('날짜', this.list[i].value[1])
+            console.log('감정', this.list[i].value[0].emotion);
+            console.log('글', this.list[i].value[0].content);
+            console.log('%c——————————————————————————————————————————————————', 'color: #00737d');
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        })
         })
         .catch(error => {
           console.log(error);
@@ -113,6 +138,7 @@ export default {
             this.closeModal()
           }, 2500);
         })
+        console.log(this.targeturldaylist)
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {

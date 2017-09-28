@@ -10,12 +10,12 @@
           <div class="emoji-wrapper">
             <img class="angry">
             <!-- <img src="../assets/emoji-happy.svg" class="happy">
-            <img src="../assets/emoji-soso.svg" class="soso">
-            <img src="../assets/emoji-sad.svg" class="sad">
-            <img src="../assets/emoji-surprised.svg" class="surprised">
-            <img src="../assets/emoji-angry.svg" class="angry"> -->
+              <img src="../assets/emoji-soso.svg" class="soso">
+              <img src="../assets/emoji-sad.svg" class="sad">
+              <img src="../assets/emoji-surprised.svg" class="surprised">
+              <img src="../assets/emoji-angry.svg" class="angry"> -->
           </div>
-          <p class="content" style='white-space: pre-line'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non aspernatur earum archiuscipit. Nesciunt beatae repellat ducimus consectetur eligendi, officia quo et, dicta eos quam tempora, laboriosam voluptatibus velit sed magnam enim  voluptates perferendis voluptatibus obcaecati! Aliquam harum perferendis quisquam dolorum deleniti qui nostruue cum temporibus saepe facere, et consectetur molestiae excepturi rem deserunt. Dol</p>
+          <p class="content" style='white-space: pre-line'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non aspernatur earum archiuscipit. Nesciunt beatae repellat ducimus consectetur eligendi, officia quo et, dicta eos quam tempora, laboriosam voluptatibus velit sed magnam enim voluptates perferendis voluptatibus obcaecati! Aliquam harum perferendis quisquam dolorum deleniti qui nostruue cum temporibus saepe facere, et consectetur molestiae excepturi rem deserunt. Dol</p>
         </section>
         <footer class="modal-footer buttons">
           <button class="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="cancel" @click="closeModal()">닫기</button>
@@ -29,13 +29,7 @@
 import firebase from 'firebase'
 
 export default {
-  // props: {
-  //   is_visible: {
-  //     type: Boolean,
-  //     default: false,
-  //   },
-  // },
-  props: ['targetFullDate','targeturldaylist'],
+  props: ['targetFullDate', 'targeturldaylist'],
   data() {
     return {
       visible: this.is_visible,
@@ -71,7 +65,7 @@ export default {
         + date.getMinutes() + "분"
       return datetime
     },
-    modifyPostSubmit: function () {
+    modifyPostSubmit: function() {
       console.log("수정하기")
     }
 
@@ -104,9 +98,11 @@ h3 {
   overflow: hidden;
   display: inline-block;
 }
-.content{
+
+.content {
   padding: 5px 12.5%;
 }
+
 .haha {
   background: url(../assets/emoji-haha.svg) no-repeat $color-haha;
   background-size: 80%;

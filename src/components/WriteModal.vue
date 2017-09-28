@@ -4,8 +4,6 @@
     <div class="container">
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
-          <!-- <h3> {{ nowTime(new Date()) }} </h3> -->
-          <!-- <h3> {{ targeturldaylist }} </h3> -->
           <h3> {{ targetFullDate }} </h3>
         </header>
         <section class="modal-body">
@@ -24,6 +22,7 @@
             <label class="angry" for="angry"></label>
           </form>
           <textarea class="textarea" type="text" @input="writePost('content', $event)" @value='write.content' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
+          <toast-message v-show="isToastMessage"></toast-message>
         </section>
         <footer class="modal-footer buttons">
           <button class="write" v-on:click="writePostSubmit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
@@ -36,23 +35,25 @@
 <script>
 import firebase from 'firebase'
 import axios from 'axios'
+import ToastMessage from './ToastMessage.vue'
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
+
 const focus = {
   inserted(el) {
     el.focus()
   },
 }
-const api = "https://mood-vuex.firebaseio.com/post/"
 export default {
   directives: { focus },
-  // props: {
-  //   is_visible: {
-  //     type: Boolean,
-  //     default: false,
-  //   },
-  // },
   props: ['targetFullDate', 'targeturldaylist'],
   created() {
     this.getUserInfo()
+  },
+  computed: {
+    ...mapGetters(['isToastMessage'])
+  },
+  components: {
+    ToastMessage
   },
   data() {
     return {
@@ -62,10 +63,10 @@ export default {
       },
       name: '',
       emotion: ''
-      // emotion_btn_check: 0
     }
   },
   methods: {
+    ...mapActions(['a_setToastMessage']),
     closeModal() {
       this.write.content = '';
       this.visible = false;
@@ -76,6 +77,8 @@ export default {
       this.write[target] = input;
     },
     writePostSubmit() {
+      let token = window.localStorage.getItem('token');
+      let user = window.localStorage.getItem('displayName');
       let emotion_btn = document.getElementsByName("emotion");
       let emotion_btn_check = 0;
       for (let i = 0; i < emotion_btn.length; i++) {
@@ -88,18 +91,28 @@ export default {
         console.log("감정 버튼을 선택해주세요");
         return;
       }
-      console.log(this.targeturldaylist)
 
       axios.post(this.targeturldaylist, {
+        // user: token,
+        username: user,
         emotion: this.emotion,
         content: this.write.content,
       })
         .then(response => {
+          let message = '오늘의 일기를 기록하셨습니다.'
+          this.$store.dispatch('a_setToastMessage', message)
+          setTimeout(() => {
+            this.closeModal()
+          }, 2500);
         })
         .catch(error => {
           console.log(error);
+          let message = '로그인 해주세요.'
+          this.$store.dispatch('a_setToastMessage', message)
+          setTimeout(() => {
+            this.closeModal()
+          }, 2500);
         })
-      this.closeModal()
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {

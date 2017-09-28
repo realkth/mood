@@ -66,6 +66,7 @@ export default {
         window.localStorage.removeItem('displayName')
         window.localStorage.removeItem('email')
         window.localStorage.removeItem('photoURL')
+        window.localStorage.removeItem('myAPI')
         this.$router.replace('login')
       })
     },
@@ -92,8 +93,6 @@ export default {
         '-ms-filter': 'blur(30px)',
         'filter': 'blur(30px)'
       }
-      // console.log('부모??',this.$parent);
-      // this.$refs.my_setting_modal.visible = true;
     },
   },
 }

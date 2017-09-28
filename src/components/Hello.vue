@@ -44,7 +44,7 @@ export default {
         displayName: ''
       },
       targetFullDate: '',
-      targeturldaylist:''
+      targeturldaylist:'',
     }
   },
   methods: {

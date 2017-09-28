@@ -22,7 +22,7 @@
             <label class="angry" for="angry"></label>
           </form>
           <textarea class="textarea" type="text" @input="writePost('content', $event)" @value='write.content' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
-          <toast-message v-show="isToastMessage"></toast-message>
+          <!-- <toast-message v-show="isToastMessage"></toast-message> -->
         </section>
         <footer class="modal-footer buttons">
           <button class="write" v-on:click="writePostSubmit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
@@ -45,7 +45,7 @@ const focus = {
 }
 export default {
   directives: { focus },
-  props: ['targetFullDate', 'targeturldaylist'],
+  props: ['targetFullDate', 'targeturldaylist', 'list', 'listkey'],
   // created() {
   //   this.getUserInfo()
   // },
@@ -63,7 +63,10 @@ export default {
       },
       // email: '',
       emotion: '',
-      list:[]
+      // list: [],
+      item: {},
+      // listkey: []
+
     }
   },
   methods: {
@@ -91,8 +94,11 @@ export default {
         }
       }
       if (emotion_btn_check === 0) {
-        console.log("감정 버튼을 선택해주세요");
-        return;
+        let message = '오늘의 감정을 선택해주세요.'
+        this.$store.dispatch('a_setToastMessage', message)
+        setTimeout(() => {
+          }, 2500);
+          return;
       }
 
       axios.post(this.targeturldaylist, {
@@ -100,7 +106,7 @@ export default {
         userEmail: email,
         emotion: this.emotion,
         content: this.write.content
-        }
+      }
       )
         .then(response => {
           let message = '오늘의 일기를 기록하셨습니다.'
@@ -108,27 +114,33 @@ export default {
           setTimeout(() => {
             this.closeModal()
           }, 2500);
-                axios.get(getAPI, {
-      })
-        .then(response => {
-          let result = response.data;
-          let item = {};
-          for (let prop in result) {
-            item = result[prop]
-            item.key = prop
-            item.value = Object.values(item)
-            this.list.push(item)
-          }
-          for (let i = 0; i < this.list.length; i++) {
-            console.log('날짜', this.list[i].value[1])
-            console.log('감정', this.list[i].value[0].emotion);
-            console.log('글', this.list[i].value[0].content);
-            console.log('%c——————————————————————————————————————————————————', 'color: #00737d');
-          }
-        })
-        .catch(error => {
-          console.log(error);
-        })
+
+          axios.get(getAPI, {
+          })
+            .then(response => {
+              let result = response.data;
+              let item = {};
+    
+              // for (let prop in result) {
+              //   item = result[prop]
+              //   item.key = prop
+              //   item.value = Object.values(item)
+              //   // this.$parent.list.push(item)
+              //   // this.$parent.listkey.push(this.item.key)
+
+              // }
+              // console.log('e', this.listkey)
+              for (let i = 0; i < this.list.length; i++) {
+
+                // console.log('날짜', this.list[i].value[1])
+                // console.log('감정', this.list[i].value[0].emotion);
+                // console.log('글', this.list[i].value[0].content);
+                // console.log('%c——————————————————————————————————————————————————', 'color: #00737d');
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            })
         })
         .catch(error => {
           console.log(error);
@@ -138,7 +150,7 @@ export default {
             this.closeModal()
           }, 2500);
         })
-        console.log(this.targeturldaylist)
+      console.log(this.targeturldaylist)
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {

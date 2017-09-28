@@ -11,8 +11,8 @@
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="(isPhotoURL === null)"></span>
-              <img class="user-img" alt="회원 이미지 등록" :src="isPhotoURL" v-if="(isPhotoURL !== null)">
+              <span class="user-img-icon" v-if="(!isCurrentUser.photoURL)"></span>
+              <img class="user-img" alt="회원 이미지 등록" :src="isCurrentUser.photoURL">
             </div>
             <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
               <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_photo">
@@ -21,12 +21,12 @@
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="text" @input="setting_displayname" :placeholder="isDisplayName" v-focus="true">
+          <input class="nickTest" type="text" @input="setting_displayname" :placeholder="isCurrentUser.displayName" v-focus="true">
           <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
         </div>
       </section>
       <footer class="buttons col">
-        <button v-on:click="a_setting" class="resister">등록!</button>
+        <button v-on:click="submitInfo" class="resister">등록!</button>
       </footer>
       <!-- <button v-on:click="whoamI">난 누구</button> -->
     </div>
@@ -49,11 +49,14 @@ export default {
   directives: { focus },
   components: {
   },
-  props: {
-    is_visible: {
-      type: Boolean,
-      default: false
-    }
+  // props: {
+  //   is_visible: {
+  //     type: Boolean,
+  //     default: false
+  //   }
+  // },
+  mounted() {
+    this.a_getUserInfo()
   },
   data: function() {
     return {
@@ -61,7 +64,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isSetting_err_msg', 'isCurrentUser', 'isPhotoURL', 'isDisplayName']),
+    ...mapGetters(['isSetting_err_msg', 'isCurrentUser']),
   },
   methods: {
     closeModal(){
@@ -74,7 +77,7 @@ export default {
         return true;
       }
     },
-    ...mapActions(['a_setting', 'a_setDisplayName', 'a_setPhoto', 'a_setErrMsg' ]),
+    ...mapActions(['a_getUserInfo','a_MySetting','a_setToastMessage']),
     setting_photo(e) {
       let _this = this;
       let file = e.target.files[0];
@@ -83,15 +86,19 @@ export default {
         this.file = file;
         reader.readAsDataURL(file);
         reader.onload = data => {
-          this.$store.dispatch('a_setPhoto', data.srcElement.result);
-          this.$store.dispatch('a_setErrMsg', '')
+          this.$store.dispatch('a_setFirstPhoto', data.srcElement.result);
+          this.$store.dispatch('a_setFirstErrMsg', '')
         } 
-      } else { this.$store.dispatch('a_setErrMsg', '이미지 파일만 선택 가능합니다.')}
+      } else { this.$store.dispatch('a_setToastMessage', '이미지 파일만 선택 가능합니다.')}
       // } else { alert('이미지 파일만 선택 가능합니다.') }
     },
     setting_displayname(e) {
-      this.$store.dispatch('a_setDisplayName', e.target.value)
+      this.$store.dispatch('a_setFirstDisplayName', e.target.value)
     },
+    submitInfo(){
+      this.a_MySetting();
+      this.closeModal();
+    }
   }
 }
 </script>

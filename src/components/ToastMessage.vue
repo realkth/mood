@@ -3,7 +3,7 @@
     <p class="message">{{ isToastMessage }}</p>
   </div>
 </template>
-
+ 
 <script>
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 

@@ -78,7 +78,7 @@ export default {
           // User is signed in.
           // state.displayName = user.displayName;
           // state.email = user.email;
-          // state.photoURL = user.photoURL;
+          state.photoURL = user.photoURL;
           // state.token = user.uid;
           window.localStorage.setItem('displayName', user.displayName);
           window.localStorage.setItem('email', user.email);

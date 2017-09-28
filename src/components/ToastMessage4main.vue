@@ -39,16 +39,13 @@ export default {
   box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
 }
 #toast {
-  display: none;
-  // visibility: hidden;
-  // visibility: visible;
+  visibility: hidden;
   text-align: center;
   height: 70px;
   opacity: 0.7;
 }
 #toast.show {
-  // visibility: visible;
-  display: block;
+  visibility: visible;
   -webkit-animation: fadeout 3s;
   animation: fadeout 3s;
 }

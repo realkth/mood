@@ -4,24 +4,25 @@
     <div class="container">
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
-          <h3> {{ nowTime(new Date()) }} </h3>
+          <h3> {{ targetFullDate }} </h3>
         </header>
         <section class="modal-body">
           <form class="emoji-wrapper">
-            <input type="radio" id="haha" name="emotion">
+            <input type="radio" id="haha" value="emotion-haha" name="emotion">
             <label class="haha" for="haha"></label>
-            <input type="radio" id="happy" name="emotion">
+            <input type="radio" id="happy" value="emotion-happy" name="emotion">
             <label class="happy" for="happy"></label>
-            <input type="radio" id="soso" name="emotion">
+            <input type="radio" id="soso" value="emotion-soso" name="emotion">
             <label class="soso" for="soso"></label>
-            <input type="radio" id="sad" name="emotion">
+            <input type="radio" id="sad" value="emotion-sad" name="emotion">
             <label class="sad" for="sad"></label>
-            <input type="radio" id="surprised" name="emotion">
+            <input type="radio" id="surprised" value="emotion-surprised" name="emotion">
             <label class="surprised" for="surprised"></label>
-            <input type="radio" id="angry" name="emotion">
+            <input type="radio" id="angry" value="emotion-angry" name="emotion">
             <label class="angry" for="angry"></label>
           </form>
           <textarea class="textarea" type="text" @input="writePost('content', $event)" @value='write.content' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
+          <toast-message v-show="isToastMessage"></toast-message>
         </section>
         <footer class="modal-footer buttons">
           <button class="write" v-on:click="writePostSubmit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
@@ -33,6 +34,10 @@
 
 <script>
 import firebase from 'firebase'
+import axios from 'axios'
+import ToastMessage from './ToastMessage.vue'
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
+
 const focus = {
   inserted(el) {
     el.focus()
@@ -40,14 +45,15 @@ const focus = {
 }
 export default {
   directives: { focus },
-  props: {
-    is_visible: {
-      type: Boolean,
-      default: false,
-    },
-  },
+  props: ['targetFullDate', 'targeturldaylist'],
   created() {
     this.getUserInfo()
+  },
+  computed: {
+    ...mapGetters(['isToastMessage'])
+  },
+  components: {
+    ToastMessage
   },
   data() {
     return {
@@ -55,10 +61,12 @@ export default {
       write: {
         content: ''
       },
-      name: ''
+      name: '',
+      emotion: ''
     }
   },
   methods: {
+    ...mapActions(['a_setToastMessage']),
     closeModal() {
       this.write.content = '';
       this.visible = false;
@@ -69,8 +77,42 @@ export default {
       this.write[target] = input;
     },
     writePostSubmit() {
-      console.log("작동!");
-      this.visible = false;
+      let token = window.localStorage.getItem('token');
+      let user = window.localStorage.getItem('displayName');
+      let emotion_btn = document.getElementsByName("emotion");
+      let emotion_btn_check = 0;
+      for (let i = 0; i < emotion_btn.length; i++) {
+        if (emotion_btn[i].checked == true) {
+          this.emotion = emotion_btn[i].value
+          emotion_btn_check++;
+        }
+      }
+      if (emotion_btn_check === 0) {
+        console.log("감정 버튼을 선택해주세요");
+        return;
+      }
+
+      axios.post(this.targeturldaylist, {
+        // user: token,
+        username: user,
+        emotion: this.emotion,
+        content: this.write.content,
+      })
+        .then(response => {
+          let message = '오늘의 일기를 기록하셨습니다.'
+          this.$store.dispatch('a_setToastMessage', message)
+          setTimeout(() => {
+            this.closeModal()
+          }, 2500);
+        })
+        .catch(error => {
+          console.log(error);
+          let message = '로그인 해주세요.'
+          this.$store.dispatch('a_setToastMessage', message)
+          setTimeout(() => {
+            this.closeModal()
+          }, 2500);
+        })
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {
@@ -112,8 +154,7 @@ export default {
   display: block;
   padding: 40px 0 0 0;
   overflow: hidden;
-  text-align: center;
-  // z-index: 3;
+  text-align: center; // z-index: 3;
 }
 
 h3 {
@@ -140,7 +181,7 @@ input[type="radio"]+label {
   padding: 0 0 0 0px;
   margin: 40px 4.8px 0 4.8px;
   opacity: 0.3;
-   &:active,
+  &:active,
   &:focus,
   &:hover,
   &::selection {

@@ -6,7 +6,10 @@
           <img src="../assets/l-mood.svg" height="40px">
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
-          <img class="dropbtn" @click="openMenu" :src="this.photoURL" height="40px">
+          <div class="img-wrapper">
+            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null" height="40px">
+            <span class="dropbtn user-icon" @click="openMenu" v-else></span>
+          </div>
           <div id="myDropdown" class="dropdown-content">
             <a href="" @click.prevent="openMySettingModal">내 설정</a>
             <a href="" @click.prevent="logout">로그아웃</a>
@@ -21,6 +24,7 @@
 
 <script>
 import firebase from 'firebase';
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 // import MySettingModal from './MySettingModal';
 
 window.onclick = function(event) {
@@ -41,13 +45,16 @@ export default {
   components:{
     // MySettingModal
   },
+  mounted() {
+    this.a_getUserInfo()
+  },
   data() {
     return {
-      photoURL: '',
+
     }
   },
-  mounted() {
-    this.getUserInfo()
+  computed: {
+    ...mapGetters(['isCurrentUser'])
   },
   methods: {
     openMenu: function() {
@@ -56,22 +63,27 @@ export default {
     logout: function() {
       firebase.auth().signOut().then(() => {
         window.localStorage.removeItem('token')
+        window.localStorage.removeItem('displayName')
+        window.localStorage.removeItem('email')
+        window.localStorage.removeItem('photoURL')
+        window.localStorage.removeItem('myAPI')
         this.$router.replace('login')
       })
     },
-    getUserInfo: function() {
-      var user = firebase.auth().currentUser;
-      var name, email, photoURL, uid, emailVerified;
+    ...mapActions(['a_getUserInfo']),
+    // getUserInfo: function() {
+    //   var user = firebase.auth().currentUser;
+    //   var name, email, photoURL, uid, emailVerified;
 
-      if (user != null) {
-        name = user.displayName;
-        email = user.email;
-        photoURL = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;
-      }
-      this.photoURL = photoURL
-    },
+    //   if (user != null) {
+    //     name = user.displayName;
+    //     email = user.email;
+    //     photoURL = user.photoURL;
+    //     emailVerified = user.emailVerified;
+    //     uid = user.uid;
+    //   }
+    //   this.photoURL = photoURL
+    // },
     openMySettingModal() {
       this.$parent.$refs.my_setting_modal.visible = true;
       this.$parent.blur = {
@@ -81,10 +93,8 @@ export default {
         '-ms-filter': 'blur(30px)',
         'filter': 'blur(30px)'
       }
-      // console.log('부모??',this.$parent);
-      // this.$refs.my_setting_modal.visible = true;
     },
-  }
+  },
 }
 </script>
 
@@ -102,21 +112,42 @@ export default {
   text-align: center;
 }
 
-img {
-  padding: 5px 0 5px 0;
-}
+// img {
+//   padding: 5px 0 5px 0;
+// }
 
+.img-wrapper {
+  background: $color-moregray;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-top: 5px;
+  cursor: pointer;
+}
 .dropdown {
   text-align: right; // display: inline-block;
   position: relative;
   display: inline-block;
 }
 
-.dropbtn {
-  border-radius: 50%;
+.user-icon {
+  display: block;
   width: 40px;
-  cursor: pointer;
-  text-align: right;
+  height: 40px;
+  background: $color-moregray url('../assets/mood-icon-profile.svg');
+  background-repeat: no-repeat;
+  background-size: 20px;
+  background-position: 50% 50%;
+  // margin-top: 50px;
+}
+
+.dropbtn {
+  // border-radius: 50%;
+  // width: 40px;
+  // cursor: pointer;
+  // text-align: right;
 }
 
 .dropbtn:hover,

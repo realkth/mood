@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'a_logInUser', 'a_signInAuthState','a_email','a_password'
+      'a_logInUser', 'a_signInAuthState', 'a_email', 'a_password'
     ]),
     email(e) {
       this.$store.dispatch('a_email', e.target.value)

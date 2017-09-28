@@ -76,11 +76,14 @@ export default {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
           // User is signed in.
-          state.displayName = user.displayName;
-          state.email = user.email;
+          // state.displayName = user.displayName;
+          // state.email = user.email;
           state.photoURL = user.photoURL;
-          state.token = user.uid;
-          window.localStorage.setItem('token', state.token)
+          // state.token = user.uid;
+          window.localStorage.setItem('displayName', user.displayName);
+          window.localStorage.setItem('email', user.email);
+          window.localStorage.setItem('photoURL', user.photoURL);
+          window.localStorage.setItem('token', user.uid);
           commit('m_logInUser');
         } else {
           // User is signed out.

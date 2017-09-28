@@ -14,8 +14,8 @@
       <button v-on:click="nowTime">오늘 날짜, 현재 시간</button>
     </div>
     <my-setting-modal ref='my_setting_modal'></my-setting-modal>
-    <write-modal ref='write_modal'></write-modal>
-    <my-post-modal ref='my_post_modal'></my-post-modal>
+    <write-modal :targetFullDate = "targetFullDate" :targeturldaylist= "targeturldaylist" ref='write_modal'></write-modal>
+    <my-post-modal :targetFullDate = "targetFullDate" :targeturldaylist= " targeturldaylist" ref='my_post_modal'></my-post-modal>
   </div>
 </template>
 
@@ -42,7 +42,9 @@ export default {
       blur: null,
       currentUser: {
         displayName: ''
-      }
+      },
+      targetFullDate: '',
+      targeturldaylist:'',
     }
   },
   methods: {

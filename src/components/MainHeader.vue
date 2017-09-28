@@ -7,8 +7,8 @@
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
           <div class="img-wrapper">
-            <span class="dropbtn user-icon" @click="openMenu" v-if="this.photoURL === null"></span>
-            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-else height="40px">
+            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null" height="40px">
+            <span class="dropbtn user-icon" @click="openMenu" v-else></span>
           </div>
           <div id="myDropdown" class="dropdown-content">
             <a href="" @click.prevent="openMySettingModal">내 설정</a>
@@ -45,17 +45,16 @@ export default {
   components:{
     // MySettingModal
   },
+  mounted() {
+    this.a_getUserInfo()
+  },
   data() {
     return {
-      photoURL: window.localStorage.getItem('photoURL'),
-      // photoURL: '',
+
     }
   },
-  // mounted() {
-  //   this.getUserInfo()
-  // },
   computed: {
-    ...mapGetters(['isCurrentUser', 'isSignup_email', 'isToastMessage'])
+    ...mapGetters(['isCurrentUser'])
   },
   methods: {
     openMenu: function() {
@@ -70,19 +69,20 @@ export default {
         this.$router.replace('login')
       })
     },
-    getUserInfo: function() {
-      var user = firebase.auth().currentUser;
-      var name, email, photoURL, uid, emailVerified;
+    ...mapActions(['a_getUserInfo']),
+    // getUserInfo: function() {
+    //   var user = firebase.auth().currentUser;
+    //   var name, email, photoURL, uid, emailVerified;
 
-      if (user != null) {
-        name = user.displayName;
-        email = user.email;
-        photoURL = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;
-      }
-      this.photoURL = photoURL
-    },
+    //   if (user != null) {
+    //     name = user.displayName;
+    //     email = user.email;
+    //     photoURL = user.photoURL;
+    //     emailVerified = user.emailVerified;
+    //     uid = user.uid;
+    //   }
+    //   this.photoURL = photoURL
+    // },
     openMySettingModal() {
       this.$parent.$refs.my_setting_modal.visible = true;
       this.$parent.blur = {
@@ -95,7 +95,7 @@ export default {
       // console.log('부모??',this.$parent);
       // this.$refs.my_setting_modal.visible = true;
     },
-  }
+  },
 }
 </script>
 

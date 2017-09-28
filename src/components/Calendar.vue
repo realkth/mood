@@ -143,9 +143,6 @@ export default {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
       window.localStorage.setItem('myAPI', api)
-      // let displayName = window.localStorage.getItem('displayName')
-      // let api = 'https://mood-vuex.firebaseio.com/users/' + `${displayName}` + '/' + 'post/'
-      // window.localStorage.setItem('myAPI', api)
     },
     nowTime: () => {
       let currentdate = new Date();

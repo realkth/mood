@@ -44,7 +44,6 @@ export default {
           if( user.displayName !== null) {
             window.localStorage.setItem('token', user.uid);
             window.localStorage.setItem('email', user.email);
-            window.localStorage.setItem('displayName', user.displayName);
             window.localStorage.setItem('photoURL', user.photoURL);
             commit('m_hello')
           } else { 

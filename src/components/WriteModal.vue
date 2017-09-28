@@ -46,11 +46,11 @@ const focus = {
 export default {
   directives: { focus },
   props: ['targetFullDate', 'targeturldaylist'],
-  created() {
-    this.getUserInfo()
-  },
+  // created() {
+  //   this.getUserInfo()
+  // },
   computed: {
-    ...mapGetters(['isToastMessage'])
+    ...mapGetters(['isToastMessage', 'isCurrentUser'])
   },
   components: {
     ToastMessage
@@ -61,7 +61,7 @@ export default {
       write: {
         content: ''
       },
-      name: '',
+      // email: '',
       emotion: ''
     }
   },
@@ -78,7 +78,7 @@ export default {
     },
     writePostSubmit() {
       let token = window.localStorage.getItem('token');
-      let user = window.localStorage.getItem('displayName');
+      let email = window.localStorage.getItem('email');
       let emotion_btn = document.getElementsByName("emotion");
       let emotion_btn_check = 0;
       for (let i = 0; i < emotion_btn.length; i++) {
@@ -94,7 +94,7 @@ export default {
 
       axios.post(this.targeturldaylist, {
         // user: token,
-        username: user,
+        userEmail: email,
         emotion: this.emotion,
         content: this.write.content,
       })
@@ -127,21 +127,8 @@ export default {
         + date.getMinutes() + "분"
       return datetime
     },
-    getUserInfo: function() {
-      var user = firebase.auth().currentUser;
-      var name, email, photoURL, uid, emailVerified;
-
-      if (user != null) {
-        name = user.displayName;
-        email = user.email;
-        photoURL = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;
-      }
-      this.name = name
-    },
     placeholder: function() {
-      return this.name + "님, 오늘 하루는 어떠셨나요?"
+      return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
     }
   }
 }

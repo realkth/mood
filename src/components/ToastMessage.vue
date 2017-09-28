@@ -1,27 +1,40 @@
 <template>
-  <div class="toast-message col" id="toast">
+<transition name="fade-out">
+  <div class="toast-message col" id="toast" v-if="isToastMessage">
     <p class="message">{{ isToastMessage }}</p>
   </div>
+</transition>
 </template>
  
 <script>
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
+  // mounted(){
+  //   this.a_setToastMessage();
+  // },
   computed: {
     ...mapGetters(['isToastMessage'])
   },
   methods: {
-    ...mapMutations(['m_setToastMessage'])
+    ...mapMutations(['m_setToastMessage']),
+    ...mapActions(['a_setToastMessage'])
   },
   watch: {
     isToastMessage(isToastMessage) {
-      var toast = document.getElementById("toast");
-      toast.classList.add('show')
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 3000);
+      if(isToastMessage) {
+          setTimeout(() => {
+            this.m_setToastMessage(null);
+          }, 2000);
+      }
     },
+    // isToastMessage(isToastMessage) {
+    //   var toast = document.getElementById("toast");
+    //   toast.classList.add('show')
+    //   setTimeout(() => {
+    //     toast.classList.remove('show');
+    //   }, 3000);
+    // },
   },
 }
 </script>
@@ -39,11 +52,18 @@ export default {
   box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
 }
 #toast {
-  display: none;
+  position: absolute;
+  z-index: 100;
+  // top: 50%;
+  // transform: translateY(-50%);
+  bottom: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  // display: none;
   // visibility: hidden;
   // visibility: visible;
   text-align: center;
-  height: 70px;
+  // height: 70px;
   opacity: 0.7;
 }
 #toast.show {
@@ -59,6 +79,14 @@ export default {
 @keyframes fadeout {
     from {opacity: 1;}
     to {opacity: 0;}
+}
+.fade-out-enter-active,
+.fade-out-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-out-enter,
+.fade-out-leave-to {
+  opacity: 0;
 }
 
 

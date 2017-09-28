@@ -36,7 +36,9 @@
 
 <script>
 import firebase from 'firebase'
+import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
+
 
 const focus = {
   inserted(el) {
@@ -48,6 +50,7 @@ export default {
   name: 'mysettngmodal',
   directives: { focus },
   components: {
+    ToastMessage
   },
   // props: {
   //   is_visible: {
@@ -64,7 +67,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isSetting_err_msg', 'isCurrentUser']),
+    ...mapGetters(['isSetting_err_msg', 'isCurrentUser', 'isToastMessage']),
   },
   methods: {
     closeModal(){
@@ -89,7 +92,10 @@ export default {
           this.$store.dispatch('a_setFirstPhoto', data.srcElement.result);
           this.$store.dispatch('a_setFirstErrMsg', '')
         } 
-      } else { this.$store.dispatch('a_setToastMessage', '이미지 파일만 선택 가능합니다.')}
+      } 
+      else { 
+        this.$store.dispatch('a_setToastMessage', '이미지 파일만 선택 가능합니다.')
+      }
       // } else { alert('이미지 파일만 선택 가능합니다.') }
     },
     setting_displayname(e) {

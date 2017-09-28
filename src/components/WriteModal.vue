@@ -24,8 +24,7 @@
           <textarea class="textarea" type="text" @input="writePost('content', $event)" @value='write.content' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
         </section>
         <footer class="modal-footer buttons">
-          <button class="write" v-on:click="writePostSubmit()">기록 남기기</button>
-          <button class="cancel" @click="closeModal()">취소</button>
+          <button class="write" v-on:click="writePostSubmit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
         </footer>
       </div>
     </div>
@@ -68,6 +67,7 @@ export default {
     },
     writePostSubmit() {
       let token = window.localStorage.getItem('token');
+      let user = window.localStorage.getItem('displayName');
       let emotion_btn = document.getElementsByName("emotion");
       let emotion_btn_check = 0;
       for (let i = 0; i < emotion_btn.length; i++) {
@@ -82,7 +82,8 @@ export default {
       }
 
       axios.post(this.targeturldaylist, {
-        user: token,
+        // user: token,
+        username: user,
         emotion: this.emotion,
         content: this.write.content,
       })
@@ -92,37 +93,37 @@ export default {
           console.log(error);
         })
       this.closeModal()
-  },
-  nowTime: function(date) {
-    if (date.getHours() > 12) {
-      var time = "PM " + ((date.getHours() + 24) % 12 || 12) + "시 "
-    } else {
-      var time = date.getHours() + "시 "
-    }
-    var datetime = date.getFullYear() + "년 "
-      + (date.getMonth() + 1) + "월 "
-      + date.getDate() + "일 "
-      + time
-      + date.getMinutes() + "분"
-    return datetime
-  },
-  getUserInfo: function() {
-    var user = firebase.auth().currentUser;
-    var name, email, photoURL, uid, emailVerified;
+    },
+    nowTime: function(date) {
+      if (date.getHours() > 12) {
+        var time = "PM " + ((date.getHours() + 24) % 12 || 12) + "시 "
+      } else {
+        var time = date.getHours() + "시 "
+      }
+      var datetime = date.getFullYear() + "년 "
+        + (date.getMonth() + 1) + "월 "
+        + date.getDate() + "일 "
+        + time
+        + date.getMinutes() + "분"
+      return datetime
+    },
+    getUserInfo: function() {
+      var user = firebase.auth().currentUser;
+      var name, email, photoURL, uid, emailVerified;
 
-    if (user != null) {
-      name = user.displayName;
-      email = user.email;
-      photoURL = user.photoURL;
-      emailVerified = user.emailVerified;
-      uid = user.uid;
+      if (user != null) {
+        name = user.displayName;
+        email = user.email;
+        photoURL = user.photoURL;
+        emailVerified = user.emailVerified;
+        uid = user.uid;
+      }
+      this.name = name
+    },
+    placeholder: function() {
+      return this.name + "님, 오늘 하루는 어떠셨나요?"
     }
-    this.name = name
-  },
-  placeholder: function() {
-    return this.name + "님, 오늘 하루는 어떠셨나요?"
   }
-}
 }
 </script>
 

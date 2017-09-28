@@ -1,12 +1,22 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <toast-message></toast-message>
   </div>
 </template>
 
 <script>
+import ToastMessage from './components/ToastMessage.vue'
+import { state, mapGetters } from 'vuex'
+
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    ToastMessage
+  },
+  computed: {
+    ...mapGetters(['isToastMessage']),
+  },
 }
 </script>
 

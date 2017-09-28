@@ -9,9 +9,9 @@
         </div>
       </div>
       <!-- <div class="grid">
-                            <h3 class="col col-d-1">2017년</h3>
-                            <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
-                          </div> -->
+                              <h3 class="col col-d-1">2017년</h3>
+                              <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
+                            </div> -->
       <!-- <button v-on:click="openWriteModal">글쓰기</button> -->
 
     </div>
@@ -40,17 +40,17 @@
           <td class="thead">금</td>
           <td class="thead sat">토</td>
           <!-- <td class="thead sun">SUN</td>
-                                            <td class="thead">MON</td>
-                                            <td class="thead">TUE</td>
-                                            <td class="thead">WED</td>
-                                            <td class="thead">THU</td>
-                                            <td class="thead">FRI</td>
-                                            <td class="thead">SAT</td> -->
+                                              <td class="thead">MON</td>
+                                              <td class="thead">TUE</td>
+                                              <td class="thead">WED</td>
+                                              <td class="thead">THU</td>
+                                              <td class="thead">FRI</td>
+                                              <td class="thead">SAT</td> -->
         </tr>
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])">
+          <td class="td" v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])">
             <a href="" v-if="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
               {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
             </a>
@@ -62,58 +62,60 @@
 
       </tbody>
       <!-- <tbody>
-                            <tr>
-                              <td class="state-happy">1</td>
-                              <td v-on:click="openWriteModal">2</td>
-                              <td v-on:click="openPostModal">3</td>
-                              <td class="state-haha">4</td>
-                              <td>5</td>
-                              <td class="state-angry">6</td>
-                              <td class="state-haha">7</td>
-                            </tr>
-                            <tr>
-                              <td>8</td>
-                              <td class="state-surprised">9</td>
-                              <td class="state-angry">10</td>
-                              <td>11</td>
-                              <td class="state-angry">12</td>
-                              <td class="state-surprised">13</td>
-                              <td>14</td>
-                            </tr>
-                            <tr>
-                              <td class="state-soso">15</td>
-                              <td>16</td>
-                              <td class="state-angry">17</td>
-                              <td class="state-soso">18</td>
-                              <td>19</td>
-                              <td class="state-happy">20</td>
-                              <td class="state-happy">21</td>
-                            </tr>
-                            <tr>
-                              <td>22</td>
-                              <td>23</td>
-                              <td class="state-soso">24</td>
-                              <td class="state-sad">25</td>
-                              <td class="state-soso">26</td>
-                              <td>27</td>
-                              <td>28</td>
-                            </tr>
-                            <tr>
-                              <td>29</td>
-                              <td class="state-sad">30</td>
-                              <td class="state-surprised">31</td>
-                              <td>32</td>
-                              <td class="state-happy">33</td>
-                              <td>34</td>
-                              <td>35</td>
-                            </tr>
-                          </tbody> -->
+                              <tr>
+                                <td class="state-happy">1</td>
+                                <td v-on:click="openWriteModal">2</td>
+                                <td v-on:click="openPostModal">3</td>
+                                <td class="state-haha">4</td>
+                                <td>5</td>
+                                <td class="state-angry">6</td>
+                                <td class="state-haha">7</td>
+                              </tr>
+                              <tr>
+                                <td>8</td>
+                                <td class="state-surprised">9</td>
+                                <td class="state-angry">10</td>
+                                <td>11</td>
+                                <td class="state-angry">12</td>
+                                <td class="state-surprised">13</td>
+                                <td>14</td>
+                              </tr>
+                              <tr>
+                                <td class="state-soso">15</td>
+                                <td>16</td>
+                                <td class="state-angry">17</td>
+                                <td class="state-soso">18</td>
+                                <td>19</td>
+                                <td class="state-happy">20</td>
+                                <td class="state-happy">21</td>
+                              </tr>
+                              <tr>
+                                <td>22</td>
+                                <td>23</td>
+                                <td class="state-soso">24</td>
+                                <td class="state-sad">25</td>
+                                <td class="state-soso">26</td>
+                                <td>27</td>
+                                <td>28</td>
+                              </tr>
+                              <tr>
+                                <td>29</td>
+                                <td class="state-sad">30</td>
+                                <td class="state-surprised">31</td>
+                                <td>32</td>
+                                <td class="state-happy">33</td>
+                                <td>34</td>
+                                <td>35</td>
+                              </tr>
+                            </tbody> -->
     </table>
   </main>
 </template>
 
 <script>
 import DoughnutChart from './DoughnutChart.vue';
+import axios from 'axios'
+
 export default {
   components: {
     DoughnutChart
@@ -121,6 +123,7 @@ export default {
   created() {
     this.makeCalendar();
     this.myAPI();
+    this.getAllData();
   },
   data() {
     return {
@@ -136,6 +139,9 @@ export default {
       hasDate: [],
       todayDate: null,
       targeturldaylist: '',
+      item: {},
+      list: [],
+      list_key: []
     }
   },
   methods: {
@@ -143,9 +149,6 @@ export default {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
       window.localStorage.setItem('myAPI', api)
-      // let displayName = window.localStorage.getItem('displayName')
-      // let api = 'https://mood-vuex.firebaseio.com/users/' + `${displayName}` + '/' + 'post/'
-      // window.localStorage.setItem('myAPI', api)
     },
     nowTime: () => {
       let currentdate = new Date();
@@ -293,13 +296,80 @@ export default {
 
       let myAPI = window.localStorage.getItem('myAPI')
       let targeturldaylist = myAPI + urlDate + '.json';
+      console.log('targetdate',urlDate);
 
+      // let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
+      let token = window.localStorage.getItem('token');
+      axios.get(targeturldaylist, {
+       
+      }).then(response => {
+        let data = response.data;
+        let item = Object.values(data);
+        console.log('뭐가 나와', item[0].content);
+      }).catch(error => {})
 
-      this.$parent.targeturldaylist = targeturldaylist;
+      if(this.list_key.includes(urlDate)) {
+        this.openPostModal();
+        console.log('urlDate', urlDate);
+      }else {
+        this.$parent.targeturldaylist = targeturldaylist;
+        this.openWriteModal();
+      }
+
       // this.getDayList();
       // this.openPostModal()
-      this.openWriteModal()
+      // this.openWriteModal()
     },
+    getAllData() {
+      // const cors = require('cors')({origin: true});
+      let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
+      let token = window.localStorage.getItem('token');
+      axios.get(getAPI, {
+       
+      })
+        .then(response => {
+          // console.log('어떤 것이1? ', response)
+          // console.log('밸류되나여: ', Object.values(response)[0])
+          // console.log('밸류되나여: ', Object.values(response)[0])
+          // let val = Object.values(response)[0]
+          // console.log('val1',val);
+          // let val2 = Object.values(val);
+          // let key = Object.keys(val)
+          // let key2 = Object.values(key);
+          // console.log('key2: ', key2);
+          // let val3 = Object.values(val2);
+          // console.log('val3: ', val3);
+
+          // console.log('key',key);
+          // console.log('밸류밸류: ', Object.keys(val))
+          let result = response.data;
+          console.log('result',result);
+          // this.item = {};
+          // this.list = [];
+          for (var prop in result) {
+            this.item = result[prop]
+            this.item.key = prop
+            this.item.value = Object.values(this.item)
+            // item.value = result[prop].values
+            this.list.push(this.item)
+            this.list_key.push(this.item.key)
+          }
+          console.log('item',this.item);
+          console.log('list',this.list);
+          console.log('0번째 키:',this.list[0].key);
+          console.log('리스트키:',this.list_key);
+          console.log('0번째 글:',this.list[0].value[0].content);
+
+          // console.log('어떤 것이2? ', response.data)
+          // console.log('어떤 것이3? ', response.data['20170902'])
+          // console.log('어떤 것이4? ', response.data[20170902])
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 }
 </script>

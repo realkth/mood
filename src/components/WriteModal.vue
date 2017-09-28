@@ -22,7 +22,7 @@
             <label class="angry" for="angry"></label>
           </form>
           <textarea class="textarea" type="text" @input="writePost('content', $event)" @value='write.content' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
-          <toast-message v-show="isToastMessage"></toast-message>
+          <!-- <toast-message v-show="isToastMessage"></toast-message> -->
         </section>
         <footer class="modal-footer buttons">
           <button class="write" v-on:click="writePostSubmit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>

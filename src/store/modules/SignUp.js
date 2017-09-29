@@ -29,6 +29,7 @@ export default {
   mutations: {
     m_nextSetting: (state) => {
       state.loggedIn = true;
+      // window.localStorage.setItem('token', state.token)
       router.replace('first-setting')
     },
     m_setEmail: (state, payload) => {

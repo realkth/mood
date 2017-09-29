@@ -45,9 +45,9 @@ export default {
       },
       targetFullDate: '',
       // targeturldaylist:'',
-      listkey:[],
-      item: {},
-      list: []
+      // listkey:[],
+      // item: {},
+      // list: []
     }
   },
   methods: {

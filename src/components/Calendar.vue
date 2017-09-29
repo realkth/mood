@@ -65,7 +65,8 @@ export default {
   created() {
     this.makeCalendar();
     this.myAPI();
-    this.getAllData();
+    // this.getAllData();
+    this.a_getAllData();
   },
   data() {
     return {
@@ -80,17 +81,13 @@ export default {
       datedatedate: [],
       hasDate: [],
       todayDate: null,
-      // targeturldaylist: '',
-      item: {},
-      list: [],
-      listkey: []
     }
   },
   computed: {
     ...mapGetters(['isItemKey','isItemValue', 'isList', 'isListkey'])
   },
   methods: {
-    ...mapActions(['a_itemkey','a_itemvalue','a_list','a_listkey','a_targeturldaylist']),
+    ...mapActions(['a_itemkey','a_itemvalue','a_list','a_listkey','a_getAllData','a_targeturldaylist']),
     myAPI: () => {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
@@ -211,25 +208,16 @@ export default {
         }
       }
       this.currentMonth = new Date();
-      this.list = [];
-      this.listkey = [];
-      this.getAllData()
+      this.a_getAllData();
     },
     prevCalendar() {
       let date = this.currentMonth;
-      date.setMonth(date.getMonth() - 1);
-      // this.list = [];
-      // this.listkey = [];
       this.makeCalendar();
-      // this.getAllData()
     },
     nextCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() + 1);
-      // this.list = [];
-      // this.listkey = [];
       this.makeCalendar();
-      // this.getAllData()
     },
     clickTargetDate(target_date) {
       let object_year = target_date.getFullYear();
@@ -266,57 +254,14 @@ export default {
         // console.log('뭐가 나와', item[0].content);
       }).catch(error => {})
 
-      if(this.listkey.includes(urlDate)) {
+      if(this.isListkey.includes(urlDate)) {
         this.openPostModal();
         // console.log('urlDate', urlDate);
       }else {
-        this.$parent.targeturldaylist = targeturldaylist;
         this.openWriteModal();
       }
 
-      // this.getDayList();
-      // this.openPostModal()
-      // this.openWriteModal()
     },
-    getAllData() {
-      let myAPI = window.localStorage.getItem('myAPI');
-      let getAPI = myAPI + '.json'
-      let token = window.localStorage.getItem('token');
-      axios.get(getAPI, {
-      })
-        .then(response => {
-          let result = response.data;
-          // console.log('result',result);
-      // this.list = [];
-      // this.listkey = [];
-          for (var prop in result) {
-            // this.$store.dispatch('a_item',result[prop])
-            // let thisItem = result[prop]
-            this.item = result[prop]
-            this.item.key = prop
-            this.item.value = Object.values(this.item)
-            // item.value = result[prop].values
-            this.list.push(this.item)
-            this.$parent.list.push(this.item)
-            this.listkey.push(this.item.key)
-
-
-            this.$store.dispatch('a_itemkey', this.item.key)
-            this.$store.dispatch('a_itemvalue', this.item.value)
-            this.$store.dispatch('a_list', this.list)
-            this.$store.dispatch('a_listkey', this.listkey)
-            this.$parent.listkey.push(this.item.key)
-          }
-          // console.log('item',this.item);
-          // console.log('list',this.list);
-          // console.log('0번째 키:',this.list[0].key);
-          // console.log('리스트키:',this.listkey);
-          // console.log('0번째 글:',this.list[0].value[0].content);
-        })
-        .catch(error => {
-          console.log(error);
-        })
-    }
   }
 }
 </script>

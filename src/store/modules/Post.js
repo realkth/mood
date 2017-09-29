@@ -118,34 +118,8 @@ export default {
           // setTimeout(() => {
           //   this.closeModal()
           // }, 2500);
+          dispatch('a_getAllData')
           console.log('response', response);
-
-          // axios.get(getAPI, {
-          // })
-          //   .then(response => {
-          //     let result = response.data;
-          //     let item = {};
-    
-          //     // for (let prop in result) {
-          //     //   item = result[prop]
-          //     //   item.key = prop
-          //     //   item.value = Object.values(item)
-          //     //   // this.$parent.list.push(item)
-          //     //   // this.$parent.listkey.push(this.item.key)
-
-          //     // }
-          //     // console.log('e', this.listkey)
-          //     for (let i = 0; i < this.list.length; i++) {
-
-          //       // console.log('날짜', this.list[i].value[1])
-          //       // console.log('감정', this.list[i].value[0].emotion);
-          //       // console.log('글', this.list[i].value[0].content);
-          //       // console.log('%c——————————————————————————————————————————————————', 'color: #00737d');
-          //     }
-          //   })
-          //   .catch(error => {
-          //     console.log(error);
-          //   })
         })
         .catch(error => {
           console.log('state.targeturldaylist',state.targeturldaylist);
@@ -158,5 +132,44 @@ export default {
         })
       // console.log(this.targeturldaylist)
     },
+    a_getAllData({dispatch}) {
+      let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
+      let token = window.localStorage.getItem('token');
+      axios.get(getAPI, {
+      })
+        .then(response => {
+          let result = response.data;
+          // console.log('result',result);
+          let item = {};
+          let list = [];
+          let listkey = [];
+          // console.log('올데이타',result);
+          for (var prop in result) {
+            // this.$store.dispatch('a_item',result[prop])
+            // let thisItem = result[prop]
+            item = result[prop]
+            item.key = prop
+            item.value = Object.values(item)
+            // item.value = result[prop].values
+            list.push(item)
+            listkey.push(item.key)
+
+            dispatch('a_itemkey', item.key)
+            dispatch('a_itemvalue', item.value)
+            dispatch('a_list', list)
+            dispatch('a_listkey', listkey)
+            // this.$parent.listkey.push(this.item.key)
+          }
+          // console.log('item',this.item);
+          // console.log('list',this.list);
+          // console.log('0번째 키:',this.list[0].key);
+          // console.log('리스트키:',this.listkey);
+          // console.log('0번째 글:',this.list[0].value[0].content);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 }

@@ -141,7 +141,7 @@ export default {
       targeturldaylist: '',
       item: {},
       list: [],
-      list_key: []
+      listkey: []
     }
   },
   methods: {
@@ -265,16 +265,25 @@ export default {
         }
       }
       this.currentMonth = new Date();
+      this.list = [];
+      this.listkey = [];
+      this.getAllData()
     },
     prevCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() - 1);
+      this.list = [];
+      this.listkey = [];
       this.makeCalendar();
+      this.getAllData()
     },
     nextCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() + 1);
+      this.list = [];
+      this.listkey = [];
       this.makeCalendar();
+      this.getAllData()
     },
     clickTargetDate(target_date) {
       let object_year = target_date.getFullYear();
@@ -293,10 +302,10 @@ export default {
       let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
       this.$parent.targetFullDate = fullDate;
-
+      // console.log(urlDate)
       let myAPI = window.localStorage.getItem('myAPI')
       let targeturldaylist = myAPI + urlDate + '.json';
-      console.log('targetdate',urlDate);
+      // console.log('targetdate',urlDate);
 
       // let myAPI = window.localStorage.getItem('myAPI');
       let getAPI = myAPI + '.json'
@@ -306,12 +315,12 @@ export default {
       }).then(response => {
         let data = response.data;
         let item = Object.values(data);
-        console.log('뭐가 나와', item[0].content);
+        // console.log('뭐가 나와', item[0].content);
       }).catch(error => {})
 
-      if(this.list_key.includes(urlDate)) {
+      if(this.listkey.includes(urlDate)) {
         this.openPostModal();
-        console.log('urlDate', urlDate);
+        // console.log('urlDate', urlDate);
       }else {
         this.$parent.targeturldaylist = targeturldaylist;
         this.openWriteModal();
@@ -322,49 +331,31 @@ export default {
       // this.openWriteModal()
     },
     getAllData() {
-      // const cors = require('cors')({origin: true});
       let myAPI = window.localStorage.getItem('myAPI');
       let getAPI = myAPI + '.json'
       let token = window.localStorage.getItem('token');
       axios.get(getAPI, {
-       
       })
         .then(response => {
-          // console.log('어떤 것이1? ', response)
-          // console.log('밸류되나여: ', Object.values(response)[0])
-          // console.log('밸류되나여: ', Object.values(response)[0])
-          // let val = Object.values(response)[0]
-          // console.log('val1',val);
-          // let val2 = Object.values(val);
-          // let key = Object.keys(val)
-          // let key2 = Object.values(key);
-          // console.log('key2: ', key2);
-          // let val3 = Object.values(val2);
-          // console.log('val3: ', val3);
-
-          // console.log('key',key);
-          // console.log('밸류밸류: ', Object.keys(val))
           let result = response.data;
-          console.log('result',result);
-          // this.item = {};
-          // this.list = [];
+          // console.log('result',result);
+      this.list = [];
+      this.listkey = [];
           for (var prop in result) {
             this.item = result[prop]
             this.item.key = prop
             this.item.value = Object.values(this.item)
             // item.value = result[prop].values
             this.list.push(this.item)
-            this.list_key.push(this.item.key)
+            this.$parent.list.push(this.item)
+            this.listkey.push(this.item.key)
+            this.$parent.listkey.push(this.item.key)
           }
-          console.log('item',this.item);
-          console.log('list',this.list);
-          console.log('0번째 키:',this.list[0].key);
-          console.log('리스트키:',this.list_key);
-          console.log('0번째 글:',this.list[0].value[0].content);
-
-          // console.log('어떤 것이2? ', response.data)
-          // console.log('어떤 것이3? ', response.data['20170902'])
-          // console.log('어떤 것이4? ', response.data[20170902])
+          // console.log('item',this.item);
+          // console.log('list',this.list);
+          // console.log('0번째 키:',this.list[0].key);
+          // console.log('리스트키:',this.listkey);
+          // console.log('0번째 글:',this.list[0].value[0].content);
         })
         .catch(error => {
           console.log(error);

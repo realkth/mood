@@ -131,7 +131,6 @@ export default {
         if (user) {
           window.localStorage.setItem('token', user.uid);
           window.localStorage.setItem('email', user.email);
-          window.localStorage.setItem('displayName', user.displayName);
           window.localStorage.setItem('photoURL', user.photoURL);
           // if( user.displayName !== null) {
           //   // commit('m_mySetting');

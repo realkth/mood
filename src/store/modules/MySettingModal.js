@@ -43,6 +43,7 @@ export default {
         user.updateProfile({
           photoURL: state.photoURL,
           displayName: state.displayName
+
         }).then(function(response) {
           // dispatch('a_FirstSettingAuthState');
           //Success

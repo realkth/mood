@@ -45,12 +45,12 @@ const focus = {
 }
 export default {
   directives: { focus },
-  props: ['targetFullDate', 'targeturldaylist'],
-  created() {
-    this.getUserInfo()
-  },
+  props: ['targetFullDate', 'targeturldaylist', 'list', 'listkey'],
+  // created() {
+  //   this.getUserInfo()
+  // },
   computed: {
-    ...mapGetters(['isToastMessage'])
+    ...mapGetters(['isToastMessage', 'isCurrentUser'])
   },
   components: {
     ToastMessage
@@ -61,8 +61,12 @@ export default {
       write: {
         content: ''
       },
-      name: '',
-      emotion: ''
+      // email: '',
+      emotion: '',
+      // list: [],
+      item: {},
+      // listkey: []
+
     }
   },
   methods: {
@@ -78,7 +82,9 @@ export default {
     },
     writePostSubmit() {
       let token = window.localStorage.getItem('token');
-      let user = window.localStorage.getItem('displayName');
+      let email = window.localStorage.getItem('email');
+      let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
       let emotion_btn = document.getElementsByName("emotion");
       let emotion_btn_check = 0;
       for (let i = 0; i < emotion_btn.length; i++) {
@@ -88,22 +94,53 @@ export default {
         }
       }
       if (emotion_btn_check === 0) {
-        console.log("감정 버튼을 선택해주세요");
-        return;
+        let message = '오늘의 감정을 선택해주세요.'
+        this.$store.dispatch('a_setToastMessage', message)
+        setTimeout(() => {
+          }, 2500);
+          return;
       }
 
       axios.post(this.targeturldaylist, {
         // user: token,
-        username: user,
+        userEmail: email,
         emotion: this.emotion,
-        content: this.write.content,
-      })
+        content: this.write.content
+      }
+      )
         .then(response => {
           let message = '오늘의 일기를 기록하셨습니다.'
           this.$store.dispatch('a_setToastMessage', message)
           setTimeout(() => {
             this.closeModal()
           }, 2500);
+
+          axios.get(getAPI, {
+          })
+            .then(response => {
+              let result = response.data;
+              let item = {};
+    
+              // for (let prop in result) {
+              //   item = result[prop]
+              //   item.key = prop
+              //   item.value = Object.values(item)
+              //   // this.$parent.list.push(item)
+              //   // this.$parent.listkey.push(this.item.key)
+
+              // }
+              // console.log('e', this.listkey)
+              for (let i = 0; i < this.list.length; i++) {
+
+                // console.log('날짜', this.list[i].value[1])
+                // console.log('감정', this.list[i].value[0].emotion);
+                // console.log('글', this.list[i].value[0].content);
+                // console.log('%c——————————————————————————————————————————————————', 'color: #00737d');
+              }
+            })
+            .catch(error => {
+              console.log(error);
+            })
         })
         .catch(error => {
           console.log(error);
@@ -113,6 +150,7 @@ export default {
             this.closeModal()
           }, 2500);
         })
+      console.log(this.targeturldaylist)
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {
@@ -127,21 +165,8 @@ export default {
         + date.getMinutes() + "분"
       return datetime
     },
-    getUserInfo: function() {
-      var user = firebase.auth().currentUser;
-      var name, email, photoURL, uid, emailVerified;
-
-      if (user != null) {
-        name = user.displayName;
-        email = user.email;
-        photoURL = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;
-      }
-      this.name = name
-    },
     placeholder: function() {
-      return this.name + "님, 오늘 하루는 어떠셨나요?"
+      return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
     }
   }
 }

@@ -45,7 +45,7 @@ const focus = {
 }
 export default {
   directives: { focus },
-  props: ['targetFullDate', 'targeturldaylist', 'list', 'listkey'],
+  props: ['targetFullDate'],
   // created() {
   //   this.getUserInfo()
   // },

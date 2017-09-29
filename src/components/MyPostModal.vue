@@ -29,7 +29,7 @@
 import firebase from 'firebase'
 
 export default {
-  props: ['targetFullDate', 'targeturldaylist'],
+  props: ['targetFullDate'],
   data() {
     return {
       visible: this.is_visible,

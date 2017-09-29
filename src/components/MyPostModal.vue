@@ -48,10 +48,6 @@ export default {
       let input = e.target.value;
       this.write[target] = input;
     },
-    writePostSubmit() {
-      console.log("작동!");
-      this.visible = false;
-    },
     nowTime: function(date) {
       if (date.getHours() > 12) {
         var time = "PM " + ((date.getHours() + 24) % 12 || 12) + "시 "

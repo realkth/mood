@@ -80,7 +80,6 @@ export default {
           // state.email = user.email;
           state.photoURL = user.photoURL;
           // state.token = user.uid;
-          window.localStorage.setItem('displayName', user.displayName);
           window.localStorage.setItem('email', user.email);
           window.localStorage.setItem('photoURL', user.photoURL);
           window.localStorage.setItem('token', user.uid);

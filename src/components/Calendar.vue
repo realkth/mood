@@ -8,11 +8,6 @@
           <button class="next-month col col-d-offset-6 col-d-1 col-m-1 col-m-offset-2" @click="nextCalendar"></button>
         </div>
       </div>
-      <!-- <div class="grid">
-                            <h3 class="col col-d-1">2017년</h3>
-                            <button class="col col-d-1" v-on:click="openPostModal">오늘</button>
-                          </div> -->
-      <!-- <button v-on:click="openWriteModal">글쓰기</button> -->
 
     </div>
     <table class="grid">
@@ -39,18 +34,11 @@
           <td class="thead">목</td>
           <td class="thead">금</td>
           <td class="thead sat">토</td>
-          <!-- <td class="thead sun">SUN</td>
-                                            <td class="thead">MON</td>
-                                            <td class="thead">TUE</td>
-                                            <td class="thead">WED</td>
-                                            <td class="thead">THU</td>
-                                            <td class="thead">FRI</td>
-                                            <td class="thead">SAT</td> -->
         </tr>
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])">
+          <td class="td" v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])">
             <a href="" v-if="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
               {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
             </a>
@@ -61,59 +49,15 @@
         </tr>
 
       </tbody>
-      <!-- <tbody>
-                            <tr>
-                              <td class="state-happy">1</td>
-                              <td v-on:click="openWriteModal">2</td>
-                              <td v-on:click="openPostModal">3</td>
-                              <td class="state-haha">4</td>
-                              <td>5</td>
-                              <td class="state-angry">6</td>
-                              <td class="state-haha">7</td>
-                            </tr>
-                            <tr>
-                              <td>8</td>
-                              <td class="state-surprised">9</td>
-                              <td class="state-angry">10</td>
-                              <td>11</td>
-                              <td class="state-angry">12</td>
-                              <td class="state-surprised">13</td>
-                              <td>14</td>
-                            </tr>
-                            <tr>
-                              <td class="state-soso">15</td>
-                              <td>16</td>
-                              <td class="state-angry">17</td>
-                              <td class="state-soso">18</td>
-                              <td>19</td>
-                              <td class="state-happy">20</td>
-                              <td class="state-happy">21</td>
-                            </tr>
-                            <tr>
-                              <td>22</td>
-                              <td>23</td>
-                              <td class="state-soso">24</td>
-                              <td class="state-sad">25</td>
-                              <td class="state-soso">26</td>
-                              <td>27</td>
-                              <td>28</td>
-                            </tr>
-                            <tr>
-                              <td>29</td>
-                              <td class="state-sad">30</td>
-                              <td class="state-surprised">31</td>
-                              <td>32</td>
-                              <td class="state-happy">33</td>
-                              <td>34</td>
-                              <td>35</td>
-                            </tr>
-                          </tbody> -->
     </table>
   </main>
 </template>
 
 <script>
 import DoughnutChart from './DoughnutChart.vue';
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
+import axios from 'axios'
+
 export default {
   components: {
     DoughnutChart
@@ -121,6 +65,7 @@ export default {
   created() {
     this.makeCalendar();
     this.myAPI();
+    this.getAllData();
   },
   data() {
     return {
@@ -135,17 +80,18 @@ export default {
       datedatedate: [],
       hasDate: [],
       todayDate: null,
-      targeturldaylist: '',
+      // targeturldaylist: '',
+      item: {},
+      list: [],
+      listkey: []
     }
   },
   methods: {
+    ...mapActions(['a_targeturldaylist']),
     myAPI: () => {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
       window.localStorage.setItem('myAPI', api)
-      // let displayName = window.localStorage.getItem('displayName')
-      // let api = 'https://mood-vuex.firebaseio.com/users/' + `${displayName}` + '/' + 'post/'
-      // window.localStorage.setItem('myAPI', api)
     },
     nowTime: () => {
       let currentdate = new Date();
@@ -262,16 +208,25 @@ export default {
         }
       }
       this.currentMonth = new Date();
+      this.list = [];
+      this.listkey = [];
+      this.getAllData()
     },
     prevCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() - 1);
+      // this.list = [];
+      // this.listkey = [];
       this.makeCalendar();
+      // this.getAllData()
     },
     nextCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() + 1);
+      // this.list = [];
+      // this.listkey = [];
       this.makeCalendar();
+      // this.getAllData()
     },
     clickTargetDate(target_date) {
       let object_year = target_date.getFullYear();
@@ -290,16 +245,67 @@ export default {
       let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
       this.$parent.targetFullDate = fullDate;
-
+      // console.log(urlDate)
       let myAPI = window.localStorage.getItem('myAPI')
       let targeturldaylist = myAPI + urlDate + '.json';
+      this.$store.dispatch('a_targeturldaylist', targeturldaylist)
 
+      // console.log('targetdate',urlDate);
 
-      this.$parent.targeturldaylist = targeturldaylist;
+      // let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
+      let token = window.localStorage.getItem('token');
+      axios.get(targeturldaylist, {
+       
+      }).then(response => {
+        let data = response.data;
+        let item = Object.values(data);
+        // console.log('뭐가 나와', item[0].content);
+      }).catch(error => {})
+
+      if(this.listkey.includes(urlDate)) {
+        this.openPostModal();
+        // console.log('urlDate', urlDate);
+      }else {
+        this.$parent.targeturldaylist = targeturldaylist;
+        this.openWriteModal();
+      }
+
       // this.getDayList();
       // this.openPostModal()
-      this.openWriteModal()
+      // this.openWriteModal()
     },
+    getAllData() {
+      let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
+      let token = window.localStorage.getItem('token');
+      axios.get(getAPI, {
+      })
+        .then(response => {
+          let result = response.data;
+          // console.log('result',result);
+      this.list = [];
+      this.listkey = [];
+          for (var prop in result) {
+            this.item = result[prop]
+            this.item.key = prop
+            this.item.value = Object.values(this.item)
+            // item.value = result[prop].values
+            this.list.push(this.item)
+            this.$parent.list.push(this.item)
+            this.listkey.push(this.item.key)
+            this.$parent.listkey.push(this.item.key)
+          }
+          // console.log('item',this.item);
+          // console.log('list',this.list);
+          // console.log('0번째 키:',this.list[0].key);
+          // console.log('리스트키:',this.listkey);
+          // console.log('0번째 글:',this.list[0].value[0].content);
+        })
+        .catch(error => {
+          console.log(error);
+        })
+    }
   }
 }
 </script>

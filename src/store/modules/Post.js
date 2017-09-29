@@ -8,8 +8,13 @@ export default {
       content: ''
     },
     emotion: '',
-    item: {},
-    targeturldaylist: ''
+    item: {
+      key: '',
+      value: ''
+    },
+    list: [],
+    listkey: [],
+    targeturldaylist: '',
   },
   getters: {
     isWrite: (state) => {
@@ -18,8 +23,17 @@ export default {
     isEmotion: (state) => {
       return state.emotion
     },
-    isItem: (state) => {
-      return state.item
+    isItemKey: (state) => {
+      return state.item.key
+    },
+    isItemValue: (state) => {
+      return state.item.value
+    },
+    isList: (state) => {
+      return state.list
+    },
+    isListkey: (state) => {
+      return state.listkey
     },
     isTargeturldaylist: (state) => {
       return state.targeturldaylist
@@ -32,8 +46,17 @@ export default {
     m_emotion: (state, payload) => {
       state.emotion = payload
     },
-    m_item: (state, payload) => {
-      state.item = payload
+    m_itemkey: (state, payload) => {
+      state.item.key = payload
+    },
+    m_itemvalue: (state, payload) => {
+      state.item.value = payload
+    },
+    m_list: (state, payload) => {
+      state.list = payload
+    },
+    m_listkey: (state, payload) => {
+      state.listkey = payload
     },
     m_targeturldaylist: (state, payload) => {
       state.targeturldaylist = payload
@@ -46,8 +69,17 @@ export default {
     a_emotion: (context, val) => {
       context.commit('m_emotion', val)
     },
-    a_item: (context, val) => {
-      context.commit('m_item', val)
+    a_itemkey: (context, val) => {
+      context.commit('m_itemkey', val)
+    },
+    a_itemvalue: (context, val) => {
+      context.commit('m_itemvalue', val)
+    },
+    a_list: (context, val) => {
+      context.commit('m_list', val)
+    },
+    a_listkey: (context, val) => {
+      context.commit('m_listkey', val)
     },
     a_targeturldaylist: (context, val) => {
       context.commit('m_targeturldaylist', val)

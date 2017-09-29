@@ -86,8 +86,11 @@ export default {
       listkey: []
     }
   },
+  computed: {
+    ...mapGetters(['isItemKey','isItemValue', 'isList', 'isListkey'])
+  },
   methods: {
-    ...mapActions(['a_targeturldaylist']),
+    ...mapActions(['a_itemkey','a_itemvalue','a_list','a_listkey','a_targeturldaylist']),
     myAPI: () => {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
@@ -284,9 +287,11 @@ export default {
         .then(response => {
           let result = response.data;
           // console.log('result',result);
-      this.list = [];
-      this.listkey = [];
+      // this.list = [];
+      // this.listkey = [];
           for (var prop in result) {
+            // this.$store.dispatch('a_item',result[prop])
+            // let thisItem = result[prop]
             this.item = result[prop]
             this.item.key = prop
             this.item.value = Object.values(this.item)
@@ -294,6 +299,12 @@ export default {
             this.list.push(this.item)
             this.$parent.list.push(this.item)
             this.listkey.push(this.item.key)
+
+
+            this.$store.dispatch('a_itemkey', this.item.key)
+            this.$store.dispatch('a_itemvalue', this.item.value)
+            this.$store.dispatch('a_list', this.list)
+            this.$store.dispatch('a_listkey', this.listkey)
             this.$parent.listkey.push(this.item.key)
           }
           // console.log('item',this.item);

@@ -159,13 +159,7 @@ export default {
             dispatch('a_itemvalue', item.value)
             dispatch('a_list', list)
             dispatch('a_listkey', listkey)
-            // this.$parent.listkey.push(this.item.key)
           }
-          // console.log('item',this.item);
-          // console.log('list',this.list);
-          // console.log('0번째 키:',this.list[0].key);
-          // console.log('리스트키:',this.listkey);
-          // console.log('0번째 글:',this.list[0].value[0].content);
         })
         .catch(error => {
           console.log(error);

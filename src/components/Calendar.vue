@@ -38,13 +38,13 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td class="td" v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])">
-            <a href="" v-if="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
+          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" v-for="m in 7"  @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
+          <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
+            <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
+            <div>{{  }}</div>
+            <!-- <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
               {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
-            </a>
-            <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
-              {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
-            </a>
+            </a> -->
           </td>
         </tr>
 
@@ -67,6 +67,7 @@ export default {
     this.myAPI();
     // this.getAllData();
     this.a_getAllData();
+    this.setState();
   },
   data() {
     return {
@@ -212,14 +213,45 @@ export default {
     },
     prevCalendar() {
       let date = this.currentMonth;
+      date.setMonth(date.getMonth() - 1);
       this.makeCalendar();
+      this.a_getAllData();
+      // this.$store.dispatch('a_list', '');
+      // this.$store.dispatch('a_listkey', '');
+
     },
     nextCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() + 1);
       this.makeCalendar();
+      this.a_getAllData();
+      // this.$store.dispatch('a_list', '');
+      // this.$store.dispatch('a_listkey', '');
+    },
+    setState(date) {
+      // console.log('date', date)
+      // let dateId = document.getElementById(date);
+      // console.log('dateClasee', dateClass)
+      let myAPI = window.localStorage.getItem('myAPI');
+      // let getAPI = myAPI + '.json'
+      let dateGetAPI = myAPI + `${date}` + '.json'
+      let token = window.localStorage.getItem('token');
+      axios.get(dateGetAPI, {
+      }).then(response => {
+        let result = response.data;
+        if (result !== null){
+          let dateId = document.getElementById(date);
+          let content = Object.values(result)[0].emotion
+          // console.log('뭐게', content)
+          dateId.classList.add(content);
+        }
+      })
+
+      
     },
     clickTargetDate(target_date) {
+      console.log('target_date',target_date);
+      console.log('target_date',target_date.toISOString().split('T')[0].split('-').join(''));
       let object_year = target_date.getFullYear();
       let object_month = target_date.getMonth() + 1;
       let object_date = target_date.getDate();
@@ -369,7 +401,7 @@ tbody td {
   border-right: 5px solid $color-opacity;
 }
 
-.state-haha {
+.emotion-haha {
   background: $color-haha;
   position: relative;
   &::before {
@@ -385,7 +417,7 @@ tbody td {
   }
 }
 
-.state-angry {
+.emotion-angry {
   background: $color-angry;
   position: relative;
   &::before {
@@ -401,7 +433,7 @@ tbody td {
   }
 }
 
-.state-happy {
+.emotion-happy {
   background: $color-happy;
   position: relative;
   &::before {
@@ -417,7 +449,7 @@ tbody td {
   }
 }
 
-.state-sad {
+.emotion-sad {
   background: $color-sad;
   position: relative;
   &::before {
@@ -433,7 +465,7 @@ tbody td {
   }
 }
 
-.state-soso {
+.emotion-soso {
   background: $color-soso;
   position: relative;
   &::before {
@@ -449,7 +481,7 @@ tbody td {
   }
 }
 
-.state-surprised {
+.emotion-surprised {
   background: $color-surprised;
   position: relative;
   &::before {

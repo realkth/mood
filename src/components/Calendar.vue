@@ -84,10 +84,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isItemKey','isItemValue', 'isList', 'isListkey'])
+    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey'])
   },
   methods: {
-    ...mapActions(['a_itemkey','a_itemvalue','a_list','a_listkey','a_getAllData','a_targeturldaylist']),
+    ...mapActions(['a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey', 'a_getAllData', 'a_targeturldaylist']),
     myAPI: () => {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
@@ -212,6 +212,7 @@ export default {
     },
     prevCalendar() {
       let date = this.currentMonth;
+      date.setMonth(date.getMonth() - 1);
       this.makeCalendar();
     },
     nextCalendar() {
@@ -247,17 +248,17 @@ export default {
       let getAPI = myAPI + '.json'
       let token = window.localStorage.getItem('token');
       axios.get(targeturldaylist, {
-       
+
       }).then(response => {
         let data = response.data;
         let item = Object.values(data);
         // console.log('뭐가 나와', item[0].content);
-      }).catch(error => {})
+      }).catch(error => { })
 
-      if(this.isListkey.includes(urlDate)) {
+      if (this.isListkey.includes(urlDate)) {
         this.openPostModal();
         // console.log('urlDate', urlDate);
-      }else {
+      } else {
         this.openWriteModal();
       }
 

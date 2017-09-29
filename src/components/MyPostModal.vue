@@ -4,21 +4,36 @@
     <div class="container">
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
-          <h3> {{ targetFullDate}} </h3>
+          <h3> {{ targetFullDate }} </h3>
         </header>
         <section class="modal-body">
-          <div class="emoji-wrapper">
+          <div class="emoji-wrapper" id="content-emotion">
             <img class="angry">
             <!-- <img src="../assets/emoji-happy.svg" class="happy">
-              <img src="../assets/emoji-soso.svg" class="soso">
-              <img src="../assets/emoji-sad.svg" class="sad">
-              <img src="../assets/emoji-surprised.svg" class="surprised">
-              <img src="../assets/emoji-angry.svg" class="angry"> -->
+                            <img src="../assets/emoji-soso.svg" class="soso">
+                            <img src="../assets/emoji-sad.svg" class="sad">
+                            <img src="../assets/emoji-surprised.svg" class="surprised">
+                            <img src="../assets/emoji-angry.svg" class="angry"> -->
           </div>
-          <p class="content" style='white-space: pre-line'>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Non aspernatur earum archiuscipit. Nesciunt beatae repellat ducimus consectetur eligendi, officia quo et, dicta eos quam tempora, laboriosam voluptatibus velit sed magnam enim voluptates perferendis voluptatibus obcaecati! Aliquam harum perferendis quisquam dolorum deleniti qui nostruue cum temporibus saepe facere, et consectetur molestiae excepturi rem deserunt. Dol</p>
+          <form class="select-emoji-wrapper" id="edit-emotion" style="display:none">
+            <input @change="setEmotion" type="radio" id="haha" value="emotion-haha" name="emotion">
+            <label class="haha" for="haha"></label>
+            <input @change="setEmotion" type="radio" id="happy" value="emotion-happy" name="emotion">
+            <label class="happy" for="happy"></label>
+            <input @change="setEmotion" type="radio" id="soso" value="emotion-soso" name="emotion">
+            <label class="soso" for="soso"></label>
+            <input @change="setEmotion" type="radio" id="sad" value="emotion-sad" name="emotion">
+            <label class="sad" for="sad"></label>
+            <input @change="setEmotion" type="radio" id="surprised" value="emotion-surprised" name="emotion">
+            <label class="surprised" for="surprised"></label>
+            <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion">
+            <label class="angry" for="angry"></label>
+          </form>
+          <p class="content" id='content' style='white-space: pre-line'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo voluptates quae numquam praesentium in, suscipit officiis qui labore tempora dolores dignissimos minus molestiae, at ipsa autem, quibusdam vel explicabo? Perspiciatis! Similique sapiente sed dignissimos debitis eaque magni, corrupti inventore natus, aut in vero, temporibus placeat voluptates facilis nostrum veritatis velit! Eos facere dolorem sapiente dolores ipsum non excepturi !</p>
+          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none"></textarea>
         </section>
         <footer class="modal-footer buttons">
-          <button class="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="cancel" @click="closeModal()">닫기</button>
+          <button class="modify" id="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
         </footer>
       </div>
     </div>
@@ -27,9 +42,14 @@
 
 <script>
 import firebase from 'firebase'
-
+import axios from 'axios'
+import ToastMessage from './ToastMessage.vue'
+import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   props: ['targetFullDate'],
+  computed: {
+    ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem'])
+  },
   data() {
     return {
       visible: this.is_visible,
@@ -40,13 +60,24 @@ export default {
   },
   methods: {
     closeModal() {
-      this.write.content = '';
       this.visible = false;
       this.$parent.blur = null;
     },
     writePost(target, e) {
       let input = e.target.value;
       this.write[target] = input;
+    },
+    setWrite(e) {
+      this.$store.dispatch('a_write', e.target.value)
+    },
+    setEmotion(e) {
+      this.$store.dispatch('a_emotion', e.target.value)
+    },
+    submit() {
+      this.a_writePostSubmit();
+      setTimeout(() => {
+        this.closeModal()
+      }, 2500);
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {
@@ -62,9 +93,19 @@ export default {
       return datetime
     },
     modifyPostSubmit: function() {
-      console.log("수정하기")
+      // document.getElementById('content').contentEditable = 'true';
+      document.getElementById('modify').style.display = 'none';
+      document.getElementById('content').style.display = 'none';
+      document.getElementById('send').style.display = 'inline';
+      document.getElementById('textarea').style.display = 'inline';
+      document.getElementById('cancel').style.color = '#e4d49e'
+      document.getElementById('cancel').style.backgroundColor = '#6f8b78'
+      document.getElementById('content-emotion').style.display = 'none'
+      document.getElementById('edit-emotion').style.display = 'block'
+    },
+    placeholder: function() {
+      return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
     }
-
   }
 }
 </script>
@@ -194,5 +235,89 @@ h3 {
   background-color: $color-haha;
   color: $color-happy;
   outline: none;
+}
+
+#send {
+  width: 50%;
+  height: 50px;
+  border: none;
+  padding: 0;
+  background-color: $color-happy;
+  color: $color-haha;
+  outline: none;
+  display: none;
+}
+
+.select-emoji-wrapper {
+  margin-bottom: 20px;
+  display: block;
+}
+
+input {
+  display: none;
+}
+
+input[type="radio"]+label {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 0 0 0px;
+  margin: 40px 4.8px 0 4.8px;
+  opacity: 0.3;
+  &:active,
+  &:focus,
+  &:hover,
+  &::selection {
+    opacity: 1;
+  }
+}
+
+input[type="radio"]:checked+label {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 0 0 0px;
+  opacity: 1;
+  transform: translateY(-40px);
+}
+
+.haha {
+  background: url(../assets/emoji-haha.svg) no-repeat $color-haha;
+  background-size: 80%;
+  background-position: 50%;
+}
+
+.happy {
+  background: url(../assets/emoji-happy.svg) no-repeat $color-happy;
+  background-size: 80%;
+  background-position: 50%;
+}
+
+.soso {
+  background: url(../assets/emoji-soso.svg) no-repeat $color-soso;
+  background-size: 80%;
+  background-position: 50%;
+}
+
+.sad {
+  background: url(../assets/emoji-sad.svg) no-repeat $color-sad;
+  background-size: 80%;
+  background-position: 50%;
+}
+
+.surprised {
+  background: url(../assets/emoji-surprised.svg) no-repeat $color-surprised;
+  background-size: 80%;
+  background-position: 50%;
+}
+
+.angry {
+  background: url(../assets/emoji-angry.svg) no-repeat $color-angry;
+  background-size: 80%;
+  background-position: 50%;
 }
 </style>

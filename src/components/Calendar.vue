@@ -250,8 +250,10 @@ export default {
     },
     clickTargetDate(target_date) {
       console.log('캘린더 뷰에 있는 target_date', target_date);
-      console.log('아래 캘린더 뷰에 있는 target_date', target_date.toISOString().split('T')[0].split('-').join(''));
-      console.log('아래 캘린더 뷰에 있는 to.JSON()target_date', target_date.toJSON());
+      console.log(new Date(target_date.getTime() - (target_date.getTimezoneOffset() * 60000)).toISOString().split('T')[0].split('-').join(''))
+
+      // console.log('아래 캘린더 뷰에 있는 target_date', target_date.toISOString().split('T')[0].split('-').join(''));
+      // console.log('아래 캘린더 뷰에 있는 to.JSON()target_date', target_date.toJSON());
       let object_year = target_date.getFullYear();
       let object_month = target_date.getMonth() + 1;
       let object_date = target_date.getDate();

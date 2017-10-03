@@ -3,7 +3,7 @@
     <main-header ref="main_header" v-bind:style="blur"></main-header>
     <calendar ref="calendar" v-bind:style="blur"></calendar>
     <div class="hello">
-      <br>
+      <!-- <br>
       <br>
       <br>
       <br>
@@ -11,11 +11,11 @@
       <button v-on:click="whoamI">난 누구</button>
       <input class="nickTest" type="text" @input="changeUserName('displayName', $event)" @value='currentUser.displayName' placeholder="유저 네임">
       <button v-on:click="changeName">이름 변경</button>
-      <button v-on:click="nowTime">오늘 날짜, 현재 시간</button>
+      <button v-on:click="nowTime">오늘 날짜, 현재 시간</button> -->
     </div>
     <my-setting-modal ref='my_setting_modal'></my-setting-modal>
-    <write-modal :targetFullDate = "targetFullDate" :targeturldaylist= "targeturldaylist" ref='write_modal'></write-modal>
-    <my-post-modal :targetFullDate = "targetFullDate" :targeturldaylist= " targeturldaylist" ref='my_post_modal'></my-post-modal>
+    <write-modal :targetFullDate = "targetFullDate" ref='write_modal'></write-modal>
+    <my-post-modal :targetFullDate = "targetFullDate" ref='my_post_modal'></my-post-modal>
   </div>
 </template>
 
@@ -44,7 +44,10 @@ export default {
         displayName: ''
       },
       targetFullDate: '',
-      targeturldaylist:'',
+      // targeturldaylist:'',
+      // listkey:[],
+      // item: {},
+      // list: []
     }
   },
   methods: {

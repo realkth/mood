@@ -8,24 +8,24 @@
         </header>
         <section class="modal-body">
           <form class="emoji-wrapper">
-            <input type="radio" id="haha" value="emotion-haha" name="emotion">
+            <input @change="setEmotion" type="radio" id="haha" value="emotion-haha" name="emotion">
             <label class="haha" for="haha"></label>
-            <input type="radio" id="happy" value="emotion-happy" name="emotion">
+            <input @change="setEmotion" type="radio" id="happy" value="emotion-happy" name="emotion">
             <label class="happy" for="happy"></label>
-            <input type="radio" id="soso" value="emotion-soso" name="emotion">
+            <input @change="setEmotion" type="radio" id="soso" value="emotion-soso" name="emotion">
             <label class="soso" for="soso"></label>
-            <input type="radio" id="sad" value="emotion-sad" name="emotion">
+            <input @change="setEmotion" type="radio" id="sad" value="emotion-sad" name="emotion">
             <label class="sad" for="sad"></label>
-            <input type="radio" id="surprised" value="emotion-surprised" name="emotion">
+            <input @change="setEmotion" type="radio" id="surprised" value="emotion-surprised" name="emotion">
             <label class="surprised" for="surprised"></label>
-            <input type="radio" id="angry" value="emotion-angry" name="emotion">
+            <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion">
             <label class="angry" for="angry"></label>
           </form>
-          <textarea class="textarea" type="text" @input="writePost('content', $event)" @value='write.content' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
-          <toast-message v-show="isToastMessage"></toast-message>
+          <textarea class="textarea" type="text" @input='setWrite' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
+          <!-- <toast-message v-show="isToastMessage"></toast-message> -->
         </section>
         <footer class="modal-footer buttons">
-          <button class="write" v-on:click="writePostSubmit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
+          <button class="write" v-on:click="submit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
         </footer>
       </div>
     </div>
@@ -45,12 +45,12 @@ const focus = {
 }
 export default {
   directives: { focus },
-  props: ['targetFullDate', 'targeturldaylist'],
-  created() {
-    this.getUserInfo()
-  },
+  props: ['targetFullDate'],
+  // created() {
+  //   this.getUserInfo()
+  // },
   computed: {
-    ...mapGetters(['isToastMessage'])
+    ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem'])
   },
   components: {
     ToastMessage
@@ -58,61 +58,39 @@ export default {
   data() {
     return {
       visible: this.is_visible,
-      write: {
-        content: ''
-      },
-      name: '',
-      emotion: ''
+      // write: {
+      //   content: ''
+      // },
+      // email: '',
+      // emotion: '',
+      // list: [],
+      // item: {},
+      // listkey: []
+
     }
   },
   methods: {
-    ...mapActions(['a_setToastMessage']),
+    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion','a_item']),
     closeModal() {
-      this.write.content = '';
+      // this.write.content = '';
       this.visible = false;
       this.$parent.blur = null;
     },
-    writePost(target, e) {
-      let input = e.target.value;
-      this.write[target] = input;
+    // writePost(target, e) {
+    //   let input = e.target.value;
+    //   this.write[target] = input;
+    // },
+    setWrite(e){
+      this.$store.dispatch('a_write', e.target.value)
     },
-    writePostSubmit() {
-      let token = window.localStorage.getItem('token');
-      let user = window.localStorage.getItem('displayName');
-      let emotion_btn = document.getElementsByName("emotion");
-      let emotion_btn_check = 0;
-      for (let i = 0; i < emotion_btn.length; i++) {
-        if (emotion_btn[i].checked == true) {
-          this.emotion = emotion_btn[i].value
-          emotion_btn_check++;
-        }
-      }
-      if (emotion_btn_check === 0) {
-        console.log("감정 버튼을 선택해주세요");
-        return;
-      }
-
-      axios.post(this.targeturldaylist, {
-        // user: token,
-        username: user,
-        emotion: this.emotion,
-        content: this.write.content,
-      })
-        .then(response => {
-          let message = '오늘의 일기를 기록하셨습니다.'
-          this.$store.dispatch('a_setToastMessage', message)
-          setTimeout(() => {
-            this.closeModal()
-          }, 2500);
-        })
-        .catch(error => {
-          console.log(error);
-          let message = '로그인 해주세요.'
-          this.$store.dispatch('a_setToastMessage', message)
-          setTimeout(() => {
-            this.closeModal()
-          }, 2500);
-        })
+    setEmotion(e){
+      this.$store.dispatch('a_emotion', e.target.value)
+    },
+    submit(){
+      this.a_writePostSubmit();
+      setTimeout(() => {
+        this.closeModal()
+      }, 2500);
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {
@@ -127,21 +105,8 @@ export default {
         + date.getMinutes() + "분"
       return datetime
     },
-    getUserInfo: function() {
-      var user = firebase.auth().currentUser;
-      var name, email, photoURL, uid, emailVerified;
-
-      if (user != null) {
-        name = user.displayName;
-        email = user.email;
-        photoURL = user.photoURL;
-        emailVerified = user.emailVerified;
-        uid = user.uid;
-      }
-      this.name = name
-    },
     placeholder: function() {
-      return this.name + "님, 오늘 하루는 어떠셨나요?"
+      return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
     }
   }
 }

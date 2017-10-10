@@ -49,6 +49,7 @@ export default {
   // created() {
   //   this.getUserInfo()
   // },
+  
   computed: {
     ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem'])
   },
@@ -58,36 +59,30 @@ export default {
   data() {
     return {
       visible: this.is_visible,
-      // write: {
-      //   content: ''
-      // },
-      // email: '',
-      // emotion: '',
-      // list: [],
-      // item: {},
-      // listkey: []
-
     }
   },
   methods: {
-    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion','a_item','a_getAllData']),
+    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion', 'a_item', 'a_getAllData']),
     closeModal() {
       // this.write.content = '';
       this.visible = false;
       this.$parent.blur = null;
+      // 글쓰기 반응성 못살릴 경우 최후의 수단.
+      // window.location.reload(true);
     },
     // writePost(target, e) {
     //   let input = e.target.value;
     //   this.write[target] = input;
     // },
-    setWrite(e){
+    setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
     },
-    setEmotion(e){
+    setEmotion(e) {
       this.$store.dispatch('a_emotion', e.target.value)
     },
-    submit(){
+    submit() {
       this.a_writePostSubmit();
+      this.a_getAllData();
       setTimeout(() => {
         this.closeModal()
       }, 2500);

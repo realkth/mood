@@ -13,7 +13,6 @@
     <table class="grid">
       <caption>
         <h3 class="year"> {{ calYear }} </h3>
-        <!-- <span class="today">{{ nowTime(currentMonth)}}</span> -->
         <button class="btn-today" @click="thisMonth">today</button>
       </caption>
       <colgroup>
@@ -38,12 +37,12 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7"  @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
-          <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
+          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
+            <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
             <!-- <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
-              {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
-            </a> -->
+                      {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
+                    </a> -->
           </td>
         </tr>
 
@@ -64,9 +63,20 @@ export default {
   created() {
     this.makeCalendar();
     this.myAPI();
-    // this.getAllData();
     this.a_getAllData();
     this.setState();
+    this.$store.watch(
+      (state) => {
+        return this.$store.getters.isList
+      },
+      (val) => {
+        this.makeCalendar();
+        this.setState();
+      },
+      {
+        deep: true
+      }
+    );
   },
   data() {
     return {
@@ -90,7 +100,7 @@ export default {
     ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey'])
   },
   methods: {
-    ...mapActions(['a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey', 'a_getAllData', 'a_targeturldaylist']),
+    ...mapActions(['a_setToastMessage', 'a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey', 'a_getAllData', 'a_targeturldaylist']),
     myAPI: () => {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
@@ -179,10 +189,10 @@ export default {
       let date = new Date();
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
-      this.calYear = '오늘은 ' + date.getFullYear() + '년 ' +
-        (date.getMonth() + 1) + "월 "
-        + date.getDate() + "일 "
-
+      // this.calYear = '오늘은 ' + date.getFullYear() + '년 ' +
+      //   (date.getMonth() + 1) + "월 "
+      //   + date.getDate() + "일 "
+      this.calYear = date.getFullYear() + '년';
       this.calMonth = date.getMonth() + 1;
       date.setDate(1);
 
@@ -212,30 +222,23 @@ export default {
         }
       }
       this.currentMonth = new Date();
+      let message = '오늘은 ' + date.getFullYear() + '년 ' +
+        (this.currentMonth.getMonth() + 1) + "월 "
+        + this.currentMonth.getDate() + "일" + "입니다."
       this.a_getAllData();
+      this.$store.dispatch('a_setToastMessage', message)
     },
     prevCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() - 1);
-      // let elTD = document.getElementsByTagName("td")
-      // elTD.removeAttribute("class");
-      // let elTD = document.getElementsByClassName('td')
-      // elTD.className.replace( /(?:^|\s)bar(?!\S)/ , '' )
-      // elTD.classList.remove( /(?:^|\s)bar(?!\S)/)
-      // console.log('elTD', elTD);
       this.makeCalendar();
       this.a_getAllData();
-      // this.$store.dispatch('a_list', '');
-      // this.$store.dispatch('a_listkey', '');
-
     },
     nextCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() + 1);
       this.makeCalendar();
       this.a_getAllData();
-      // this.$store.dispatch('a_list', '');
-      // this.$store.dispatch('a_listkey', '');
     },
     setState(date) {
       // console.log('date', date)
@@ -250,19 +253,16 @@ export default {
       axios.get(dateGetAPI, {
       }).then(response => {
         let result = response.data;
-        if (result !== null){
+        if (result !== null) {
           let dateId = document.getElementById(date);
           let content = Object.values(result)[0].emotion
-          // console.log('뭐게', content)
           dateId.classList.add(content);
         }
       })
-
-      
     },
     clickTargetDate(target_date) {
-      console.log('target_date',target_date);
-      console.log('target_date',target_date.toISOString().split('T')[0].split('-').join(''));
+      console.log('target_date', target_date);
+      console.log('target_date', target_date.toISOString().split('T')[0].split('-').join(''));
       let object_year = target_date.getFullYear();
       let object_month = target_date.getMonth() + 1;
       let object_date = target_date.getDate();
@@ -308,7 +308,6 @@ export default {
       } else {
         this.openWriteModal();
       }
-
     },
   }
 }

@@ -34,23 +34,15 @@ body {
   /* Standard syntax */
   min-height: 100vh;
   max-height: 130vh;
-  // padding-bottom: 50px;
 }
 
-// 모든 요소에 적용될 사항은 app.vue 스타일에 적용하기로 결정
 #app {
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; // text-align: center;
-  // margin-top: 60px;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   padding: 0;
   margin: 0;
 }
-
-// h1 {
-//   text-align: center;
-//   margin-bottom: 50px;
-// }
 </style>

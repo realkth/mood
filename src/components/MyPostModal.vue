@@ -59,7 +59,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['']),
+    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion','a_item','a_getAllData']),
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
@@ -75,6 +75,7 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
+      // 기존꺼 삭제하고 작동하도록 하면 될듯
       this.a_writePostSubmit();
       setTimeout(() => {
         this.closeModal()

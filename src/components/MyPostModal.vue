@@ -29,7 +29,8 @@
             <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion">
             <label class="select-angry" for="angry"></label>
           </form>
-          <p class="content" id='content' style='white-space: pre-line'>{{this.$store.getters.isItemKey}}</p>
+          <p class="content" id='content' style='white-space: pre-line'></p>
+          <!-- <p class="content" id='content' style='white-space: pre-line'>{{this.$store.getters.isListkey[0].value[0].content}}</p> -->
           <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{isWrite}}</textarea>
         </section>
         <footer class="modal-footer buttons">
@@ -48,7 +49,7 @@ import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   props: ['targetFullDate'],
   computed: {
-    ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem'])
+    ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isListKey', 'isUrlDate', 'isTargeturldaylist']),
   },
   data() {
     return {
@@ -105,7 +106,14 @@ export default {
     },
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
-    }
+    },
+    // getContent: () =>{
+    //   // let a = window.localStorage.getItem('myAPI')
+    //   // let  = this.$store.getters.isUrlDate
+    //   let getAPI1 = this.$store.getters.isTargeturldaylist
+    //   console.log(getAPI1)
+    //   axios.get(getAPI1).then(response => {console.log(response)}).catch(error => {console.log(error)})
+    // }
   }
 }
 </script>

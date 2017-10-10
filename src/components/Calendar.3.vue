@@ -41,7 +41,7 @@
           <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" v-for="m in 7" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
             <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
-            <!-- <div>{{ }}</div> -->
+            <div>{{ }}</div>
             <!-- <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
                   {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
                 </a> -->
@@ -85,10 +85,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey','isUrlDate'])
+    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey'])
   },
   methods: {
-    ...mapActions(['a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey','a_urlDate', 'a_getAllData', 'a_targeturldaylist']),
+    ...mapActions(['a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey', 'a_getAllData', 'a_targeturldaylist']),
     myAPI: () => {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
@@ -174,6 +174,7 @@ export default {
       // console.log(this.localISOString().split('T')[0].split('-').join(''))
     },
     localISOString() {
+
       var d = new Date()
         , pad = function(n) { return n < 10 ? '0' + n : n; }
         , tz = d.getTimezoneOffset() // mins
@@ -270,10 +271,9 @@ export default {
       })
     },
     clickTargetDate(target_date) {
-      // console.log('캘린더 뷰에 있는 target_date', target_date);
-      // console.log('isoString', target_date.toISOString());
-      // console.log('타임존 설정', new Date(target_date.getTime() - (target_date.getTimezoneOffset() * 60000)).toISOString())
-
+      console.log('캘린더 뷰에 있는 target_date', target_date);
+      console.log('isoString', target_date.toISOString());
+      console.log('타임존 설정', new Date(target_date.getTime() - (target_date.getTimezoneOffset() * 60000)).toISOString())
       // console.log(new Date(target_date.getTime() - (target_date.getTimezoneOffset() * 60000)).toISOString().split('T')[0].split('-').join(''))
 
       // console.log('아래 캘린더 뷰에 있는 target_date', target_date.toISOString().split('T')[0].split('-').join(''));
@@ -291,7 +291,6 @@ export default {
       }
       let string_date = String(object_date);
       let urlDate = string_year + string_month + string_date;
-      this.$store.dispatch('a_urlDate', urlDate)
       let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
       this.$parent.targetFullDate = fullDate;
@@ -319,6 +318,7 @@ export default {
       } else {
         this.openWriteModal();
       }
+
     },
   }
 }

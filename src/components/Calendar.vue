@@ -38,10 +38,9 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" v-for="m in 7"  @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
+          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7"  @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
           <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
-            <div>{{  }}</div>
             <!-- <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
               {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
             </a> -->
@@ -154,6 +153,7 @@ export default {
       for (let i = 0; i < 42; i++) {
         let isThisMonth = "";
         if (date.getMonth() !== targetDate.getMonth()) {
+          // document.getElementById(date);
           isThisMonth = 'not-this-month';
         } else {
           isThisMonth = 'this-month';
@@ -214,6 +214,12 @@ export default {
     prevCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() - 1);
+      // let elTD = document.getElementsByTagName("td")
+      // elTD.removeAttribute("class");
+      // let elTD = document.getElementsByClassName('td')
+      // elTD.className.replace( /(?:^|\s)bar(?!\S)/ , '' )
+      // elTD.classList.remove( /(?:^|\s)bar(?!\S)/)
+      // console.log('elTD', elTD);
       this.makeCalendar();
       this.a_getAllData();
       // this.$store.dispatch('a_list', '');
@@ -231,6 +237,8 @@ export default {
     setState(date) {
       // console.log('date', date)
       // let dateId = document.getElementById(date);
+      // let dateId = document.getElementsByClassName('td');
+      // console.log('td',dateId)
       // console.log('dateClasee', dateClass)
       let myAPI = window.localStorage.getItem('myAPI');
       // let getAPI = myAPI + '.json'
@@ -380,7 +388,8 @@ tbody td {
 }
 
 .not-this-month {
-  color: $color-moremoregray;
+  color: $color-moregray;
+  opacity: 0.6;
 }
 
 .thead {

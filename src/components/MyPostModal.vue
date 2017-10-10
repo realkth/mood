@@ -46,20 +46,17 @@ import axios from 'axios'
 import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
-  props: ['targetFullDate','targetEmotion','targetContent'],
+  props: ['targetFullDate', 'targetEmotion', 'targetContent'],
   computed: {
     ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isListKey', 'isUrlDate', 'isTargeturldaylist']),
   },
   data() {
     return {
       visible: this.is_visible,
-      write: {
-        content: ''
-      },
     }
   },
   methods: {
-    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion','a_item','a_getAllData']),
+    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion', 'a_item', 'a_getAllData']),
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
@@ -75,7 +72,15 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
+
+      let email = window.localStorage.getItem('email');
       // 기존꺼 삭제하고 작동하도록 하면 될듯
+      axios.patch(this.$store.state.targeturldaylist, {
+        userEmail: email,
+        emotion: this.$store.state.emotion,
+        // content: this.$store.state.write.content
+      }).then(response => { console.log(response) }).catch(error => console.error(error))
+
       this.a_writePostSubmit();
       setTimeout(() => {
         this.closeModal()
@@ -163,8 +168,7 @@ h3 {
   background-size: 80%;
   width: 100%;
   height: 100%;
-  background-position: 50%;
-  // border: none;
+  background-position: 50%; // border: none;
 }
 
 .sad {

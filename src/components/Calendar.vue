@@ -41,8 +41,8 @@
             <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
             <!-- <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
-                      {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
-                    </a> -->
+                        {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
+                      </a> -->
           </td>
         </tr>
 
@@ -261,8 +261,13 @@ export default {
       })
     },
     clickTargetDate(target_date) {
+      console.group('날짜 테스트');
+      console.log('지금 쓰고 있는거', target_date.toISOString().split('T')[0].split('-').join(''));
+      console.log('지금 원본', target_date.toISOString());
       console.log('target_date', target_date);
-      console.log('target_date', target_date.toISOString().split('T')[0].split('-').join(''));
+      console.log('하고 싶은거', target_date.toJSON());
+
+      console.groupEnd('날짜 테스트');
       let object_year = target_date.getFullYear();
       let object_month = target_date.getMonth() + 1;
       let object_date = target_date.getDate();
@@ -276,7 +281,7 @@ export default {
       }
       let string_date = String(object_date);
       let urlDate = string_year + string_month + string_date;
-      console.log('urlDate',urlDate)
+      // console.log('urlDate', urlDate)
       let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
       this.urlDate = urlDate;
@@ -295,11 +300,8 @@ export default {
       }).then(response => {
         let data = response.data;
         let item = Object.values(data);
-        this.$parent.targetEmotion = item[0].emotion,
-        this.$parent.targetContent = item[0].content,
-        console.log('뭐가 나와', this.$parent.targetEmotion);
-        console.log('뭐가 나와', this.$parent.targetContent);
-        
+        this.$parent.targetEmotion = item[0].emotion
+        this.$parent.targetContent = item[0].content
       }).catch(error => { })
 
       if (this.isListkey.includes(urlDate)) {

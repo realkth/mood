@@ -119,10 +119,10 @@ export default {
           //   this.closeModal()
           // }, 2500);
           dispatch('a_getAllData')
-          console.log('response', response);
+          // console.log('response', response);
         })
         .catch(error => {
-          console.log('state.targeturldaylist', state.targeturldaylist);
+          // console.log('state.targeturldaylist', state.targeturldaylist);
           console.log(error);
           let message = '로그인 해주세요.'
           dispatch('a_setToastMessage', message)

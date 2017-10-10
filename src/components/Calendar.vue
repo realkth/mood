@@ -219,10 +219,10 @@ export default {
         }
       }
       this.currentMonth = new Date();
-      this.a_getAllData();
       let message = '오늘은 ' + date.getFullYear() + '년 ' +
-        (date.getMonth() + 1) + "월 "
-        + date.getDate() + "일" + "입니다."
+        (this.currentMonth.getMonth() + 1) + "월 "
+        + this.currentMonth.getDate() + "일" + "입니다."
+      this.a_getAllData();
       this.$store.dispatch('a_setToastMessage', message)
     },
     prevCalendar() {

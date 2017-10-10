@@ -70,7 +70,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion','a_item']),
+    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion','a_item','a_getAllData']),
     closeModal() {
       // this.write.content = '';
       this.visible = false;
@@ -91,6 +91,7 @@ export default {
       setTimeout(() => {
         this.closeModal()
       }, 2500);
+      // this.$parent.$refs.calendar.makeCalendar();
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {

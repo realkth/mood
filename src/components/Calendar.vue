@@ -76,6 +76,9 @@ export default {
       arrThisMonth: [],
       arrTargetDate: [],
       targetFullDate: '',
+      // targetEmotion: '',
+      // targetContent: '',
+      urlDate: '',
       dayListUrl: '',
       dataSet: null,
       datedatedate: [],
@@ -273,10 +276,11 @@ export default {
       }
       let string_date = String(object_date);
       let urlDate = string_year + string_month + string_date;
+      console.log('urlDate',urlDate)
       let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
+      this.urlDate = urlDate;
       this.$parent.targetFullDate = fullDate;
-      // console.log(urlDate)
       let myAPI = window.localStorage.getItem('myAPI')
       let targeturldaylist = myAPI + urlDate + '.json';
       this.$store.dispatch('a_targeturldaylist', targeturldaylist)
@@ -291,7 +295,11 @@ export default {
       }).then(response => {
         let data = response.data;
         let item = Object.values(data);
-        // console.log('뭐가 나와', item[0].content);
+        this.$parent.targetEmotion = item[0].emotion,
+        this.$parent.targetContent = item[0].content,
+        console.log('뭐가 나와', this.$parent.targetEmotion);
+        console.log('뭐가 나와', this.$parent.targetContent);
+        
       }).catch(error => { })
 
       if (this.isListkey.includes(urlDate)) {

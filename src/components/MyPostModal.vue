@@ -8,30 +8,29 @@
         </header>
         <section class="modal-body">
           <div class="emoji-wrapper" id="content-emotion">
-            <!-- <img class="angry"> -->
-            <!-- <img class="happy"> -->
-            <!-- <img class="soso"> -->
-            <img class="sad">
-            <!-- <img class="surprised"> -->
-            <!-- <img class="angry"> -->
+            <img v-if="targetEmotion === 'emotion-haha'" class="haha">
+            <img v-if="targetEmotion === 'emotion-happy'" class="happy">
+            <img v-if="targetEmotion === 'emotion-soso'" class="soso">
+            <img v-if="targetEmotion === 'emotion-sad'" class="sad">
+            <img v-if="targetEmotion === 'emotion-surprised'" class="surprised">
+            <img v-if="targetEmotion === 'emotion-angry'" class="angry">
           </div>
           <form class="select-emoji-wrapper" id="edit-emotion" style="display:none">
-            <input @change="setEmotion" type="radio" id="haha" value="emotion-haha" name="emotion">
+            <input @change="setEmotion" type="radio" id="haha" value="emotion-haha" name="emotion" :checked="targetEmotion === 'emotion-haha'">
             <label class="select-haha" for="haha"></label>
-            <input @change="setEmotion" type="radio" id="happy" value="emotion-happy" name="emotion">
+            <input @change="setEmotion" type="radio" id="happy" value="emotion-happy" name="emotion" :checked="targetEmotion === 'emotion-happy'">
             <label class="select-happy" for="happy"></label>
-            <input @change="setEmotion" type="radio" id="soso" value="emotion-soso" name="emotion">
+            <input @change="setEmotion" type="radio" id="soso" value="emotion-soso" name="emotion" :checked="targetEmotion === 'emotion-soso'">
             <label class="select-soso" for="soso"></label>
-            <input @change="setEmotion" type="radio" id="sad" value="emotion-sad" name="emotion">
+            <input @change="setEmotion" type="radio" id="sad" value="emotion-sad" name="emotion" :checked="targetEmotion === 'emotion-sad'">
             <label class="select-sad" for="sad"></label>
-            <input @change="setEmotion" type="radio" id="surprised" value="emotion-surprised" name="emotion">
+            <input @change="setEmotion" type="radio" id="surprised" value="emotion-surprised" name="emotion" :checked="targetEmotion === 'emotion-surprised'">
             <label class="select-surprised" for="surprised"></label>
-            <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion">
+            <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion" :checked="targetEmotion === 'emotion-angry'">
             <label class="select-angry" for="angry"></label>
           </form>
-          <p class="content" id='content' style='white-space: pre-line'></p>
-          <!-- <p class="content" id='content' style='white-space: pre-line'>{{this.$store.getters.isListkey[0].value[0].content}}</p> -->
-          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{isWrite}}</textarea>
+          <p class="content" id='content' style='white-space: pre-line'>{{ targetContent }}</p>
+          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{targetContent}}</textarea>
         </section>
         <footer class="modal-footer buttons">
           <button class="modify" id="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
@@ -47,7 +46,7 @@ import axios from 'axios'
 import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
-  props: ['targetFullDate'],
+  props: ['targetFullDate','targetEmotion','targetContent'],
   computed: {
     ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isListKey', 'isUrlDate', 'isTargeturldaylist']),
   },
@@ -60,6 +59,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['']),
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
@@ -107,13 +107,6 @@ export default {
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
     },
-    // getContent: () =>{
-    //   // let a = window.localStorage.getItem('myAPI')
-    //   // let  = this.$store.getters.isUrlDate
-    //   let getAPI1 = this.$store.getters.isTargeturldaylist
-    //   console.log(getAPI1)
-    //   axios.get(getAPI1).then(response => {console.log(response)}).catch(error => {console.log(error)})
-    // }
   }
 }
 </script>
@@ -170,6 +163,7 @@ h3 {
   width: 100%;
   height: 100%;
   background-position: 50%;
+  // border: none;
 }
 
 .sad {

@@ -38,13 +38,12 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" v-for="m in 7" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
-            <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
+          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7"  @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
+          <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
-            <!-- <div>{{ }}</div> -->
             <!-- <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
-                  {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
-                </a> -->
+              {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
+            </a> -->
           </td>
         </tr>
 
@@ -85,10 +84,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey','isUrlDate'])
+    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey'])
   },
   methods: {
-    ...mapActions(['a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey','a_urlDate', 'a_getAllData', 'a_targeturldaylist']),
+    ...mapActions(['a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey', 'a_getAllData', 'a_targeturldaylist']),
     myAPI: () => {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
@@ -154,6 +153,7 @@ export default {
       for (let i = 0; i < 42; i++) {
         let isThisMonth = "";
         if (date.getMonth() !== targetDate.getMonth()) {
+          // document.getElementById(date);
           isThisMonth = 'not-this-month';
         } else {
           isThisMonth = 'this-month';
@@ -171,28 +171,7 @@ export default {
           }
         }
       }
-      // console.log(this.localISOString().split('T')[0].split('-').join(''))
     },
-    localISOString() {
-      var d = new Date()
-        , pad = function(n) { return n < 10 ? '0' + n : n; }
-        , tz = d.getTimezoneOffset() // mins
-        , tzs = (tz > 0 ? "-" : "+") + pad(parseInt(Math.abs(tz / 60)));
-
-      if (tz % 60 != 0)
-        tzs += pad(Math.abs(tz % 60));
-
-      if (tz === 0) // Zulu time == UTC
-        tzs = 'Z';
-
-      return d.getFullYear() + '-'
-        + pad(d.getMonth() + 1) + '-'
-        + pad(d.getDate()) + 'T'
-        + pad(d.getHours()) + ':'
-        + pad(d.getMinutes()) + ':'
-        + pad(d.getSeconds()) + tzs;
-    },
-
     thisMonth() {
       let date = new Date();
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
@@ -215,7 +194,6 @@ export default {
         let isThisMonth = "";
         if (date.getMonth() !== targetDate.getMonth()) {
           isThisMonth = 'not-this-month';
-
         } else {
           isThisMonth = 'this-month';
         };
@@ -236,8 +214,14 @@ export default {
     prevCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() - 1);
+      // let elTD = document.getElementsByTagName("td")
+      // elTD.removeAttribute("class");
+      // let elTD = document.getElementsByClassName('td')
+      // elTD.className.replace( /(?:^|\s)bar(?!\S)/ , '' )
+      // elTD.classList.remove( /(?:^|\s)bar(?!\S)/)
+      // console.log('elTD', elTD);
       this.makeCalendar();
-      // this.a_getAllData();
+      this.a_getAllData();
       // this.$store.dispatch('a_list', '');
       // this.$store.dispatch('a_listkey', '');
 
@@ -246,13 +230,15 @@ export default {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() + 1);
       this.makeCalendar();
-      // this.a_getAllData();
+      this.a_getAllData();
       // this.$store.dispatch('a_list', '');
       // this.$store.dispatch('a_listkey', '');
     },
     setState(date) {
       // console.log('date', date)
       // let dateId = document.getElementById(date);
+      // let dateId = document.getElementsByClassName('td');
+      // console.log('td',dateId)
       // console.log('dateClasee', dateClass)
       let myAPI = window.localStorage.getItem('myAPI');
       // let getAPI = myAPI + '.json'
@@ -261,23 +247,19 @@ export default {
       axios.get(dateGetAPI, {
       }).then(response => {
         let result = response.data;
-        if (result !== null) {
+        if (result !== null){
           let dateId = document.getElementById(date);
           let content = Object.values(result)[0].emotion
           // console.log('뭐게', content)
           dateId.classList.add(content);
         }
       })
+
+      
     },
     clickTargetDate(target_date) {
-      // console.log('캘린더 뷰에 있는 target_date', target_date);
-      // console.log('isoString', target_date.toISOString());
-      // console.log('타임존 설정', new Date(target_date.getTime() - (target_date.getTimezoneOffset() * 60000)).toISOString())
-
-      // console.log(new Date(target_date.getTime() - (target_date.getTimezoneOffset() * 60000)).toISOString().split('T')[0].split('-').join(''))
-
-      // console.log('아래 캘린더 뷰에 있는 target_date', target_date.toISOString().split('T')[0].split('-').join(''));
-      // console.log('아래 캘린더 뷰에 있는 to.JSON()target_date', target_date.toJSON());
+      console.log('target_date',target_date);
+      console.log('target_date',target_date.toISOString().split('T')[0].split('-').join(''));
       let object_year = target_date.getFullYear();
       let object_month = target_date.getMonth() + 1;
       let object_date = target_date.getDate();
@@ -291,7 +273,6 @@ export default {
       }
       let string_date = String(object_date);
       let urlDate = string_year + string_month + string_date;
-      this.$store.dispatch('a_urlDate', urlDate)
       let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
       this.$parent.targetFullDate = fullDate;
@@ -319,6 +300,7 @@ export default {
       } else {
         this.openWriteModal();
       }
+
     },
   }
 }
@@ -406,7 +388,8 @@ tbody td {
 }
 
 .not-this-month {
-  color: $color-moremoregray;
+  color: $color-moregray;
+  opacity: 0.6;
 }
 
 .thead {
@@ -443,41 +426,7 @@ tbody td {
   }
 }
 
-.not-this-month.emotion-haha {
-  opacity: 0.8;
-  background: $color-haha;
-  position: relative;
-  &::before {
-    content: '';
-    background: url('../assets/emoji-haha.svg') no-repeat;
-    background-position: 100% 100%;
-    background-size: 100%;
-    width: 50%;
-    height: 50%;
-    position: absolute;
-    right: 7px;
-    bottom: 7px;
-  }
-}
-
 .emotion-angry {
-  background: $color-angry;
-  position: relative;
-  &::before {
-    content: '';
-    background: url('../assets/emoji-angry.svg') no-repeat;
-    background-position: 100% 100%;
-    background-size: 90%;
-    width: 50%;
-    height: 50%;
-    position: absolute;
-    right: 7px;
-    bottom: 7px;
-  }
-}
-
-.not-this-month.emotion-angry {
-  opacity: 0.8;
   background: $color-angry;
   position: relative;
   &::before {
@@ -509,41 +458,7 @@ tbody td {
   }
 }
 
-.not-this-month.emotion-happy {
-  opacity: 0.8;
-  background: $color-happy;
-  position: relative;
-  &::before {
-    content: '';
-    background: url('../assets/emoji-happy.svg') no-repeat;
-    background-position: 100% 100%;
-    background-size: 90%;
-    width: 50%;
-    height: 50%;
-    position: absolute;
-    right: 7px;
-    bottom: 7px;
-  }
-}
-
 .emotion-sad {
-  background: $color-sad;
-  position: relative;
-  &::before {
-    content: '';
-    background: url('../assets/emoji-sad.svg') no-repeat;
-    background-position: 100% 100%;
-    background-size: 90%;
-    width: 50%;
-    height: 50%;
-    position: absolute;
-    right: 7px;
-    bottom: 7px;
-  }
-}
-
-.not-this-month.emotion-sad {
-  opacity: 0.8;
   background: $color-sad;
   position: relative;
   &::before {
@@ -575,41 +490,7 @@ tbody td {
   }
 }
 
-.not-this-month.emotion-soso {
-  opacity: 0.8;
-  background: $color-soso;
-  position: relative;
-  &::before {
-    content: '';
-    background: url('../assets/emoji-soso.svg') no-repeat;
-    background-position: 100% 100%;
-    background-size: 90%;
-    width: 50%;
-    height: 50%;
-    position: absolute;
-    right: 7px;
-    bottom: 7px;
-  }
-}
-
 .emotion-surprised {
-  background: $color-surprised;
-  position: relative;
-  &::before {
-    content: '';
-    background: url('../assets/emoji-surprised.svg') no-repeat;
-    background-position: 100% 100%;
-    background-size: 90%;
-    width: 50%;
-    height: 50%;
-    position: absolute;
-    right: 7px;
-    bottom: 7px;
-  }
-}
-
-.not-this-month.emotion-surprised {
-  opacity: 0.8;
   background: $color-surprised;
   position: relative;
   &::before {

@@ -64,7 +64,6 @@ export default {
   data: function() {
     return {
       visible: this.is_visible,
-     
     }
   },
   computed: {
@@ -73,7 +72,6 @@ export default {
   methods: {
     closeModal(){
       this.visible = false;
-      console.log('this.visible', this.visible)
       this.$parent.blur = null
       // console.log('부모',this.$parent.blur);
     },
@@ -104,8 +102,8 @@ export default {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)
     },
     submitInfo(){
-      this.closeModal();
       this.a_MySetting();
+      this.closeModal();
     }
   }
 }

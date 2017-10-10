@@ -18,6 +18,7 @@
       </div>
     </div>
     </div>
+    <!-- <my-setting-modal ref='my_setting_modal'></my-setting-modal> -->
   </header>
 </template>
 
@@ -41,11 +42,11 @@ window.onclick = function(event) {
 }
 export default {
   name: 'MainHeader',
+  components:{
+    // MySettingModal
+  },
   mounted() {
     this.a_getUserInfo()
-  },
-  components: {
-    // MySettingModal
   },
   data() {
     return {
@@ -69,10 +70,21 @@ export default {
       })
     },
     ...mapActions(['a_getUserInfo']),
+    // getUserInfo: function() {
+    //   var user = firebase.auth().currentUser;
+    //   var name, email, photoURL, uid, emailVerified;
 
+    //   if (user != null) {
+    //     name = user.displayName;
+    //     email = user.email;
+    //     photoURL = user.photoURL;
+    //     emailVerified = user.emailVerified;
+    //     uid = user.uid;
+    //   }
+    //   this.photoURL = photoURL
+    // },
     openMySettingModal() {
-      // this.$parent.$refs.my_setting_modal.visible = true;
-      this.$parent.$refs.my_setting_modal.visible = !this.$parent.$refs.my_setting_modal.visible;
+      this.$parent.$refs.my_setting_modal.visible = true;
       this.$parent.blur = {
         '-webkit-filter': 'blur(30px)',
         '-moz-filter': 'blur(30px)',
@@ -113,7 +125,6 @@ export default {
   margin-top: 5px;
   cursor: pointer;
 }
-
 .dropdown {
   text-align: right; // display: inline-block;
   position: relative;
@@ -127,7 +138,8 @@ export default {
   background: $color-moregray url('../assets/mood-icon-profile.svg');
   background-repeat: no-repeat;
   background-size: 20px;
-  background-position: 50% 50%; // margin-top: 50px;
+  background-position: 50% 50%;
+  // margin-top: 50px;
 }
 
 .dropbtn {

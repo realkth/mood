@@ -15,7 +15,6 @@ export default {
     list: [],
     listkey: [],
     targeturldaylist: '',
-    urlDate: ''
   },
   getters: {
     isWrite: (state) => {
@@ -35,9 +34,6 @@ export default {
     },
     isListkey: (state) => {
       return state.listkey
-    },
-    isUrlDate: (state) => {
-      return state.urlDate
     },
     isTargeturldaylist: (state) => {
       return state.targeturldaylist
@@ -62,9 +58,6 @@ export default {
     m_listkey: (state, payload) => {
       state.listkey = payload
     },
-    m_urlDate: (state, payload) => {
-      state.urlDate = payload
-    },
     m_targeturldaylist: (state, payload) => {
       state.targeturldaylist = payload
     }
@@ -88,13 +81,10 @@ export default {
     a_listkey: (context, val) => {
       context.commit('m_listkey', val)
     },
-    a_urlDate: (context, val) => {
-      context.commit('m_urlDate', val)
-    },
     a_targeturldaylist: (context, val) => {
       context.commit('m_targeturldaylist', val)
     },
-    a_writePostSubmit({ state, dispatch }) {
+    a_writePostSubmit({state, dispatch}) {
       let token = window.localStorage.getItem('token');
       let email = window.localStorage.getItem('email');
       let myAPI = window.localStorage.getItem('myAPI');
@@ -111,8 +101,8 @@ export default {
         let message = '오늘의 감정을 선택해주세요.'
         dispatch('a_setToastMessage', message)
         setTimeout(() => {
-        }, 2500);
-        return;
+          }, 2500);
+          return;
       }
 
       axios.post(state.targeturldaylist, {
@@ -132,7 +122,7 @@ export default {
           console.log('response', response);
         })
         .catch(error => {
-          console.log('state.targeturldaylist', state.targeturldaylist);
+          console.log('state.targeturldaylist',state.targeturldaylist);
           console.log(error);
           let message = '로그인 해주세요.'
           dispatch('a_setToastMessage', message)
@@ -142,7 +132,7 @@ export default {
         })
       // console.log(this.targeturldaylist)
     },
-    a_getAllData({ dispatch }) {
+    a_getAllData({dispatch}) {
       let myAPI = window.localStorage.getItem('myAPI');
       let getAPI = myAPI + '.json'
       let token = window.localStorage.getItem('token');

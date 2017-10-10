@@ -15,7 +15,7 @@
     </div>
     <my-setting-modal ref='my_setting_modal'></my-setting-modal>
     <write-modal :targetFullDate = "targetFullDate" ref='write_modal'></write-modal>
-    <my-post-modal :targetFullDate = "targetFullDate" ref='my_post_modal'></my-post-modal>
+    <my-post-modal :targetFullDate = "targetFullDate" :targetEmotion = "targetEmotion" :targetContent = "targetContent" ref='my_post_modal'></my-post-modal>
   </div>
 </template>
 
@@ -44,6 +44,8 @@ export default {
         displayName: ''
       },
       targetFullDate: '',
+      targetEmotion: '',
+      targetContent: '',
       // targeturldaylist:'',
       // listkey:[],
       // item: {},

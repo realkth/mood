@@ -86,6 +86,7 @@ export default {
       setTimeout(() => {
         this.closeModal()
       }, 2500);
+      // this.$parent.$refs.calendar.makeCalendar();
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {

@@ -115,6 +115,7 @@ export default {
         .then(response => {
           let message = '오늘의 일기를 기록하셨습니다.'
           dispatch('a_setToastMessage', message)
+          dispatch('a_write', '')
           // setTimeout(() => {
           //   this.closeModal()
           // }, 2500);
@@ -164,11 +165,11 @@ export default {
         .then(response => {
           let message = '오늘의 일기를 수정하셨습니다.'
           dispatch('a_setToastMessage', message)
+          dispatch('a_write', '')
           // setTimeout(() => {
           //   this.closeModal()
           // }, 2500);
           dispatch('a_getAllData')
-          // console.log('response', response);
         })
         .catch(error => {
           // console.log('state.targeturldaylist', state.targeturldaylist);

@@ -72,12 +72,10 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      let email = window.localStorage.getItem('email');
       axios.delete(this.$store.getters.isTargeturldaylist)
-        .then(response => { })
+        .then(response => { this.a_editPostSubmit() })
         .catch(error => console.warn(error))
       setTimeout(() => {
-        this.a_editPostSubmit();
         this.closeModal()
       }, 2500);
     },

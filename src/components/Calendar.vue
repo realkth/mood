@@ -1,7 +1,8 @@
 <template>
   <main>
     <div class="grid calendar-heading">
-      <doughnut-chart :calMonth="calMonth"></doughnut-chart>
+      <!-- <doughnut-chart :calMonth="calMonth"></doughnut-chart> -->
+      <doughnut-chart :calMonth="calMonth" :haha="haha" :happy="happy" :soso="soso" :sad="sad" :surprised="surprised" :angry="angry"></doughnut-chart>
       <div class="container buttons">
         <div class="grid">
           <button class="prev-month col col-d-offset-2 col-d-1 col-m-1" @click="prevCalendar"></button>
@@ -39,11 +40,7 @@
         <tr>
           <!-- <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))"> -->
           <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
-            <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
-            <!-- <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
-                        {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
-                      </a> -->
           </td>
         </tr>
 
@@ -57,7 +54,7 @@ import DoughnutChart from './DoughnutChart.vue';
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 import axios from 'axios'
 import moment from 'moment'
-//  import 'moment/locale/'
+
 export default {
   components: {
     DoughnutChart
@@ -88,14 +85,13 @@ export default {
       arrThisMonth: [],
       arrTargetDate: [],
       targetFullDate: '',
-      // targetEmotion: '',
-      // targetContent: '',
       urlDate: '',
-      dayListUrl: '',
-      dataSet: null,
-      datedatedate: [],
-      hasDate: [],
-      todayDate: null,
+      haha: 0,
+      happy: 0,
+      soso: 0,
+      sad: 0,
+      surprised: 0,
+      angry: 0
     }
   },
   computed: {
@@ -150,6 +146,12 @@ export default {
       this.makeCalendar();
     },
     makeCalendar() {
+      this.haha = 0;
+      this.happy = 0;
+      this.soso = 0;
+      this.sad = 0;
+      this.surprised = 0;
+      this.angry = 0;
       let date = this.currentMonth;
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
@@ -164,7 +166,31 @@ export default {
       this.arrThisMonth = [];
 
       this.arrTargetDate = [];
-
+      let month = moment(date).format().slice(0, 7).split('-').join('')
+      for (let i = 0; i < this.$store.getters.isList.length; i++) {
+        if (this.$store.getters.isList[i].key.includes(month)) {
+          switch (this.$store.getters.isList[i].value[0].emotion) {
+            case 'emotion-haha':
+              this.haha++;
+              break;
+            case 'emotion-happy':
+              this.happy++;
+              break;
+            case 'emotion-soso':
+              this.soso++;
+              break;
+            case 'emotion-sad':
+              this.sad++;
+              break;
+            case 'emotion-surprised':
+              this.surprised++;
+              break;
+            case 'emotion-angry':
+              this.angry++;
+              break;
+          }
+        }
+      }
       for (let i = 0; i < 42; i++) {
         let isThisMonth = "";
         if (date.getMonth() !== targetDate.getMonth()) {
@@ -243,13 +269,7 @@ export default {
       this.a_getAllData();
     },
     setState(date) {
-      // console.log('date', date)
-      // let dateId = document.getElementById(date);
-      // let dateId = document.getElementsByClassName('td');
-      // console.log('td',dateId)
-      // console.log('dateClasee', dateClass)
       let myAPI = window.localStorage.getItem('myAPI');
-      // let getAPI = myAPI + '.json'
       let dateGetAPI = myAPI + `${date}` + '.json'
       let token = window.localStorage.getItem('token');
       axios.get(dateGetAPI, {

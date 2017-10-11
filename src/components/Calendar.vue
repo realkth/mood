@@ -37,6 +37,7 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
+          <!-- <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))"> -->
           <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
             <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
@@ -55,7 +56,8 @@
 import DoughnutChart from './DoughnutChart.vue';
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 import axios from 'axios'
-
+import moment from 'moment'
+//  import 'moment/locale/'
 export default {
   components: {
     DoughnutChart
@@ -97,7 +99,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey'])
+    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey']),
   },
   methods: {
     ...mapActions(['a_setToastMessage', 'a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey', 'a_getAllData', 'a_targeturldaylist']),
@@ -261,13 +263,15 @@ export default {
       })
     },
     clickTargetDate(target_date) {
-      console.group('날짜 테스트');
-      console.log('지금 쓰고 있는거', target_date.toISOString().split('T')[0].split('-').join(''));
-      console.log('지금 원본', target_date.toISOString());
-      console.log('target_date', target_date);
-      console.log('하고 싶은거', target_date.toJSON());
+      // console.group('날짜 테스트');
+      // console.log('지금 쓰고 있는거', target_date.toISOString().split('T')[0].split('-').join(''));
+      // console.log('지금 원본', target_date.toISOString());
+      // console.log('하고 싶은거', target_date.toDateString());
+      // console.log('하고 싶은거', target_date.toLocaleDateString().split('.').join('').replace(/\s/gi, ""));
+      // console.log('target_date', target_date);
+      // console.log('moment', moment(target_date).format().split('T')[0].split('-').join(''));
 
-      console.groupEnd('날짜 테스트');
+      // console.groupEnd('날짜 테스트');
       let object_year = target_date.getFullYear();
       let object_month = target_date.getMonth() + 1;
       let object_date = target_date.getDate();

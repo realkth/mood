@@ -56,7 +56,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion', 'a_item', 'a_getAllData']),
+    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_editPostSubmit', 'a_write', 'a_emotion', 'a_item', 'a_getAllData']),
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
@@ -72,17 +72,12 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-
       let email = window.localStorage.getItem('email');
-      // 기존꺼 삭제하고 작동하도록 하면 될듯
-      axios.patch(this.$store.state.targeturldaylist, {
-        userEmail: email,
-        emotion: this.$store.state.emotion,
-        // content: this.$store.state.write.content
-      }).then(response => { console.log(response) }).catch(error => console.error(error))
-
-      this.a_writePostSubmit();
+      axios.delete(this.$store.getters.isTargeturldaylist)
+        .then(response => { })
+        .catch(error => console.warn(error))
       setTimeout(() => {
+        this.a_editPostSubmit();
         this.closeModal()
       }, 2500);
     },

@@ -133,6 +133,55 @@ export default {
       // console.log(this.targeturldaylist)
 
     },
+    a_editPostSubmit({ state, dispatch }) {
+      let token = window.localStorage.getItem('token');
+      let email = window.localStorage.getItem('email');
+      let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
+      let emotion_btn = document.getElementsByName("emotion");
+      let emotion_btn_check = 0;
+      for (let i = 0; i < emotion_btn.length; i++) {
+        if (emotion_btn[i].checked == true) {
+          state.emotion = emotion_btn[i].value
+          emotion_btn_check++;
+        }
+      }
+      if (emotion_btn_check === 0) {
+        let message = '오늘의 감정을 선택해주세요.'
+        dispatch('a_setToastMessage', message)
+        setTimeout(() => {
+        }, 2500);
+        return;
+      }
+
+      axios.post(state.targeturldaylist, {
+        // user: token,
+        userEmail: email,
+        emotion: state.emotion,
+        content: state.write.content
+      }
+      )
+        .then(response => {
+          let message = '오늘의 일기를 수정하셨습니다.'
+          dispatch('a_setToastMessage', message)
+          // setTimeout(() => {
+          //   this.closeModal()
+          // }, 2500);
+          dispatch('a_getAllData')
+          // console.log('response', response);
+        })
+        .catch(error => {
+          // console.log('state.targeturldaylist', state.targeturldaylist);
+          console.log(error);
+          let message = '로그인 해주세요.'
+          dispatch('a_setToastMessage', message)
+          // setTimeout(() => {
+          //   this.closeModal()
+          // }, 2500);
+        })
+      // console.log(this.targeturldaylist)
+
+    },
     a_getAllData({ dispatch }) {
       let myAPI = window.localStorage.getItem('myAPI');
       let getAPI = myAPI + '.json'

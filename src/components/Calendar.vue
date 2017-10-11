@@ -263,6 +263,7 @@ export default {
     clickTargetDate(target_date) {
       console.log('target_date', target_date);
       console.log('target_date', target_date.toISOString().split('T')[0].split('-').join(''));
+      console.log('toLocaleDateString', target_date.toLocaleDateString().split('').join(''));
       let object_year = target_date.getFullYear();
       let object_month = target_date.getMonth() + 1;
       let object_date = target_date.getDate();

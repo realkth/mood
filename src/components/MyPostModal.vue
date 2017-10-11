@@ -138,6 +138,7 @@ h3 {
   display: inline-block;
 }
 
+
 .content {
   padding: 5px 12.5%;
 }
@@ -145,49 +146,55 @@ h3 {
 .haha {
   background: url(../assets/emoji-haha.svg) no-repeat $color-haha;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .happy {
   background: url(../assets/emoji-happy.svg) no-repeat $color-happy;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .soso {
   background: url(../assets/emoji-soso.svg) no-repeat $color-soso;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
-  background-position: 50%; // border: none;
+  width: 130px;
+  height: 130px;
+  background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .sad {
   background: url(../assets/emoji-sad.svg) no-repeat $color-sad;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .surprised {
   background: url(../assets/emoji-surprised.svg) no-repeat $color-surprised;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .angry {
   background: url(../assets/emoji-angry.svg) no-repeat $color-angry;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .modal-bg {

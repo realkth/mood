@@ -7,7 +7,7 @@
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
           <div class="img-wrapper">
-            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null" height="40px">
+            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null"  width= "40px" height="40px">
             <span class="dropbtn user-icon" @click="openMenu" v-else></span>
           </div>
           <div id="myDropdown" class="dropdown-content">
@@ -42,7 +42,7 @@ window.onclick = function(event) {
 }
 export default {
   name: 'MainHeader',
-  components:{
+  components: {
     // MySettingModal
   },
   mounted() {
@@ -125,8 +125,9 @@ export default {
   margin-top: 5px;
   cursor: pointer;
 }
+
 .dropdown {
-  text-align: right; // display: inline-block;
+  text-align: right;
   position: relative;
   display: inline-block;
 }
@@ -138,15 +139,7 @@ export default {
   background: $color-moregray url('../assets/mood-icon-profile.svg');
   background-repeat: no-repeat;
   background-size: 20px;
-  background-position: 50% 50%;
-  // margin-top: 50px;
-}
-
-.dropbtn {
-  // border-radius: 50%;
-  // width: 40px;
-  // cursor: pointer;
-  // text-align: right;
+  background-position: 50% 50%; // margin-top: 50px;
 }
 
 .dropbtn:hover,

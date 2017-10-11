@@ -7,6 +7,7 @@ import router from './router'
 import axios from 'axios'
 import firebase from 'firebase'
 import {store} from './store'
+import moment from 'moment'
 // import VueCharts from 'vue-chartjs'
 // import { Bar, Line } from 'vue-chartjs'
 
@@ -15,7 +16,7 @@ import {store} from './store'
 Vue.use(VueRouter)
 // Vue.use(VueCharts);
 Vue.prototype.$http = axios
-
+Vue.prototype.moment = moment
 let app;
 
   // Initialize Firebase

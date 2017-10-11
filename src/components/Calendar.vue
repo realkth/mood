@@ -1,7 +1,6 @@
 <template>
   <main>
     <div class="grid calendar-heading">
-      <!-- <doughnut-chart :calMonth="calMonth"></doughnut-chart> -->
       <doughnut-chart :calMonth="calMonth" :haha="haha" :happy="happy" :soso="soso" :sad="sad" :surprised="surprised" :angry="angry"></doughnut-chart>
       <div class="container buttons">
         <div class="grid">
@@ -38,8 +37,8 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <!-- <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))"> -->
-          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
+          <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))">
+            <!-- <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
           </td>
         </tr>
@@ -283,30 +282,12 @@ export default {
       })
     },
     clickTargetDate(target_date) {
-      // console.group('날짜 테스트');
-      // console.log('지금 쓰고 있는거', target_date.toISOString().split('T')[0].split('-').join(''));
-      // console.log('지금 원본', target_date.toISOString());
-      // console.log('하고 싶은거', target_date.toDateString());
-      // console.log('하고 싶은거', target_date.toLocaleDateString().split('.').join('').replace(/\s/gi, ""));
-      // console.log('target_date', target_date);
-      // console.log('moment', moment(target_date).format().split('T')[0].split('-').join(''));
+      let object_year = moment(target_date).format().split('T')[0].split('-').join('').slice(0, 4);
+      let object_month = moment(target_date).format().split('T')[0].split('-').join('').slice(4, 6);
+      let object_date = moment(target_date).format().split('T')[0].split('-').join('').slice(6, 8);
+      let urlDate = object_year + object_month + object_date;
+      let fullDate = object_year + '년 ' + object_month + '월 ' + object_date + '일';
 
-      // console.groupEnd('날짜 테스트');
-      let object_year = target_date.getFullYear();
-      let object_month = target_date.getMonth() + 1;
-      let object_date = target_date.getDate();
-      let string_year = String(object_year);
-      if (object_month < 10) {
-        object_month = '0' + object_month;
-      }
-      let string_month = String(object_month);
-      if (object_date < 10) {
-        object_date = '0' + object_date;
-      }
-      let string_date = String(object_date);
-      let urlDate = string_year + string_month + string_date;
-      // console.log('urlDate', urlDate)
-      let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
       this.targetFullDate = fullDate;
       this.urlDate = urlDate;
       this.$parent.targetFullDate = fullDate;
@@ -314,9 +295,6 @@ export default {
       let targeturldaylist = myAPI + urlDate + '.json';
       this.$store.dispatch('a_targeturldaylist', targeturldaylist)
 
-      // console.log('targetdate',urlDate);
-
-      // let myAPI = window.localStorage.getItem('myAPI');
       let getAPI = myAPI + '.json'
       let token = window.localStorage.getItem('token');
       axios.get(targeturldaylist, {
@@ -330,7 +308,6 @@ export default {
 
       if (this.isListkey.includes(urlDate)) {
         this.openPostModal();
-        // console.log('urlDate', urlDate);
       } else {
         this.openWriteModal();
       }

@@ -7,6 +7,7 @@
 
 <script>
   import DoughnutChart from '../DoughnutChart.js'
+  import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
   export default {
     components: {
@@ -17,26 +18,54 @@
         datacollection: null,
       }
     },
-    props:['calMonth'],
+    props:['calMonth','haha','happy','soso','sad','surprised','angry'],
+    created() {
+      this.$store.watch(
+      (state) => {
+        return this.$store.getters.isList
+      },
+      (val) => {
+        this.fillData();
+      },
+      {
+        deep: true
+      }
+    );
+    },
     mounted () {
       this.fillData()
     },
+    computed: {
+    ...mapGetters(['isList']),
+  },
     methods: {
       fillData () {
-        this.datacollection = {
-          labels: ['haha', 'happy','soso', 'sad','surprised','angry'],
-          datasets: [
-             {
-              label: 'Data One',
-              backgroundColor: ['#6f8b78','#e4d49e','#e5e6d6','#4d8696','#c96466','#5f1a2b'],
-              data: [this.getRandomInt(), this.getRandomInt(),this.getRandomInt(),this.getRandomInt(),this.getRandomInt(),this.getRandomInt()]
-            }
-          ]
+        if(this.haha === 0 && this.happy === 0 && this.soso === 0 && this.sad === 0 && this.surprised === 0 && this.angry === 0){
+          this.datacollection = {
+            labels: ['오늘의 감정을 기록해보세요'],
+            datasets: [
+               {
+                label: 'Data One',
+                backgroundColor: ['#435353'],
+                data: [1]
+              }
+            ]
+          }
+        }
+        else {
+          this.datacollection = {
+            labels: ['haha', 'happy','soso', 'sad','surprised','angry'],
+            datasets: [
+               {
+                label: 'Data One',
+                backgroundColor: ['#6f8b78','#e4d49e','#e5e6d6','#4d8696','#c96466','#5f1a2b'],
+                data: [this.haha,this.happy,this.soso,this.sad,this.surprised,this.angry]
+              }
+            ]
+          }
+
         }
       },
-      getRandomInt () {
-        return Math.floor(Math.random() * (50 - 5 + 1)) + 5
-      }
     }
   }
 </script>

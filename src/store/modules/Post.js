@@ -15,6 +15,10 @@ export default {
     list: [],
     listkey: [],
     targeturldaylist: '',
+    recentPost: {
+      emotion: '',
+      content: ''
+    }
   },
   getters: {
     isWrite: (state) => {
@@ -37,7 +41,13 @@ export default {
     },
     isTargeturldaylist: (state) => {
       return state.targeturldaylist
-    }
+    },
+    isRecentPostEmotion: (state) => {
+      return state.recentPost.emotion
+    },
+    isRecentPostContent: (state) => {
+      return state.recentPost.content
+    },
   },
   mutations: {
     m_write: (state, payload) => {
@@ -60,7 +70,13 @@ export default {
     },
     m_targeturldaylist: (state, payload) => {
       state.targeturldaylist = payload
-    }
+    },
+    m_recentPostEmotion: (state, payload) => {
+      state.recentPost.emotion = payload
+    },
+    m_recentPostContent: (state, payload) => {
+      state.recentPost.content = payload
+    },
   },
   actions: {
     a_write: (context, val) => {
@@ -83,6 +99,12 @@ export default {
     },
     a_targeturldaylist: (context, val) => {
       context.commit('m_targeturldaylist', val)
+    },
+    a_recentPostEmotion: (context, val) => {
+      context.commit('m_recentPostEmotion', val)
+    },
+    a_recentPostContent: (context, val) => {
+      context.commit('m_recentPostContent', val)
     },
     a_writePostSubmit({ state, dispatch }) {
       let token = window.localStorage.getItem('token');
@@ -168,6 +190,7 @@ export default {
           //   this.closeModal()
           // }, 2500);
           dispatch('a_getAllData')
+          dispatch('a_recentPostEmotion',state.emotion)
           // console.log('response', response);
         })
         .catch(error => {
@@ -204,11 +227,17 @@ export default {
             // item.value = result[prop].values
             list.push(item)
             listkey.push(item.key)
+            // console.log('item',item);
+            // console.log('list',list);
 
             dispatch('a_itemkey', item.key)
             dispatch('a_itemvalue', item.value)
             dispatch('a_list', list)
             dispatch('a_listkey', listkey)
+            // for(var i in list) {
+            //   console.log('i',list[i].key);
+            //   // if (list[i])
+            // }
           }
         })
         .catch(error => {

@@ -68,6 +68,7 @@ export default {
         window.localStorage.removeItem('myAPI')
         this.$store.dispatch('a_setFirstPhoto', '')
         this.$router.replace('login')
+        window.location.reload(true);
       })
     },
     ...mapActions(['a_getUserInfo', 'a_setFirstPhoto']),

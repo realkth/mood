@@ -73,33 +73,22 @@ export default {
           photoURL: state.currentUser.photoURL,
           displayName: state.currentUser.displayName
         }).then(function(response) {
-          // dispatch('a_FirstSettingAuthState');
-          //Success
-          // this.$router.replace('hello')
-          // console.log(firebase.auth().currentUser.displayName)
-          // console.log(firebase.auth().currentUser.photoURL)
+          dispatch('a_FirstSettingAuthState');
         }, function(error) {
           //Error
           console.log(error);
         });
-        // this.$router.replace('second-setting')
       }
       else {
         state.setting_err_msg = '유저 네임을 설정해주세요.';
       }
-      dispatch('a_FirstSettingAuthState');
     },
     a_FirstSettingAuthState: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          // User is signed in.
-          // console.log(getters.isDisplayName)
-          // getters.isDisplayName = user.displayName;
-          // getters.isphotoURL = user.photoURL;
           commit('m_secondSetting');
         } else {
-          // User is signed out.
-          // ...
+
         }
       });
     },

@@ -3,7 +3,9 @@
     <div class="grid">
       <div class="col">
         <div class="logo col col-m-2 col-m-offset-1 col-d-4 col-d-offset-4">
-          <img alt="mood 로고" class="logo-mood" src="../assets/l-mood.svg" height="40px">
+          <a href="">
+            <img alt="mood 로고" class="logo-mood" src="../assets/l-mood.svg" height="40px">
+          </a>
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
           <div class="img-wrapper">

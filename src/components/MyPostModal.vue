@@ -169,8 +169,8 @@ h3 {
 .haha {
   background: url(../assets/emoji-haha.svg) no-repeat $color-haha;
   background-size: 80%;
-  width: 130px;
-  height: 130px;
+  width: 128px;
+  height: 128px;
   background-position: 50%;
   transform: translate(-1px, -1px);
 }

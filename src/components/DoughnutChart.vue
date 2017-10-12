@@ -17,7 +17,6 @@ export default {
       datacollection: null,
     }
   },
-  // props:['calMonth'],
   props: ['calMonth', 'haha', 'happy', 'soso', 'sad', 'surprised', 'angry'],
   mounted() {
     this.$store.watch(
@@ -70,8 +69,7 @@ export default {
 @import '~style';
 
 .chart-wrapper {
-  text-align: center; // margin-bottom: 20px;
-  // margin-top: 20px;
+  text-align: center;
   position: relative;
   margin: 20px 20px;
 }

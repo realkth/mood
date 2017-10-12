@@ -1,18 +1,15 @@
 <template>
-<transition name="fade-out">
-  <div class="toast-message col" id="toast" v-if="isToastMessage">
-    <p class="message">{{ isToastMessage }}</p>
-  </div>
-</transition>
+  <transition name="fade-out">
+    <div class="toast-message col" id="toast" v-if="isToastMessage">
+      <p class="message">{{ isToastMessage }}</p>
+    </div>
+  </transition>
 </template>
  
 <script>
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
-  // mounted(){
-  //   this.a_setToastMessage();
-  // },
   computed: {
     ...mapGetters(['isToastMessage'])
   },
@@ -22,19 +19,12 @@ export default {
   },
   watch: {
     isToastMessage(isToastMessage) {
-      if(isToastMessage) {
-          setTimeout(() => {
-            this.m_setToastMessage(null);
-          }, 2000);
+      if (isToastMessage) {
+        setTimeout(() => {
+          this.m_setToastMessage(null);
+        }, 2000);
       }
-    },
-    // isToastMessage(isToastMessage) {
-    //   var toast = document.getElementById("toast");
-    //   toast.classList.add('show')
-    //   setTimeout(() => {
-    //     toast.classList.remove('show');
-    //   }, 3000);
-    // },
+    }
   },
 }
 </script>
@@ -51,45 +41,50 @@ export default {
   border-radius: 5px;
   box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.1);
 }
+
 #toast {
   position: absolute;
   z-index: 100;
-  // top: 50%;
-  // transform: translateY(-50%);
   bottom: 15%;
   left: 50%;
   transform: translateX(-50%);
-  // display: none;
-  // visibility: hidden;
-  // visibility: visible;
   text-align: center;
-  // height: 70px;
   opacity: 0.7;
 }
+
 #toast.show {
-  // visibility: visible;
   display: block;
   -webkit-animation: fadeout 3s;
   animation: fadeout 3s;
 }
+
 @-webkit-keyframes fadeout {
-    from {opacity: 1;} 
-    to {opacity: 0;}
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
+
 @keyframes fadeout {
-    from {opacity: 1;}
-    to {opacity: 0;}
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
+
 .fade-out-enter-active,
 .fade-out-leave-active {
   transition: opacity 0.3s;
 }
+
 .fade-out-enter,
 .fade-out-leave-to {
   opacity: 0;
 }
-
-
 </style>
 
 

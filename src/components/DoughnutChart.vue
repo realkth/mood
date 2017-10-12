@@ -95,12 +95,12 @@ h2 {
   }
   &:hover {
     .info {
-      background: rgba(2, 2, 2, 0.792);;
+      background: rgba(2, 2, 2, 0.792);
       font-size: 1rem;
       color: #fff;
       font-weight: 400;
       padding: 5px 10px;
-      border-radius: 3px; 
+      border-radius: 3px;
       display: block;
     }
   }

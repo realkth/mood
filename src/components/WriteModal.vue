@@ -22,7 +22,6 @@
             <label class="angry" for="angry"></label>
           </form>
           <textarea class="textarea" type="text" @input='setWrite' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
-          <!-- <toast-message v-show="isToastMessage"></toast-message> -->
         </section>
         <footer class="modal-footer buttons">
           <button class="write" v-on:click="submit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
@@ -46,10 +45,6 @@ const focus = {
 export default {
   directives: { focus },
   props: ['targetFullDate'],
-  // created() {
-  //   this.getUserInfo()
-  // },
-
   computed: {
     ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isList'])
   },
@@ -64,16 +59,9 @@ export default {
   methods: {
     ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_write', 'a_emotion', 'a_item', 'a_getAllData']),
     closeModal() {
-      // this.write.content = '';
       this.visible = false;
       this.$parent.blur = null;
-      // 글쓰기 반응성 못살릴 경우 최후의 수단.
-      // window.location.reload(true);
     },
-    // writePost(target, e) {
-    //   let input = e.target.value;
-    //   this.write[target] = input;
-    // },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
     },
@@ -93,19 +81,6 @@ export default {
         this.$store.dispatch('a_setToastMessage', message)
       }
     },
-    nowTime: function(date) {
-      if (date.getHours() > 12) {
-        var time = "PM " + ((date.getHours() + 24) % 12 || 12) + "시 "
-      } else {
-        var time = date.getHours() + "시 "
-      }
-      var datetime = date.getFullYear() + "년 "
-        + (date.getMonth() + 1) + "월 "
-        + date.getDate() + "일 "
-        + time
-        + date.getMinutes() + "분"
-      return datetime
-    },
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
     },
@@ -120,7 +95,7 @@ export default {
   display: block;
   padding: 40px 0 0 0;
   overflow: hidden;
-  text-align: center; // z-index: 3;
+  text-align: center;
 }
 
 h3 {

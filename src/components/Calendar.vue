@@ -10,7 +10,7 @@
       </div>
 
     </div>
-    <table class="grid"> 
+    <table class="grid">
       <caption>
         <h3 class="year"> {{ calYear }} </h3>
         <button class="btn-today" @click="thisMonth">today</button>
@@ -75,22 +75,6 @@ export default {
         deep: true
       }
     );
-    // this.$store.watch(
-    //   (state) => {
-    //     // return this.$store.getters.isList
-    //     // return this.$store.getters.isList[this.$store.getters.isListkey.indexOf(this.urlDate)].value[0].emotion
-    //     // return this.$store.getters.isList[this.$store.getters.isListkey.indexOf(this.urlDate)].value[0].content
-    //   },
-    //   (val) => {
-    //     console.log('우리가 관찰하는 리스트의 값',this.$store.getters.isList.length)
-    //     this.makeCalendar();
-    //     this.setState();
-    //   },
-    //   {
-    //     deep: true
-    //   }
-    // );
-    // 타겟 유알엘 데이트의 감정이나 글이 바뀐걸 감지 할 수 있나.
   },
   data() {
     return {
@@ -121,19 +105,13 @@ export default {
     },
     nowTime: () => {
       let currentdate = new Date();
-      // if (currentdate.getHours() > 12) {
-      //   let time = "PM " + ((currentdate.getHours() + 24) % 12 || 12) + "시 "
-      // } else {
-      //   let time = currentdate.getHours() + "시 "
-      // }
       let datetime =
         (currentdate.getMonth() + 1) + "월 "
         + currentdate.getDate() + "일 "
-      // + time
-      // + currentdate.getMinutes() + "분"
       return datetime
     },
     openWriteModal() {
+      window.scrollTo(0, 0)
       this.$parent.$refs.write_modal.visible = true;
       this.$parent.blur = {
         '-webkit-filter': 'blur(30px)',
@@ -144,6 +122,7 @@ export default {
       }
     },
     openPostModal() {
+      window.scrollTo(0, 0)
       this.$parent.$refs.my_post_modal.visible = true;
       this.$parent.blur = {
         '-webkit-filter': 'blur(30px)',
@@ -167,7 +146,6 @@ export default {
       this.sad = 0;
       this.surprised = 0;
       this.angry = 0;
-      // console.log('달력 작동.')
       let date = this.currentMonth;
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
@@ -210,7 +188,6 @@ export default {
       for (let i = 0; i < 42; i++) {
         let isThisMonth = "";
         if (date.getMonth() !== targetDate.getMonth()) {
-          // document.getElementById(date);
           isThisMonth = 'not-this-month';
         } else {
           isThisMonth = 'this-month';
@@ -228,21 +205,11 @@ export default {
           }
         }
       }
-      // console.log('isList의 생김새: ', this.$store.getters.isListkey[4].includes('201707'))
-      // console.log('isList의 생김새: ', this.$store.getters.isListkey[0].includes('201707'))
-      // console.log(moment(date).format().slice(0,7).split('-').join(''))
-      // console.log(moment(date).format())
-
-      // console.log('isListKey의 생김새: ', this.$store.getters.isListkey)
-
     },
     thisMonth() {
       let date = new Date();
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
-      // this.calYear = '오늘은 ' + date.getFullYear() + '년 ' +
-      //   (date.getMonth() + 1) + "월 "
-      //   + date.getDate() + "일 "
       this.calYear = date.getFullYear() + '년';
       this.calMonth = date.getMonth() + 1;
       date.setDate(1);
@@ -323,24 +290,18 @@ export default {
       let getAPI = myAPI + '.json'
       let token = window.localStorage.getItem('token');
       axios.get(targeturldaylist, {})
-      .then(response => {
-        let data = response.data;
-        let item = Object.values(data);
-        this.$parent.targetEmotion = item[0].emotion
-        this.$parent.targetContent = item[0].content
-      }).catch(error => { })
+        .then(response => {
+          let data = response.data;
+          let item = Object.values(data);
+          this.$parent.targetEmotion = item[0].emotion
+          this.$parent.targetContent = item[0].content
+        }).catch(error => { })
 
       if (this.isListkey.includes(urlDate)) {
         this.openPostModal();
       } else {
         this.openWriteModal();
       }
-      // 선택한 날짜의 데이터가 isList또는 isListkey 배열의 몇번째 인지 알려주는 값.
-    //   this.$parent.prevEmotion = this.$store.getters.isList[this.$store.getters.isListkey.indexOf(this.urlDate)].value[0].emotion
-    //   this.$parent.prevContent = this.$store.getters.isList[this.$store.getters.isListkey.indexOf(this.urlDate)].value[0].content
-    //   // console.log(prevEmotion)
-    //   // console.log(prevContent)
-    // console.log('선택한 날짜의 데이터가 isList또는 isListkey 배열의 몇번째 인지 알려주는 값.', this.$store.getters.isListkey.indexOf(this.urlDate));
     },
   }
 }
@@ -348,9 +309,6 @@ export default {
 <style lang="scss" scoped>
 @import "~style";
 
-// h2 {
-//   position: absolute;
-// }
 
 @media screen and (min-width: 0px) and (max-width: 767px) {
   .buttons {
@@ -436,8 +394,8 @@ tbody td {
   font-weight: 600;
   text-align: center;
   vertical-align: middle;
-  background: $color-white; // border: 5px solid $color-opacity;
-  position: relative; // border: none;
+  background: $color-white;
+  position: relative;
 }
 
 .sun {

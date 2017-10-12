@@ -126,7 +126,6 @@ export default {
         }, 2500);
         return;
       }
-
       axios.post(state.targeturldaylist, {
         // user: token,
         userEmail: email,
@@ -138,23 +137,13 @@ export default {
           let message = '오늘의 일기를 기록하셨습니다.'
           dispatch('a_setToastMessage', message)
           dispatch('a_write', '')
-          // setTimeout(() => {
-          //   this.closeModal()
-          // }, 2500);
           dispatch('a_getAllData')
-          // console.log('response', response);
         })
         .catch(error => {
-          // console.log('state.targeturldaylist', state.targeturldaylist);
           console.log(error);
           let message = '로그인 해주세요.'
           dispatch('a_setToastMessage', message)
-          // setTimeout(() => {
-          //   this.closeModal()
-          // }, 2500);
         })
-      // console.log(this.targeturldaylist)
-
     },
     a_editPostSubmit({ state, dispatch }) {
       let token = window.localStorage.getItem('token');
@@ -178,7 +167,6 @@ export default {
       }
 
       axios.post(state.targeturldaylist, {
-        // user: token,
         userEmail: email,
         emotion: state.emotion,
         content: state.write.content
@@ -188,21 +176,13 @@ export default {
           let message = '오늘의 일기를 수정하셨습니다.'
           dispatch('a_setToastMessage', message)
           dispatch('a_write', '')
-          // setTimeout(() => {
-          //   this.closeModal()
-          // }, 2500);
           dispatch('a_getAllData')
         })
         .catch(error => {
-          // console.log('state.targeturldaylist', state.targeturldaylist);
           console.log(error);
           let message = '로그인 해주세요.'
           dispatch('a_setToastMessage', message)
-          // setTimeout(() => {
-          //   this.closeModal()
-          // }, 2500);
         })
-      // console.log(this.targeturldaylist)
 
     },
     a_getAllData({ dispatch }) {
@@ -213,18 +193,13 @@ export default {
       })
         .then(response => {
           let result = response.data;
-          // console.log('result',result);
           let item = {};
           let list = [];
           let listkey = [];
-          // console.log('올데이타',result);
           for (var prop in result) {
-            // this.$store.dispatch('a_item',result[prop])
-            // let thisItem = result[prop]
             item = result[prop]
             item.key = prop
             item.value = Object.values(item)
-            // item.value = result[prop].values
             list.push(item)
             listkey.push(item.key)
             // console.log('item',item);

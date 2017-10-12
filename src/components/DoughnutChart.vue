@@ -74,8 +74,7 @@ export default {
 @import '~style';
 
 .chart-wrapper {
-  text-align: center; // margin-bottom: 20px;
-  // margin-top: 20px;
+  text-align: center;
   position: relative;
   margin: 20px 20px;
 }

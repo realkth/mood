@@ -49,9 +49,9 @@ export default {
   // created() {
   //   this.getUserInfo()
   // },
-  
+
   computed: {
-    ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem'])
+    ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isList'])
   },
   components: {
     ToastMessage
@@ -81,12 +81,17 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      this.a_writePostSubmit();
-      this.a_getAllData();
-      setTimeout(() => {
-        this.closeModal()
-      }, 2500);
-      // this.$parent.$refs.calendar.makeCalendar();
+      if (this.$store.getters.isWrite.length < 1000){
+        this.a_writePostSubmit();
+        this.a_getAllData();
+        setTimeout(() => {
+          this.closeModal()
+        }, 2500);
+      }
+      else{
+        let message = '1000자를 넘을 수 없습니다.'
+        this.$store.dispatch('a_setToastMessage', message)
+      }
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {
@@ -103,7 +108,7 @@ export default {
     },
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
-    }
+    },
   }
 }
 </script>

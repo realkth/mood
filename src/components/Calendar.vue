@@ -75,6 +75,22 @@ export default {
         deep: true
       }
     );
+    // this.$store.watch(
+    //   (state) => {
+    //     // return this.$store.getters.isList
+    //     // return this.$store.getters.isList[this.$store.getters.isListkey.indexOf(this.urlDate)].value[0].emotion
+    //     // return this.$store.getters.isList[this.$store.getters.isListkey.indexOf(this.urlDate)].value[0].content
+    //   },
+    //   (val) => {
+    //     console.log('우리가 관찰하는 리스트의 값',this.$store.getters.isList.length)
+    //     this.makeCalendar();
+    //     this.setState();
+    //   },
+    //   {
+    //     deep: true
+    //   }
+    // );
+    // 타겟 유알엘 데이트의 감정이나 글이 바뀐걸 감지 할 수 있나.
   },
   data() {
     return {
@@ -151,6 +167,7 @@ export default {
       this.sad = 0;
       this.surprised = 0;
       this.angry = 0;
+      // console.log('달력 작동.')
       let date = this.currentMonth;
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
@@ -297,9 +314,8 @@ export default {
 
       let getAPI = myAPI + '.json'
       let token = window.localStorage.getItem('token');
-      axios.get(targeturldaylist, {
-
-      }).then(response => {
+      axios.get(targeturldaylist, {})
+      .then(response => {
         let data = response.data;
         let item = Object.values(data);
         this.$parent.targetEmotion = item[0].emotion
@@ -311,11 +327,16 @@ export default {
       } else {
         this.openWriteModal();
       }
+      // 선택한 날짜의 데이터가 isList또는 isListkey 배열의 몇번째 인지 알려주는 값.
+    //   this.$parent.prevEmotion = this.$store.getters.isList[this.$store.getters.isListkey.indexOf(this.urlDate)].value[0].emotion
+    //   this.$parent.prevContent = this.$store.getters.isList[this.$store.getters.isListkey.indexOf(this.urlDate)].value[0].content
+    //   // console.log(prevEmotion)
+    //   // console.log(prevContent)
+    // console.log('선택한 날짜의 데이터가 isList또는 isListkey 배열의 몇번째 인지 알려주는 값.', this.$store.getters.isListkey.indexOf(this.urlDate));
     },
   }
 }
 </script>
-
 <style lang="scss" scoped>
 @import "~style";
 

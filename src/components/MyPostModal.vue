@@ -72,12 +72,19 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      axios.delete(this.$store.getters.isTargeturldaylist)
-        .then(response => { this.a_editPostSubmit() })
-        .catch(error => console.warn(error))
-      setTimeout(() => {
-        this.closeModal()
-      }, 2500);
+      if (this.$store.getters.isWrite.length < 1000) {
+        axios.delete(this.$store.getters.isTargeturldaylist)
+          .then(response => {
+            this.a_editPostSubmit()
+          })
+          .catch(error => console.warn(error))
+        setTimeout(() => {
+          this.closeModal()
+        }, 2500);
+      } else {
+        let message = '1000자를 넘을 수 없습니다.'
+        this.$store.dispatch('a_setToastMessage', message)
+      }
     },
     nowTime: function(date) {
       if (date.getHours() > 12) {

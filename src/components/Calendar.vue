@@ -544,4 +544,8 @@ tbody td {
     bottom: 7px;
   }
 }
+
+main {
+  margin-bottom: 50px;
+}
 </style>

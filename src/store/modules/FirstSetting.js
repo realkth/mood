@@ -73,7 +73,7 @@ export default {
           photoURL: state.currentUser.photoURL,
           displayName: state.currentUser.displayName
         }).then(function(response) {
-          // dispatch('a_FirstSettingAuthState');
+          dispatch('a_FirstSettingAuthState');
           //Success
           // this.$router.replace('hello')
           // console.log(firebase.auth().currentUser.displayName)
@@ -87,7 +87,7 @@ export default {
       else {
         state.setting_err_msg = '유저 네임을 설정해주세요.';
       }
-      dispatch('a_FirstSettingAuthState');
+      // dispatch('a_FirstSettingAuthState');
     },
     a_FirstSettingAuthState: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {

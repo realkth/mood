@@ -9,7 +9,7 @@
         <div class="user-img-wrapper col">
           <div class="info-wrapper">
             <div class="radius">
-              <span class="user-img-icon" v-if="( isCurrentUser.photoURL === null)"></span>
+              <span class="user-img-icon" v-if="isCurrentUser.photoURL === ''"></span>
               <img class="user-img" alt="회원 이미지" :src="isCurrentUser.photoURL" v-if="(isCurrentUser.photoURL !== null)">
             </div>
           </div>

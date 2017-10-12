@@ -134,6 +134,7 @@ export default {
       return datetime
     },
     openWriteModal() {
+      window.scrollTo(0,0)
       this.$parent.$refs.write_modal.visible = true;
       this.$parent.blur = {
         '-webkit-filter': 'blur(30px)',
@@ -144,6 +145,7 @@ export default {
       }
     },
     openPostModal() {
+      window.scrollTo(0,0)
       this.$parent.$refs.my_post_modal.visible = true;
       this.$parent.blur = {
         '-webkit-filter': 'blur(30px)',

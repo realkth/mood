@@ -68,10 +68,12 @@ export default {
         window.localStorage.removeItem('email')
         window.localStorage.removeItem('photoURL')
         window.localStorage.removeItem('myAPI')
+        this.$store.dispatch('a_setFirstPhoto', '')
         this.$router.replace('login')
+        window.location.reload(true);
       })
     },
-    ...mapActions(['a_getUserInfo']),
+    ...mapActions(['a_getUserInfo', 'a_setFirstPhoto']),
     // getUserInfo: function() {
     //   var user = firebase.auth().currentUser;
     //   var name, email, photoURL, uid, emailVerified;

@@ -2,6 +2,10 @@
   <div class="post-modal" v-if="visible">
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
+      <!-- <div class="grid post-buttons">
+        <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
+        <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
+      </div> -->
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
@@ -46,7 +50,7 @@ import axios from 'axios'
 import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
-  props: ['targetFullDate', 'targetEmotion', 'targetContent'],
+  props: ['targetFullDate','urlDate', 'targetEmotion', 'targetContent'],
   computed: {
     ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isListKey', 'isUrlDate', 'isTargeturldaylist']),
   },
@@ -61,10 +65,6 @@ export default {
       this.visible = false;
       this.$parent.blur = null;
     },
-    // writePost(target, e) {
-    //   let input = e.target.value;
-    //   this.write[target] = input;
-    // },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
     },
@@ -113,6 +113,23 @@ export default {
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
     },
+    // prevPost(urlDate) {
+    //   let prevDate = urlDate -=1
+    //   let myAPI = window.localStorage.getItem('myAPI');
+    //   console.log('myAPI',myAPI);
+    //   // let getAPI = myAPI + '.json'
+    //   let token = window.localStorage.getItem('token');
+    //   // axios.get(targeturldaylist, {
+
+    //   // }).then(response => {
+    //   //   let data = response.data;
+    //   //   let item = Object.values(data);
+    //   //   this.$parent.targetEmotion = item[0].emotion
+    //   //   this.$parent.targetContent = item[0].content
+    //   // }).catch(error => { })
+
+    //   console.log('prevDate',prevDate);
+    // }
   }
 }
 </script>
@@ -333,5 +350,48 @@ input[type="radio"]:checked+label {
   background: url(../assets/emoji-angry.svg) no-repeat $color-angry;
   background-size: 80%;
   background-position: 50%;
+}
+
+
+
+
+@media screen and (min-width: 0px) and (max-width: 767px) {
+  .post-buttons {
+    position: relative;
+    z-index: 1000;
+    transform: translateY(-800%);
+  }
+  .prev-post {
+    background: url('../assets/mood-icon-prev-b.svg') no-repeat;
+    background-size: 15px;
+    background-position: 30% 50%;
+    border: none;
+  }
+  .next-post {
+    background: url('../assets/mood-icon-next-b.svg') no-repeat;
+    background-size: 15px;
+    background-position: 70% 50%;
+    border: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .post-buttons {
+    position: relative;
+    z-index: 1000;
+    transform: translateY(-800%);
+  }
+  .prev-post {
+    background: url('../assets/mood-icon-prev.svg') no-repeat;
+    background-size: 15px;
+    background-position: 30% 50%;
+    border: none;
+  }
+  .next-post {
+    background: url('../assets/mood-icon-next.svg') no-repeat;
+    background-size: 15px;
+    background-position: 70% 50%;
+    border: none;
+  }
 }
 </style>

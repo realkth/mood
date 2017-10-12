@@ -1,7 +1,9 @@
 <template>
   <div class="chart-wrapper">
+    <h2>{{ calMonth }}
+      <span class="info">이번 달에는 {{total}}개의 일기를 작성하셨습니다.</span>
+    </h2>
     <doughnut-chart class="doughnut-chart" :chart-data="datacollection"></doughnut-chart>
-    <h2 class="">{{ calMonth }}</h2>
   </div>
 </template>
 
@@ -33,6 +35,9 @@ export default {
   },
   computed: {
     ...mapGetters(['isList']),
+    total() {
+      return this.haha + this.happy + this.soso + this.sad + this.surprised + this.angry
+    }
   },
   methods: {
     fillData() {
@@ -83,7 +88,22 @@ h2 {
   font-size: 2.5rem;
   font-weight: 600;
   color: $color-mood;
-  z-index: -1;
+  z-index: 1;
+  cursor: pointer;
+  .info {
+    display: none;
+  }
+  &:hover {
+    .info {
+      background: rgba(2, 2, 2, 0.792);;
+      font-size: 1rem;
+      color: #fff;
+      font-weight: 400;
+      padding: 5px 10px;
+      border-radius: 3px; 
+      display: block;
+    }
+  }
 }
 
 .doughnut-chart {

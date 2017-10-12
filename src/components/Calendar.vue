@@ -1,6 +1,6 @@
 <template>
   <main>
-    <div class="grid calendar-heading">
+    <div class="calendar-heading">
       <doughnut-chart :calMonth="calMonth" :haha="haha" :happy="happy" :soso="soso" :sad="sad" :surprised="surprised" :angry="angry"></doughnut-chart>
       <div class="container buttons">
         <div class="grid">
@@ -10,7 +10,7 @@
       </div>
 
     </div>
-    <table class="grid">
+    <table class="grid"> 
       <caption>
         <h3 class="year"> {{ calYear }} </h3>
         <button class="btn-today" @click="thisMonth">today</button>
@@ -228,6 +228,13 @@ export default {
           }
         }
       }
+      // console.log('isList의 생김새: ', this.$store.getters.isListkey[4].includes('201707'))
+      // console.log('isList의 생김새: ', this.$store.getters.isListkey[0].includes('201707'))
+      // console.log(moment(date).format().slice(0,7).split('-').join(''))
+      // console.log(moment(date).format())
+
+      // console.log('isListKey의 생김새: ', this.$store.getters.isListkey)
+
     },
     thisMonth() {
       let date = new Date();
@@ -308,6 +315,7 @@ export default {
       this.targetFullDate = fullDate;
       this.urlDate = urlDate;
       this.$parent.targetFullDate = fullDate;
+      this.$parent.urlDate = urlDate;
       let myAPI = window.localStorage.getItem('myAPI')
       let targeturldaylist = myAPI + urlDate + '.json';
       this.$store.dispatch('a_targeturldaylist', targeturldaylist)
@@ -340,9 +348,9 @@ export default {
 <style lang="scss" scoped>
 @import "~style";
 
-h2 {
-  position: absolute;
-}
+// h2 {
+//   position: absolute;
+// }
 
 @media screen and (min-width: 0px) and (max-width: 767px) {
   .buttons {

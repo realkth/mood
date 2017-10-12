@@ -163,6 +163,7 @@ h3 {
 
 .content {
   padding: 5px 12.5%;
+  text-align: left;
 }
 
 .haha {

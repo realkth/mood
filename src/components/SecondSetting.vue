@@ -21,12 +21,8 @@
         <div class="buttons col">
           <button v-on:click="a_verfification" class="resister">인증하기!</button>
         </div>
-        <!-- <button v-on:click="whoamI">난 누구</button> -->
       </div>
       <toast-message v-show="isToastMessage"></toast-message>
-      <!-- <div class="toast-message col">
-        <p class="message">안녕하세요 글자 길어질때 어떻게 되는지 알아보기 위함입니다.</p>
-      </div> -->
 
     </div>
   </div>
@@ -46,11 +42,6 @@ export default {
   },
   computed: {
     ...mapGetters(['isCurrentUser', 'isSignup_email', 'isToastMessage'])
-  },
-  data: function() {
-    return {
-      // email:''
-    }
   },
   methods: {
     ...mapActions(['a_verfification']),

@@ -21,13 +21,10 @@ export default {
   mutations: {
     m_secondSetting: (state) => {
       state.loggedIn = true;
-      // window.localStorage.setItem('token', state.token)
       router.replace('second-setting')
     },
     m_mySetting: (state) => {
       state.loggedIn = true;
-      // window.localStorage.setItem('token', state.token)
-      // router.replace('second-setting')
     },
     m_setFirstErrMsg: (state, payload) => {
       state.setting_err_msg = payload
@@ -64,7 +61,6 @@ export default {
       dispatch('a_setFirstPhoto', photoURL);
       dispatch('a_setFirstDisplayName', name);
       
-      // this.photoURL = photoURL
     },
     a_firstSetting: ({state, dispatch}, currentUser) => {
       let user = firebase.auth().currentUser;
@@ -75,7 +71,6 @@ export default {
         }).then(function(response) {
           dispatch('a_FirstSettingAuthState');
         }, function(error) {
-          //Error
           console.log(error);
         });
       }
@@ -99,16 +94,10 @@ export default {
           photoURL: state.currentUser.photoURL,
           displayName: state.currentUser.displayName
         }).then(function(response) {
-          // dispatch('a_FirstSettingAuthState');
-          //Success
-          // this.$router.replace('hello')
-          // console.log(firebase.auth().currentUser.displayName)
-          // console.log(firebase.auth().currentUser.photoURL)
         }, function(error) {
           //Error
           console.log(error);
         });
-        // this.$router.replace('second-setting')
       }
       else {
         state.setting_err_msg = '유저 네임을 설정해주세요.';
@@ -121,21 +110,8 @@ export default {
           window.localStorage.setItem('token', user.uid);
           window.localStorage.setItem('email', user.email);
           window.localStorage.setItem('photoURL', user.photoURL);
-          // if( user.displayName !== null) {
-          //   // commit('m_mySetting');
-          // } else { 
-          //   // state.toastMessage = '잠시만 기다려 주세요.'
-          //   let message = '잠시만 기다려 주세요.'
-          //   dispatch('a_setToastMessage',message ) 
-          // }
-          // User is signed in.
-          // console.log(getters.isDisplayName)
-          // getters.isDisplayName = user.displayName;
-          // getters.isphotoURL = user.photoURL;
           commit('m_mySetting');
         } else {
-          // User is signed out.
-          // ...
         }
       });
     },

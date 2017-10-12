@@ -20,14 +20,12 @@
       </div>
     </div>
     </div>
-    <!-- <my-setting-modal ref='my_setting_modal'></my-setting-modal> -->
   </header>
 </template>
 
 <script>
 import firebase from 'firebase';
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
-// import MySettingModal from './MySettingModal';
 
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -44,16 +42,8 @@ window.onclick = function(event) {
 }
 export default {
   name: 'MainHeader',
-  components: {
-    // MySettingModal
-  },
   mounted() {
     this.a_getUserInfo()
-  },
-  data() {
-    return {
-
-    }
   },
   computed: {
     ...mapGetters(['isCurrentUser'])
@@ -74,19 +64,7 @@ export default {
       })
     },
     ...mapActions(['a_getUserInfo', 'a_setFirstPhoto']),
-    // getUserInfo: function() {
-    //   var user = firebase.auth().currentUser;
-    //   var name, email, photoURL, uid, emailVerified;
 
-    //   if (user != null) {
-    //     name = user.displayName;
-    //     email = user.email;
-    //     photoURL = user.photoURL;
-    //     emailVerified = user.emailVerified;
-    //     uid = user.uid;
-    //   }
-    //   this.photoURL = photoURL
-    // },
     openMySettingModal() {
       this.$parent.$refs.my_setting_modal.visible = true;
       this.$parent.blur = {
@@ -143,7 +121,7 @@ export default {
   background: $color-moregray url('../assets/mood-icon-profile.svg');
   background-repeat: no-repeat;
   background-size: 20px;
-  background-position: 50% 50%; // margin-top: 50px;
+  background-position: 50% 50%;
 }
 
 .dropbtn:hover,

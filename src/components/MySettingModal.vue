@@ -1,37 +1,36 @@
 <template>
-<div class="my-setting-modal" v-if="visible">
-  <div class="modal-bg glass" @click="closeModal()"></div>
-  <div class="container">
-    <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
-      <button class="modal-close" alt="모달창 닫기" @click="closeModal()"></button>
-      <header class="col">
-        <h3>프로필 설정</h3>
-      </header>
-      <section>
-        <div class="user-img-wrapper col">
-          <div class="info-wrapper">
-            <div class="radius">
-              <span class="user-img-icon" v-if="(!isCurrentUser.photoURL)"></span>
-              <img class="user-img" alt="회원 이미지 등록" :src="isCurrentUser.photoURL">
+  <div class="my-setting-modal" v-if="visible">
+    <div class="modal-bg glass" @click="closeModal()"></div>
+    <div class="container">
+      <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
+        <button class="modal-close" alt="모달창 닫기" @click="closeModal()"></button>
+        <header class="col">
+          <h3>프로필 설정</h3>
+        </header>
+        <section>
+          <div class="user-img-wrapper col">
+            <div class="info-wrapper">
+              <div class="radius">
+                <span class="user-img-icon" v-if="(!isCurrentUser.photoURL)"></span>
+                <img class="user-img" alt="회원 이미지 등록" :src="isCurrentUser.photoURL">
+              </div>
+              <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
+                <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_photo">
+                <label for="upload"></label>
+              </form>
             </div>
-            <form class="file-input-wrapper" action="javascript:void(0);" id="uploadImg" name="uploadImg" method="PATCH" enctype="multipart/form-data">
-              <input type="file" class="user-img-input" id="upload" ref="file_input" @change="setting_photo">
-              <label for="upload"></label>
-            </form>
           </div>
-        </div>
-        <div class="form col">
-          <input class="nickTest" type="text" @input="setting_displayname" :placeholder="isCurrentUser.displayName" v-focus="true">
-          <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
-        </div>
-      </section>
-      <footer class="buttons col">
-        <button v-on:click="submitInfo" class="resister">등록!</button>
-      </footer>
-      <!-- <button v-on:click="whoamI">난 누구</button> -->
+          <div class="form col">
+            <input class="nickTest" type="text" @input="setting_displayname" :placeholder="isCurrentUser.displayName" v-focus="true">
+            <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
+          </div>
+        </section>
+        <footer class="buttons col">
+          <button v-on:click="submitInfo" class="resister">등록!</button>
+        </footer>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -52,12 +51,6 @@ export default {
   components: {
     ToastMessage
   },
-  // props: {
-  //   is_visible: {
-  //     type: Boolean,
-  //     default: false
-  //   }
-  // },
   mounted() {
     this.a_getUserInfo()
   },
@@ -70,38 +63,36 @@ export default {
     ...mapGetters(['isSetting_err_msg', 'isCurrentUser', 'isToastMessage']),
   },
   methods: {
-    closeModal(){
+    closeModal() {
       this.visible = false;
       this.$parent.blur = null
-      // console.log('부모',this.$parent.blur);
     },
     checkImage(file) {
       if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
         return true;
       }
     },
-    ...mapActions(['a_getUserInfo','a_MySetting','a_setToastMessage']),
+    ...mapActions(['a_getUserInfo', 'a_MySetting', 'a_setToastMessage']),
     setting_photo(e) {
       let _this = this;
       let file = e.target.files[0];
       let reader = new FileReader();
-      if (this.checkImage(file)){
+      if (this.checkImage(file)) {
         this.file = file;
         reader.readAsDataURL(file);
         reader.onload = data => {
           this.$store.dispatch('a_setFirstPhoto', data.srcElement.result);
           this.$store.dispatch('a_setFirstErrMsg', '')
-        } 
-      } 
-      else { 
+        }
+      }
+      else {
         this.$store.dispatch('a_setToastMessage', '이미지 파일만 선택 가능합니다.')
       }
-      // } else { alert('이미지 파일만 선택 가능합니다.') }
     },
     setting_displayname(e) {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)
     },
-    submitInfo(){
+    submitInfo() {
       this.a_MySetting();
       this.closeModal();
     }
@@ -112,9 +103,8 @@ export default {
 <style lang="scss" scoped>
 @import "~style";
 
-.modal-bg{
+.modal-bg {
   background: #fff;
-  // background: $color-black;
   min-height: 100vh;
   width: 100%;
   top: 0;
@@ -122,6 +112,7 @@ export default {
   position: absolute;
   z-index: 2;
 }
+
 .modal-content {
   top: 50%;
   transform: translateY(-50%);
@@ -230,7 +221,6 @@ input {
   @extend %box-style;
   display: block;
   padding: 40px 0;
-  // margin-bottom: 50px;
 }
 
 .buttons {

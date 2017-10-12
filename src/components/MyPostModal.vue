@@ -86,21 +86,7 @@ export default {
         this.$store.dispatch('a_setToastMessage', message)
       }
     },
-    nowTime: function(date) {
-      if (date.getHours() > 12) {
-        var time = "PM " + ((date.getHours() + 24) % 12 || 12) + "시 "
-      } else {
-        var time = date.getHours() + "시 "
-      }
-      var datetime = date.getFullYear() + "년 "
-        + (date.getMonth() + 1) + "월 "
-        + date.getDate() + "일 "
-        + time
-        + date.getMinutes() + "분"
-      return datetime
-    },
     modifyPostSubmit: function() {
-      // document.getElementById('content').contentEditable = 'true';
       document.getElementById('modify').style.display = 'none';
       document.getElementById('content').style.display = 'none';
       document.getElementById('send').style.display = 'inline';

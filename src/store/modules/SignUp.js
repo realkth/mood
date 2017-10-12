@@ -29,7 +29,6 @@ export default {
   mutations: {
     m_nextSetting: (state) => {
       state.loggedIn = true;
-      // window.localStorage.setItem('token', state.token)
       router.replace('first-setting')
     },
     m_setEmail: (state, payload) => {
@@ -48,10 +47,7 @@ export default {
 
     a_signUp: ({ state, dispatch, commit }, user) => {
       firebase.auth().createUserWithEmailAndPassword(state.sign_email, state.sign_Pw).then(
-        (user) => {
-          // commit('m_nextSetting');
-          // this.$router.replace('first-setting')
-        },
+        (user) => { },
         (err) => {
           console.log('Oops. ' + err.message);
           if (err.message === 'Password should be at least 6 characters') {
@@ -66,7 +62,6 @@ export default {
             msg_element.classList.remove('msg');
             msg_element.classList.add('errmsg');
             commit('m_setWrongEmail');
-            // state.sign_email = state.sign_email + '  ';
           }
           else if (err.message === 'The email address is badly formatted.') {
             if (state.sign_email === '' && state.sign_Pw === '') {
@@ -93,11 +88,8 @@ export default {
     a_signUpAuthState: ({ commit, state }) => {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
-          // User is signed in.
           commit('m_nextSetting');
         } else {
-          // User is signed out.
-          // ...
         }
       });
     }

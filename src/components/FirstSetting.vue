@@ -25,7 +25,6 @@
         <div class="buttons col">
           <button v-on:click="a_firstSetting" class="resister">등록!</button>
         </div>
-        <!-- <button v-on:click="whoamI">난 누구</button> -->
       </div>
 
     </div>
@@ -62,15 +61,14 @@ export default {
       let _this = this;
       let file = e.target.files[0];
       let reader = new FileReader();
-      if (this.checkImage(file)){
+      if (this.checkImage(file)) {
         this.file = file;
         reader.readAsDataURL(file);
         reader.onload = data => {
           this.$store.dispatch('a_setFirstPhoto', data.srcElement.result);
           this.$store.dispatch('a_setFirstErrMsg', '')
-        } 
-      } else { this.$store.dispatch('a_setFirstErrMsg', '이미지 파일만 선택 가능합니다.')}
-      // } else { alert('이미지 파일만 선택 가능합니다.') }
+        }
+      } else { this.$store.dispatch('a_setFirstErrMsg', '이미지 파일만 선택 가능합니다.') }
     },
     setting_first_displayname(e) {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)

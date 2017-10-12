@@ -39,7 +39,6 @@ export default {
   },
   data: function() {
     return {
-      // email: '',
       input_pw: '',
       err_email_msg: '',
       err_pw_msg: '',

@@ -14,7 +14,7 @@ export default {
     },
     list: [],
     listkey: [],
-    targeturldaylist: '',
+    targeturldaylist: ''
   },
   getters: {
     isWrite: (state) => {
@@ -37,7 +37,7 @@ export default {
     },
     isTargeturldaylist: (state) => {
       return state.targeturldaylist
-    }
+    },
   },
   mutations: {
     m_write: (state, payload) => {
@@ -60,7 +60,7 @@ export default {
     },
     m_targeturldaylist: (state, payload) => {
       state.targeturldaylist = payload
-    }
+    },
   },
   actions: {
     a_write: (context, val) => {
@@ -84,7 +84,7 @@ export default {
     a_targeturldaylist: (context, val) => {
       context.commit('m_targeturldaylist', val)
     },
-    a_writePostSubmit({state, dispatch}) {
+    a_writePostSubmit({ state, dispatch }) {
       let token = window.localStorage.getItem('token');
       let email = window.localStorage.getItem('email');
       let myAPI = window.localStorage.getItem('myAPI');
@@ -101,12 +101,10 @@ export default {
         let message = '오늘의 감정을 선택해주세요.'
         dispatch('a_setToastMessage', message)
         setTimeout(() => {
-          }, 2500);
-          return;
+        }, 2500);
+        return;
       }
-
       axios.post(state.targeturldaylist, {
-        // user: token,
         userEmail: email,
         emotion: state.emotion,
         content: state.write.content
@@ -115,24 +113,56 @@ export default {
         .then(response => {
           let message = '오늘의 일기를 기록하셨습니다.'
           dispatch('a_setToastMessage', message)
-          // setTimeout(() => {
-          //   this.closeModal()
-          // }, 2500);
+          dispatch('a_write', '')
           dispatch('a_getAllData')
-          console.log('response', response);
         })
         .catch(error => {
-          console.log('state.targeturldaylist',state.targeturldaylist);
           console.log(error);
           let message = '로그인 해주세요.'
           dispatch('a_setToastMessage', message)
-          // setTimeout(() => {
-          //   this.closeModal()
-          // }, 2500);
         })
-      // console.log(this.targeturldaylist)
     },
-    a_getAllData({dispatch}) {
+    a_editPostSubmit({ state, dispatch }) {
+      let token = window.localStorage.getItem('token');
+      let email = window.localStorage.getItem('email');
+      let myAPI = window.localStorage.getItem('myAPI');
+      let getAPI = myAPI + '.json'
+      let emotion_btn = document.getElementsByName("emotion");
+      let emotion_btn_check = 0;
+      for (let i = 0; i < emotion_btn.length; i++) {
+        if (emotion_btn[i].checked == true) {
+          state.emotion = emotion_btn[i].value
+          emotion_btn_check++;
+        }
+      }
+      if (emotion_btn_check === 0) {
+        let message = '오늘의 감정을 선택해주세요.'
+        dispatch('a_setToastMessage', message)
+        setTimeout(() => {
+        }, 2500);
+        return;
+      }
+
+      axios.post(state.targeturldaylist, {
+        userEmail: email,
+        emotion: state.emotion,
+        content: state.write.content
+      }
+      )
+        .then(response => {
+          let message = '오늘의 일기를 수정하셨습니다.'
+          dispatch('a_setToastMessage', message)
+          dispatch('a_write', '')
+          dispatch('a_getAllData')
+        })
+        .catch(error => {
+          console.log(error);
+          let message = '로그인 해주세요.'
+          dispatch('a_setToastMessage', message)
+        })
+
+    },
+    a_getAllData({ dispatch }) {
       let myAPI = window.localStorage.getItem('myAPI');
       let getAPI = myAPI + '.json'
       let token = window.localStorage.getItem('token');
@@ -140,18 +170,13 @@ export default {
       })
         .then(response => {
           let result = response.data;
-          // console.log('result',result);
           let item = {};
           let list = [];
           let listkey = [];
-          // console.log('올데이타',result);
           for (var prop in result) {
-            // this.$store.dispatch('a_item',result[prop])
-            // let thisItem = result[prop]
             item = result[prop]
             item.key = prop
             item.value = Object.values(item)
-            // item.value = result[prop].values
             list.push(item)
             listkey.push(item.key)
 

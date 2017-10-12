@@ -1,7 +1,7 @@
 <template>
   <main>
-    <div class="grid calendar-heading">
-      <doughnut-chart :calMonth="calMonth"></doughnut-chart>
+    <div class="calendar-heading">
+      <doughnut-chart :calMonth="calMonth" :haha="haha" :happy="happy" :soso="soso" :sad="sad" :surprised="surprised" :angry="angry"></doughnut-chart>
       <div class="container buttons">
         <div class="grid">
           <button class="prev-month col col-d-offset-2 col-d-1 col-m-1" @click="prevCalendar"></button>
@@ -13,7 +13,6 @@
     <table class="grid">
       <caption>
         <h3 class="year"> {{ calYear }} </h3>
-        <!-- <span class="today">{{ nowTime(currentMonth)}}</span> -->
         <button class="btn-today" @click="thisMonth">today</button>
       </caption>
       <colgroup>
@@ -38,13 +37,9 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" v-for="m in 7"  @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))">
-          <!-- <td class="td " v-for="m in 7" :class="arrThisMonth[ (n-1)*7 + m-1 ]" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])"> -->
+          <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))">
+            <!-- <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
-            <div>{{  }}</div>
-            <!-- <a href="" v-else="dataSet && dataSet.has(arrTargetDate[(n-1)*7 + m-1].toISOString().split('T')[0])">
-              {{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}
-            </a> -->
           </td>
         </tr>
 
@@ -57,6 +52,7 @@
 import DoughnutChart from './DoughnutChart.vue';
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
   components: {
@@ -65,9 +61,20 @@ export default {
   created() {
     this.makeCalendar();
     this.myAPI();
-    // this.getAllData();
     this.a_getAllData();
     this.setState();
+    this.$store.watch(
+      (state) => {
+        return this.$store.getters.isList
+      },
+      (val) => {
+        this.makeCalendar();
+        this.setState();
+      },
+      {
+        deep: true
+      }
+    );
   },
   data() {
     return {
@@ -77,18 +84,20 @@ export default {
       arrThisMonth: [],
       arrTargetDate: [],
       targetFullDate: '',
-      dayListUrl: '',
-      dataSet: null,
-      datedatedate: [],
-      hasDate: [],
-      todayDate: null,
+      urlDate: '',
+      haha: 0,
+      happy: 0,
+      soso: 0,
+      sad: 0,
+      surprised: 0,
+      angry: 0
     }
   },
   computed: {
-    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey'])
+    ...mapGetters(['isItemKey', 'isItemValue', 'isList', 'isListkey']),
   },
   methods: {
-    ...mapActions(['a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey', 'a_getAllData', 'a_targeturldaylist']),
+    ...mapActions(['a_setToastMessage', 'a_itemkey', 'a_itemvalue', 'a_list', 'a_listkey', 'a_getAllData', 'a_targeturldaylist']),
     myAPI: () => {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
@@ -96,19 +105,13 @@ export default {
     },
     nowTime: () => {
       let currentdate = new Date();
-      // if (currentdate.getHours() > 12) {
-      //   let time = "PM " + ((currentdate.getHours() + 24) % 12 || 12) + "시 "
-      // } else {
-      //   let time = currentdate.getHours() + "시 "
-      // }
       let datetime =
         (currentdate.getMonth() + 1) + "월 "
         + currentdate.getDate() + "일 "
-      // + time
-      // + currentdate.getMinutes() + "분"
       return datetime
     },
     openWriteModal() {
+      window.scrollTo(0, 0)
       this.$parent.$refs.write_modal.visible = true;
       this.$parent.blur = {
         '-webkit-filter': 'blur(30px)',
@@ -119,6 +122,7 @@ export default {
       }
     },
     openPostModal() {
+      window.scrollTo(0, 0)
       this.$parent.$refs.my_post_modal.visible = true;
       this.$parent.blur = {
         '-webkit-filter': 'blur(30px)',
@@ -136,6 +140,12 @@ export default {
       this.makeCalendar();
     },
     makeCalendar() {
+      this.haha = 0;
+      this.happy = 0;
+      this.soso = 0;
+      this.sad = 0;
+      this.surprised = 0;
+      this.angry = 0;
       let date = this.currentMonth;
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
@@ -150,7 +160,31 @@ export default {
       this.arrThisMonth = [];
 
       this.arrTargetDate = [];
-
+      let month = moment(date).format().slice(0, 7).split('-').join('')
+      for (let i = 0; i < this.$store.getters.isList.length; i++) {
+        if (this.$store.getters.isList[i].key.includes(month)) {
+          switch (this.$store.getters.isList[i].value[0].emotion) {
+            case 'emotion-haha':
+              this.haha++;
+              break;
+            case 'emotion-happy':
+              this.happy++;
+              break;
+            case 'emotion-soso':
+              this.soso++;
+              break;
+            case 'emotion-sad':
+              this.sad++;
+              break;
+            case 'emotion-surprised':
+              this.surprised++;
+              break;
+            case 'emotion-angry':
+              this.angry++;
+              break;
+          }
+        }
+      }
       for (let i = 0; i < 42; i++) {
         let isThisMonth = "";
         if (date.getMonth() !== targetDate.getMonth()) {
@@ -176,10 +210,7 @@ export default {
       let date = new Date();
       let months = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
-      this.calYear = '오늘은 ' + date.getFullYear() + '년 ' +
-        (date.getMonth() + 1) + "월 "
-        + date.getDate() + "일 "
-
+      this.calYear = date.getFullYear() + '년';
       this.calMonth = date.getMonth() + 1;
       date.setDate(1);
 
@@ -209,101 +240,75 @@ export default {
         }
       }
       this.currentMonth = new Date();
+      let message = '오늘은 ' + date.getFullYear() + '년 ' +
+        (this.currentMonth.getMonth() + 1) + "월 "
+        + this.currentMonth.getDate() + "일" + "입니다."
       this.a_getAllData();
+      this.$store.dispatch('a_setToastMessage', message)
     },
     prevCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() - 1);
       this.makeCalendar();
       this.a_getAllData();
-      // this.$store.dispatch('a_list', '');
-      // this.$store.dispatch('a_listkey', '');
-
     },
     nextCalendar() {
       let date = this.currentMonth;
       date.setMonth(date.getMonth() + 1);
       this.makeCalendar();
       this.a_getAllData();
-      // this.$store.dispatch('a_list', '');
-      // this.$store.dispatch('a_listkey', '');
     },
     setState(date) {
-      // console.log('date', date)
-      // let dateId = document.getElementById(date);
-      // console.log('dateClasee', dateClass)
       let myAPI = window.localStorage.getItem('myAPI');
-      // let getAPI = myAPI + '.json'
       let dateGetAPI = myAPI + `${date}` + '.json'
       let token = window.localStorage.getItem('token');
       axios.get(dateGetAPI, {
       }).then(response => {
         let result = response.data;
-        if (result !== null){
+        if (result !== null) {
           let dateId = document.getElementById(date);
           let content = Object.values(result)[0].emotion
-          // console.log('뭐게', content)
           dateId.classList.add(content);
         }
       })
-
-      
     },
     clickTargetDate(target_date) {
-      console.log('target_date',target_date);
-      console.log('target_date',target_date.toISOString().split('T')[0].split('-').join(''));
-      let object_year = target_date.getFullYear();
-      let object_month = target_date.getMonth() + 1;
-      let object_date = target_date.getDate();
-      let string_year = String(object_year);
-      if (object_month < 10) {
-        object_month = '0' + object_month;
-      }
-      let string_month = String(object_month);
-      if (object_date < 10) {
-        object_date = '0' + object_date;
-      }
-      let string_date = String(object_date);
-      let urlDate = string_year + string_month + string_date;
-      let fullDate = target_date.getFullYear() + '년 ' + (target_date.getMonth() + 1) + '월 ' + target_date.getDate() + '일';
+      let object_year = moment(target_date).format().split('T')[0].split('-').join('').slice(0, 4);
+      let object_month = moment(target_date).format().split('T')[0].split('-').join('').slice(4, 6);
+      let object_date = moment(target_date).format().split('T')[0].split('-').join('').slice(6, 8);
+      let urlDate = object_year + object_month + object_date;
+      let fullDate = object_year + '년 ' + object_month + '월 ' + object_date + '일';
+
       this.targetFullDate = fullDate;
+      this.urlDate = urlDate;
       this.$parent.targetFullDate = fullDate;
-      // console.log(urlDate)
+      this.$parent.urlDate = urlDate;
       let myAPI = window.localStorage.getItem('myAPI')
       let targeturldaylist = myAPI + urlDate + '.json';
       this.$store.dispatch('a_targeturldaylist', targeturldaylist)
 
-      // console.log('targetdate',urlDate);
-
-      // let myAPI = window.localStorage.getItem('myAPI');
       let getAPI = myAPI + '.json'
       let token = window.localStorage.getItem('token');
-      axios.get(targeturldaylist, {
-
-      }).then(response => {
-        let data = response.data;
-        let item = Object.values(data);
-        // console.log('뭐가 나와', item[0].content);
-      }).catch(error => { })
+      axios.get(targeturldaylist, {})
+        .then(response => {
+          let data = response.data;
+          let item = Object.values(data);
+          this.$parent.targetEmotion = item[0].emotion
+          this.$parent.targetContent = item[0].content
+        }).catch(error => { })
 
       if (this.isListkey.includes(urlDate)) {
         this.openPostModal();
-        // console.log('urlDate', urlDate);
       } else {
         this.openWriteModal();
       }
-
     },
   }
 }
 </script>
-
 <style lang="scss" scoped>
 @import "~style";
 
-h2 {
-  position: absolute;
-}
 
 @media screen and (min-width: 0px) and (max-width: 767px) {
   .buttons {
@@ -380,7 +385,8 @@ tbody td {
 }
 
 .not-this-month {
-  color: $color-moremoregray;
+  color: $color-moregray;
+  opacity: 0.6;
 }
 
 .thead {
@@ -388,8 +394,8 @@ tbody td {
   font-weight: 600;
   text-align: center;
   vertical-align: middle;
-  background: $color-white; // border: 5px solid $color-opacity;
-  position: relative; // border: none;
+  background: $color-white;
+  position: relative;
 }
 
 .sun {
@@ -495,5 +501,9 @@ tbody td {
     right: 7px;
     bottom: 7px;
   }
+}
+
+main {
+  margin-bottom: 50px;
 }
 </style>

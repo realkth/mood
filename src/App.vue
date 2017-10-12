@@ -33,24 +33,37 @@ body {
   background: linear-gradient(#c3c194 10%, #6f8b78 60%, #353e45 100%);
   /* Standard syntax */
   min-height: 100vh;
-  max-height: 130vh;
-  // padding-bottom: 50px;
+  height: 100%;
 }
 
-// 모든 요소에 적용될 사항은 app.vue 스타일에 적용하기로 결정
+// @media screen and (min-width: 0px) and (max-width: 767px) {
+//   // body {
+//   //   min-height: 100vh;
+//   //   max-height: 160vh;
+//   // }
+// }
+
+@media screen and (min-width: 768px) and (max-width: 1200px) {
+  body {
+    min-height: 100vh;
+    max-height: 130vh;
+  }
+}
+// @media screen and (min-width: 768px) {
+//   body {
+//     // min-height: 100vh;
+//     // max-height: 130vh;
+//     height: 100%;
+//   }
+// }
+
 #app {
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; // text-align: center;
-  // margin-top: 60px;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
   padding: 0;
   margin: 0;
 }
-
-// h1 {
-//   text-align: center;
-//   margin-bottom: 50px;
-// }
 </style>

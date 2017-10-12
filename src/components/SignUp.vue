@@ -41,10 +41,9 @@ const focus = {
 
 export default {
   name: 'signUp',
-  components: { 
+  components: {
     HomeHeader
   },
-
   directives: { focus },
   data: function() {
     return {
@@ -56,7 +55,7 @@ export default {
   },
   methods: {
     ...mapActions(['a_signUp', 'a_authStateObserver',
-     'a_setEmail', 'a_setPw']),
+      'a_setEmail', 'a_setPw']),
     sign_email(e) {
       this.$store.dispatch('a_setEmail', e.target.value)
     },

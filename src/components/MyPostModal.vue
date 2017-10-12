@@ -2,35 +2,39 @@
   <div class="post-modal" v-if="visible">
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
+      <!-- <div class="grid post-buttons">
+        <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
+        <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
+      </div> -->
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
         </header>
         <section class="modal-body">
           <div class="emoji-wrapper" id="content-emotion">
-            <img class="angry">
-            <!-- <img src="../assets/emoji-happy.svg" class="happy">
-                            <img src="../assets/emoji-soso.svg" class="soso">
-                            <img src="../assets/emoji-sad.svg" class="sad">
-                            <img src="../assets/emoji-surprised.svg" class="surprised">
-                            <img src="../assets/emoji-angry.svg" class="angry"> -->
+            <img v-if="targetEmotion === 'emotion-haha'" class="haha">
+            <img v-if="targetEmotion === 'emotion-happy'" class="happy">
+            <img v-if="targetEmotion === 'emotion-soso'" class="soso">
+            <img v-if="targetEmotion === 'emotion-sad'" class="sad">
+            <img v-if="targetEmotion === 'emotion-surprised'" class="surprised">
+            <img v-if="targetEmotion === 'emotion-angry'" class="angry">
           </div>
           <form class="select-emoji-wrapper" id="edit-emotion" style="display:none">
-            <input @change="setEmotion" type="radio" id="haha" value="emotion-haha" name="emotion">
-            <label class="haha" for="haha"></label>
-            <input @change="setEmotion" type="radio" id="happy" value="emotion-happy" name="emotion">
-            <label class="happy" for="happy"></label>
-            <input @change="setEmotion" type="radio" id="soso" value="emotion-soso" name="emotion">
-            <label class="soso" for="soso"></label>
-            <input @change="setEmotion" type="radio" id="sad" value="emotion-sad" name="emotion">
-            <label class="sad" for="sad"></label>
-            <input @change="setEmotion" type="radio" id="surprised" value="emotion-surprised" name="emotion">
-            <label class="surprised" for="surprised"></label>
-            <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion">
-            <label class="angry" for="angry"></label>
+            <input @change="setEmotion" type="radio" id="haha" value="emotion-haha" name="emotion" :checked="targetEmotion === 'emotion-haha'">
+            <label class="select-haha" for="haha"></label>
+            <input @change="setEmotion" type="radio" id="happy" value="emotion-happy" name="emotion" :checked="targetEmotion === 'emotion-happy'">
+            <label class="select-happy" for="happy"></label>
+            <input @change="setEmotion" type="radio" id="soso" value="emotion-soso" name="emotion" :checked="targetEmotion === 'emotion-soso'">
+            <label class="select-soso" for="soso"></label>
+            <input @change="setEmotion" type="radio" id="sad" value="emotion-sad" name="emotion" :checked="targetEmotion === 'emotion-sad'">
+            <label class="select-sad" for="sad"></label>
+            <input @change="setEmotion" type="radio" id="surprised" value="emotion-surprised" name="emotion" :checked="targetEmotion === 'emotion-surprised'">
+            <label class="select-surprised" for="surprised"></label>
+            <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion" :checked="targetEmotion === 'emotion-angry'">
+            <label class="select-angry" for="angry"></label>
           </form>
-          <p class="content" id='content' style='white-space: pre-line'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Quo voluptates quae numquam praesentium in, suscipit officiis qui labore tempora dolores dignissimos minus molestiae, at ipsa autem, quibusdam vel explicabo? Perspiciatis! Similique sapiente sed dignissimos debitis eaque magni, corrupti inventore natus, aut in vero, temporibus placeat voluptates facilis nostrum veritatis velit! Eos facere dolorem sapiente dolores ipsum non excepturi !</p>
-          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none"></textarea>
+          <p class="content" id='content' style='white-space: pre-line'>{{ targetContent }}</p>
+          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{targetContent}}</textarea>
         </section>
         <footer class="modal-footer buttons">
           <button class="modify" id="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
@@ -46,26 +50,20 @@ import axios from 'axios'
 import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
-  props: ['targetFullDate'],
+  props: ['targetFullDate','urlDate', 'targetEmotion', 'targetContent'],
   computed: {
-    ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem'])
+    ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isListKey', 'isUrlDate', 'isTargeturldaylist']),
   },
   data() {
     return {
       visible: this.is_visible,
-      write: {
-        content: ''
-      },
     }
   },
   methods: {
+    ...mapActions(['a_setToastMessage', 'a_writePostSubmit', 'a_editPostSubmit', 'a_write', 'a_emotion', 'a_item', 'a_getAllData']),
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
-    },
-    writePost(target, e) {
-      let input = e.target.value;
-      this.write[target] = input;
     },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
@@ -74,26 +72,21 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      this.a_writePostSubmit();
-      setTimeout(() => {
-        this.closeModal()
-      }, 2500);
-    },
-    nowTime: function(date) {
-      if (date.getHours() > 12) {
-        var time = "PM " + ((date.getHours() + 24) % 12 || 12) + "시 "
+      if (this.$store.getters.isWrite.length < 1000) {
+        axios.delete(this.$store.getters.isTargeturldaylist)
+          .then(response => {
+            this.a_editPostSubmit()
+          })
+          .catch(error => console.warn(error))
+        setTimeout(() => {
+          this.closeModal()
+        }, 2500);
       } else {
-        var time = date.getHours() + "시 "
+        let message = '1000자를 넘을 수 없습니다.'
+        this.$store.dispatch('a_setToastMessage', message)
       }
-      var datetime = date.getFullYear() + "년 "
-        + (date.getMonth() + 1) + "월 "
-        + date.getDate() + "일 "
-        + time
-        + date.getMinutes() + "분"
-      return datetime
     },
     modifyPostSubmit: function() {
-      // document.getElementById('content').contentEditable = 'true';
       document.getElementById('modify').style.display = 'none';
       document.getElementById('content').style.display = 'none';
       document.getElementById('send').style.display = 'inline';
@@ -105,7 +98,24 @@ export default {
     },
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
-    }
+    },
+    // prevPost(urlDate) {
+    //   let prevDate = urlDate -=1
+    //   let myAPI = window.localStorage.getItem('myAPI');
+    //   console.log('myAPI',myAPI);
+    //   // let getAPI = myAPI + '.json'
+    //   let token = window.localStorage.getItem('token');
+    //   // axios.get(targeturldaylist, {
+
+    //   // }).then(response => {
+    //   //   let data = response.data;
+    //   //   let item = Object.values(data);
+    //   //   this.$parent.targetEmotion = item[0].emotion
+    //   //   this.$parent.targetContent = item[0].content
+    //   // }).catch(error => { })
+
+    //   console.log('prevDate',prevDate);
+    // }
   }
 }
 </script>
@@ -136,56 +146,64 @@ h3 {
   display: inline-block;
 }
 
+
 .content {
   padding: 5px 12.5%;
+  text-align: left;
 }
 
 .haha {
   background: url(../assets/emoji-haha.svg) no-repeat $color-haha;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 128px;
+  height: 128px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .happy {
   background: url(../assets/emoji-happy.svg) no-repeat $color-happy;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .soso {
   background: url(../assets/emoji-soso.svg) no-repeat $color-soso;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .sad {
   background: url(../assets/emoji-sad.svg) no-repeat $color-sad;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .surprised {
   background: url(../assets/emoji-surprised.svg) no-repeat $color-surprised;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .angry {
   background: url(../assets/emoji-angry.svg) no-repeat $color-angry;
   background-size: 80%;
-  width: 100%;
-  height: 100%;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
+  transform: translate(-1px, -1px);
 }
 
 .modal-bg {
@@ -285,39 +303,82 @@ input[type="radio"]:checked+label {
   transform: translateY(-40px);
 }
 
-.haha {
+.select-haha {
   background: url(../assets/emoji-haha.svg) no-repeat $color-haha;
   background-size: 80%;
   background-position: 50%;
 }
 
-.happy {
+.select-happy {
   background: url(../assets/emoji-happy.svg) no-repeat $color-happy;
   background-size: 80%;
   background-position: 50%;
 }
 
-.soso {
+.select-soso {
   background: url(../assets/emoji-soso.svg) no-repeat $color-soso;
   background-size: 80%;
   background-position: 50%;
 }
 
-.sad {
+.select-sad {
   background: url(../assets/emoji-sad.svg) no-repeat $color-sad;
   background-size: 80%;
   background-position: 50%;
 }
 
-.surprised {
+.select-surprised {
   background: url(../assets/emoji-surprised.svg) no-repeat $color-surprised;
   background-size: 80%;
   background-position: 50%;
 }
 
-.angry {
+.select-angry {
   background: url(../assets/emoji-angry.svg) no-repeat $color-angry;
   background-size: 80%;
   background-position: 50%;
+}
+
+
+
+
+@media screen and (min-width: 0px) and (max-width: 767px) {
+  .post-buttons {
+    position: relative;
+    z-index: 1000;
+    transform: translateY(-800%);
+  }
+  .prev-post {
+    background: url('../assets/mood-icon-prev-b.svg') no-repeat;
+    background-size: 15px;
+    background-position: 30% 50%;
+    border: none;
+  }
+  .next-post {
+    background: url('../assets/mood-icon-next-b.svg') no-repeat;
+    background-size: 15px;
+    background-position: 70% 50%;
+    border: none;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .post-buttons {
+    position: relative;
+    z-index: 1000;
+    transform: translateY(-800%);
+  }
+  .prev-post {
+    background: url('../assets/mood-icon-prev.svg') no-repeat;
+    background-size: 15px;
+    background-position: 30% 50%;
+    border: none;
+  }
+  .next-post {
+    background: url('../assets/mood-icon-next.svg') no-repeat;
+    background-size: 15px;
+    background-position: 70% 50%;
+    border: none;
+  }
 }
 </style>

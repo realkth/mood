@@ -3,11 +3,13 @@
     <div class="grid">
       <div class="col">
         <div class="logo col col-m-2 col-m-offset-1 col-d-4 col-d-offset-4">
-          <img alt="mood 로고" class="logo-mood" src="../assets/l-mood.svg" height="40px">
+          <a href="">
+            <img alt="mood 로고" class="logo-mood" src="../assets/l-mood.svg" height="40px">
+          </a>
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
           <div class="img-wrapper">
-            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null" height="40px">
+            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null"  width= "40px" height="40px">
             <span class="dropbtn user-icon" @click="openMenu" v-else></span>
           </div>
           <div id="myDropdown" class="dropdown-content">
@@ -18,14 +20,12 @@
       </div>
     </div>
     </div>
-    <!-- <my-setting-modal ref='my_setting_modal'></my-setting-modal> -->
   </header>
 </template>
 
 <script>
 import firebase from 'firebase';
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
-// import MySettingModal from './MySettingModal';
 
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
@@ -42,16 +42,8 @@ window.onclick = function(event) {
 }
 export default {
   name: 'MainHeader',
-  components:{
-    // MySettingModal
-  },
   mounted() {
     this.a_getUserInfo()
-  },
-  data() {
-    return {
-
-    }
   },
   computed: {
     ...mapGetters(['isCurrentUser'])
@@ -66,23 +58,13 @@ export default {
         window.localStorage.removeItem('email')
         window.localStorage.removeItem('photoURL')
         window.localStorage.removeItem('myAPI')
+        this.$store.dispatch('a_setFirstPhoto', '')
         this.$router.replace('login')
+        window.location.reload(true);
       })
     },
-    ...mapActions(['a_getUserInfo']),
-    // getUserInfo: function() {
-    //   var user = firebase.auth().currentUser;
-    //   var name, email, photoURL, uid, emailVerified;
+    ...mapActions(['a_getUserInfo', 'a_setFirstPhoto']),
 
-    //   if (user != null) {
-    //     name = user.displayName;
-    //     email = user.email;
-    //     photoURL = user.photoURL;
-    //     emailVerified = user.emailVerified;
-    //     uid = user.uid;
-    //   }
-    //   this.photoURL = photoURL
-    // },
     openMySettingModal() {
       this.$parent.$refs.my_setting_modal.visible = true;
       this.$parent.blur = {
@@ -125,8 +107,9 @@ export default {
   margin-top: 5px;
   cursor: pointer;
 }
+
 .dropdown {
-  text-align: right; // display: inline-block;
+  text-align: right;
   position: relative;
   display: inline-block;
 }
@@ -139,14 +122,6 @@ export default {
   background-repeat: no-repeat;
   background-size: 20px;
   background-position: 50% 50%;
-  // margin-top: 50px;
-}
-
-.dropbtn {
-  // border-radius: 50%;
-  // width: 40px;
-  // cursor: pointer;
-  // text-align: right;
 }
 
 .dropbtn:hover,

@@ -276,7 +276,7 @@ export default {
       let object_month = moment(target_date).format().split('T')[0].split('-').join('').slice(4, 6);
       let object_date = moment(target_date).format().split('T')[0].split('-').join('').slice(6, 8);
       let urlDate = object_year + object_month + object_date;
-      let fullDate = object_year + '년 ' + object_month + '월 ' + object_date + '일';
+      let fullDate = Number(object_year) + '년 ' + Number(object_month) + '월 ' + Number(object_date) + '일';
 
       this.targetFullDate = fullDate;
       this.urlDate = urlDate;

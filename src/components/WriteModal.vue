@@ -70,7 +70,7 @@ export default {
     },
     submit() {
       if (this.$store.getters.isWrite.length < 600){
-        this.a_writePostSubmit();
+        this.a_writePostSubmit(this.targetFullDate);
         this.a_getAllData();
         setTimeout(() => {
           this.closeModal()

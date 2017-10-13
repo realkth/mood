@@ -376,8 +376,8 @@ caption {
 tbody td {
   color: $color-white;
   cursor: pointer;
-  height: 70px;
-  border: 5px solid $color-opacity;
+  height: 73px;
+  // border: 5px solid $color-opacity;
   padding: 7px;
   &:hover {
     opacity: 0.5;
@@ -400,11 +400,11 @@ tbody td {
 
 .sun {
   color: $color-sunday;
-  border-left: 5px solid $color-opacity;
+  // border-left: 5px solid $color-opacity;
 }
 
 .sat {
-  border-right: 5px solid $color-opacity;
+  // border-right: 5px solid $color-opacity;
 }
 
 .emotion-haha {

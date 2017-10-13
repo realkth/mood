@@ -302,7 +302,7 @@ export default {
         this.openWriteModal();
       }
     },
-    swipeHandler (direction) {
+    swipeHandler(direction) {
       if (direction === 'left') {
         this.nextCalendar();
       } else if (direction === 'right') {

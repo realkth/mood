@@ -218,7 +218,6 @@ input[type="radio"]:checked+label {
   padding: 0;
   background-color: $color-happy;
   color: $color-haha;
-  // outline: none;
 }
 
 .write {
@@ -228,6 +227,5 @@ input[type="radio"]:checked+label {
   padding: 0;
   background-color: $color-haha;
   color: $color-happy;
-  // outline: none;
 }
 </style>

@@ -49,8 +49,12 @@ export default {
     ...mapGetters(['isCurrentUser'])
   },
   methods: {
-    openMenu: function() {
-      document.getElementById("myDropdown").classList.toggle("show");
+    openMenu: () => {
+      if (!document.getElementById("myDropdown").classList.contains("show")) {
+        document.getElementById("myDropdown").classList.add("show");
+      } else {
+        document.getElementById("myDropdown").classList.remove("show")
+      }
     },
     logout: function() {
       firebase.auth().signOut().then(() => {
@@ -104,6 +108,15 @@ export default {
 
 .logo-mood {
   padding: 5px 0 5px 0;
+}
+
+.tabfocus {
+  &:focus {
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
+  }
 }
 
 .img-wrapper {

@@ -23,7 +23,7 @@
           <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
         </div>
         <div class="buttons col">
-          <button v-on:click="a_firstSetting" class="resister">등록!</button>
+          <button v-on:click="a_firstSetting" class="register">등록!</button>
         </div>
       </div>
 
@@ -176,7 +176,7 @@ input {
   text-align: center;
 }
 
-.resister {
+.register {
   width: 40%;
   height: 50px;
   border: none;

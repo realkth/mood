@@ -250,7 +250,7 @@ h3 {
   padding: 0;
   background-color: $color-happy;
   color: $color-haha;
-  outline: none;
+  // outline: none;
 }
 
 .modify {
@@ -260,7 +260,7 @@ h3 {
   padding: 0;
   background-color: $color-haha;
   color: $color-happy;
-  outline: none;
+  // outline: none;
 }
 
 #send {
@@ -270,7 +270,7 @@ h3 {
   padding: 0;
   background-color: $color-happy;
   color: $color-haha;
-  outline: none;
+  // outline: none;
   display: none;
 }
 

@@ -38,7 +38,7 @@
       <tbody v-for="n in 5">
         <tr>
           <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))">
-            <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
+            <a class="tabfocus" href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
           </td>
         </tr>
 
@@ -386,6 +386,15 @@ tbody td {
   padding: 7px;
   &:hover {
     opacity: 0.5;
+  }
+}
+
+.tabfocus {
+  &:focus {
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
   }
 }
 

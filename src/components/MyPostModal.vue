@@ -73,9 +73,11 @@ export default {
     },
     submit() {
       if (this.$store.getters.isWrite.length < 600) {
+        let content = this.targetContent
+        let fullDate = this.targetFullDate
         axios.delete(this.$store.getters.isTargeturldaylist)
           .then(response => {
-            this.a_editPostSubmit(this.targetContent)
+            this.a_editPostSubmit([content, fullDate])
           })
           .catch(error => console.warn(error))
         setTimeout(() => {

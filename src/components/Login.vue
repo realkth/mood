@@ -11,7 +11,7 @@
           <p class="errmsg" id="email_msg">{{ isErrEmailMsg }}</p>
         </div>
         <div class="form col">
-          <input type="password" @input="password" placeholder="Password" class="form-password">
+          <input type="password" @input="password" placeholder="Password" class="form-password" @keyup.enter="a_logInUser({e: email, p: input_pw})">
           <p class="errmsg" id="pw_msg">{{ isErrPwMsg }}</p>
         </div>
         <div class="buttons col">

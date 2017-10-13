@@ -38,7 +38,6 @@
       <tbody v-for="n in 5">
         <tr>
           <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))">
-            <!-- <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
           </td>
         </tr>
@@ -376,8 +375,7 @@ caption {
 tbody td {
   color: $color-white;
   cursor: pointer;
-  height: 70px;
-  border: 5px solid $color-opacity;
+  height: 73px; // border: 5px solid $color-opacity;
   padding: 7px;
   &:hover {
     opacity: 0.5;
@@ -399,12 +397,7 @@ tbody td {
 }
 
 .sun {
-  color: $color-sunday;
-  border-left: 5px solid $color-opacity;
-}
-
-.sat {
-  border-right: 5px solid $color-opacity;
+  color: $color-sunday; // border-left: 5px solid $color-opacity;
 }
 
 .emotion-haha {

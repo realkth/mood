@@ -34,7 +34,7 @@
             <label class="select-angry" for="angry"></label>
           </form>
           <p class="content" id='content' style='white-space: pre-line'>{{ targetContent }}</p>
-          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{targetContent}}</textarea>
+          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{ targetContent }}</textarea>
         </section>
         <footer class="modal-footer buttons">
           <button class="modify" id="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
@@ -72,17 +72,17 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      if (this.$store.getters.isWrite.length < 1000) {
+      if (this.$store.getters.isWrite.length < 600) {
         axios.delete(this.$store.getters.isTargeturldaylist)
           .then(response => {
-            this.a_editPostSubmit()
+            this.a_editPostSubmit(this.targetContent)
           })
           .catch(error => console.warn(error))
         setTimeout(() => {
           this.closeModal()
         }, 2500);
       } else {
-        let message = '1000자를 넘을 수 없습니다.'
+        let message = '600자를 넘을 수 없습니다.'
         this.$store.dispatch('a_setToastMessage', message)
       }
     },
@@ -92,7 +92,7 @@ export default {
       document.getElementById('send').style.display = 'inline';
       document.getElementById('textarea').style.display = 'inline';
       document.getElementById('cancel').style.color = '#e4d49e'
-      document.getElementById('cancel').style.backgroundColor = '#6f8b78'
+      document.getElementById('cancel').style.backgroundColor = '#5f8b78'
       document.getElementById('content-emotion').style.display = 'none'
       document.getElementById('edit-emotion').style.display = 'block'
     },

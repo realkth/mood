@@ -122,7 +122,7 @@ export default {
           dispatch('a_setToastMessage', message)
         })
     },
-    a_editPostSubmit({ state, dispatch }) {
+    a_editPostSubmit({ state, dispatch }, targetContent) {
       let token = window.localStorage.getItem('token');
       let email = window.localStorage.getItem('email');
       let myAPI = window.localStorage.getItem('myAPI');
@@ -146,7 +146,7 @@ export default {
       axios.post(state.targeturldaylist, {
         userEmail: email,
         emotion: state.emotion,
-        content: state.write.content
+        content: state.write.content || targetContent
       }
       )
         .then(response => {

@@ -9,17 +9,17 @@
         <section class="modal-body">
           <form class="emoji-wrapper">
             <input @change="setEmotion" type="radio" id="haha" value="emotion-haha" name="emotion">
-            <label class="haha" for="haha"></label>
+            <label class="haha" for="haha" tabindex="0"></label>
             <input @change="setEmotion" type="radio" id="happy" value="emotion-happy" name="emotion">
-            <label class="happy" for="happy"></label>
+            <label class="happy" for="happy" tabindex="0"></label>
             <input @change="setEmotion" type="radio" id="soso" value="emotion-soso" name="emotion">
-            <label class="soso" for="soso"></label>
+            <label class="soso" for="soso" tabindex="0"></label>
             <input @change="setEmotion" type="radio" id="sad" value="emotion-sad" name="emotion">
-            <label class="sad" for="sad"></label>
+            <label class="sad" for="sad" tabindex="0"></label>
             <input @change="setEmotion" type="radio" id="surprised" value="emotion-surprised" name="emotion">
-            <label class="surprised" for="surprised"></label>
+            <label class="surprised" for="surprised" tabindex="0"></label>
             <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion">
-            <label class="angry" for="angry"></label>
+            <label class="angry" for="angry" tabindex="0"></label>
           </form>
           <textarea class="textarea" type="text" @input='setWrite' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
         </section>
@@ -103,6 +103,12 @@ h3 {
   color: $color-mood;
   font-size: 1.6rem;
   margin-bottom: 20px;
+}
+
+.tabfocus {
+  &:focus {
+    outline: 2px solid black;
+  }
 }
 
 .emoji-wrapper {
@@ -212,7 +218,7 @@ input[type="radio"]:checked+label {
   padding: 0;
   background-color: $color-happy;
   color: $color-haha;
-  outline: none;
+  // outline: none;
 }
 
 .write {
@@ -222,6 +228,6 @@ input[type="radio"]:checked+label {
   padding: 0;
   background-color: $color-haha;
   color: $color-happy;
-  outline: none;
+  // outline: none;
 }
 </style>

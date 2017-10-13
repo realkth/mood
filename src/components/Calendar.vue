@@ -58,22 +58,36 @@ export default {
     DoughnutChart
   },
   created() {
-    this.makeCalendar();
     this.myAPI();
     this.a_getAllData();
+    this.makeCalendar();
     this.setState();
     this.$store.watch(
       (state) => {
         return this.$store.getters.isList
       },
       (val) => {
-        this.makeCalendar();
         this.setState();
+        this.makeCalendar();
       },
       {
         deep: true
       }
-    );
+    )
+  },
+  mounted() {
+    this.$store.watch(
+      (state) => {
+        return this.$store.getters.isList
+      },
+      (val) => {
+        this.setState();
+        this.makeCalendar();
+      },
+      {
+        deep: true
+      }
+    )
   },
   data() {
     return {

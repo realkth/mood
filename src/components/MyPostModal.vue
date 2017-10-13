@@ -37,7 +37,7 @@
           <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{ targetContent }}</textarea>
         </section>
         <footer class="modal-footer buttons">
-          <button class="modify" id="modify" v-on:click="modifyPostSubmit()" v-focus="true">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
+          <button class="modify" id="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
         </footer>
       </div>
     </div>
@@ -84,6 +84,7 @@ export default {
         let fullDate = this.targetFullDate
         axios.delete(this.$store.getters.isTargeturldaylist)
           .then(response => {
+            this.a_getAllData();
             this.a_editPostSubmit([content, fullDate])
           })
           .catch(error => console.warn(error))

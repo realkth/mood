@@ -10,7 +10,7 @@
       </div>
 
     </div>
-    <table class="grid">
+    <table class="grid" v-touch:swipe.left="swipeHandler" v-touch-class="'active'" v-touch:swipe.right="swipeHandler">
       <caption>
         <h3 class="year"> {{ calYear }} </h3>
         <button class="btn-today" @click="thisMonth">today</button>
@@ -300,6 +300,13 @@ export default {
         this.openPostModal();
       } else {
         this.openWriteModal();
+      }
+    },
+    swipeHandler (direction) {
+      if (direction === 'left') {
+        this.nextCalendar();
+      } else if (direction === 'right') {
+        this.prevCalendar();
       }
     },
   }

@@ -8,8 +8,16 @@ import axios from 'axios'
 import firebase from 'firebase'
 import { store } from './store'
 import moment from 'moment'
+import Vue2TouchEvents from 'vue2-touch-events'
 
 Vue.use(VueRouter)
+// Vue.use(Vue2TouchEvents)
+Vue.use(Vue2TouchEvents, {
+  disableClick: false,
+  touchClass: '',
+  tapTolerance: 10,
+  swipeTolerance: 30,
+})
 Vue.prototype.$http = axios
 Vue.prototype.moment = moment
 let app;

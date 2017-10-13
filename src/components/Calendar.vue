@@ -415,6 +415,7 @@ tbody td {
     background: url('../assets/emoji-haha.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 100%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -431,6 +432,7 @@ tbody td {
     background: url('../assets/emoji-angry.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -447,6 +449,7 @@ tbody td {
     background: url('../assets/emoji-happy.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -463,6 +466,7 @@ tbody td {
     background: url('../assets/emoji-sad.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -479,6 +483,7 @@ tbody td {
     background: url('../assets/emoji-soso.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -495,6 +500,7 @@ tbody td {
     background: url('../assets/emoji-surprised.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;

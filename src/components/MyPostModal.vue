@@ -155,10 +155,11 @@ h3 {
 .haha {
   background: url(../assets/emoji-haha.svg) no-repeat $color-haha;
   background-size: 80%;
-  width: 128px;
-  height: 128px;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .happy {
@@ -168,6 +169,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .soso {
@@ -177,6 +179,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .sad {
@@ -186,6 +189,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .surprised {
@@ -195,6 +199,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .angry {
@@ -204,6 +209,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .modal-bg {

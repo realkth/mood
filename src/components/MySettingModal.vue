@@ -26,7 +26,7 @@
           </div>
         </section>
         <footer class="buttons col">
-          <button v-on:click="submitInfo" class="resister" v-focus="true">등록!</button>
+          <button v-on:click="submitInfo" class="register" v-focus="true">등록!</button>
         </footer>
       </div>
     </div>
@@ -227,7 +227,7 @@ input {
   text-align: center;
 }
 
-.resister {
+.register {
   width: 40%;
   height: 50px;
   border: none;

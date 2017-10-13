@@ -9,12 +9,12 @@
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
           <a class="img-wrapper tabfocus" tabindex="0" @click="openMenu" @keyup.enter="openMenu">
-            <img class="dropbtn" alt="회원 이미지" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null" width="40px" height="40px">
+            <img class="dropbtn" alt="회원 이미지" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null" width= "40px" height="40px">
             <span class="dropbtn user-icon" v-else></span>
           </a>
           <div id="myDropdown" class="dropdown-content">
-            <a href="" tabindx="0" class="tabfocus" @click.prevent="openMySettingModal">내 설정</a>
-            <a href="" tabindx="0" class="tabfocus" @click.prevent="logout">로그아웃</a>
+            <a class="tabfocus" href="" @click.prevent="openMySettingModal">내 설정</a>
+            <a class="tabfocus" href="" @click.prevent="logout">로그아웃</a>
           </div>
         </div>
       </div>
@@ -95,6 +95,15 @@ export default {
 
 .logo {
   text-align: center;
+}
+
+.tabfocus {
+  &:focus {
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
+  }
 }
 
 .logo-mood {

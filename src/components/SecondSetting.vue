@@ -19,7 +19,7 @@
           <p class="infomsg">이메일 인증을 하셔야 정상적인 서비스 이용이 가능합니다.</p>
         </div>
         <div class="buttons col">
-          <button v-on:click="a_verfification" class="resister">인증하기!</button>
+          <button v-on:click="a_verfification" class="register">인증하기!</button>
         </div>
       </div>
       <toast-message v-show="isToastMessage"></toast-message>
@@ -154,7 +154,7 @@ input {
   text-align: center;
 }
 
-.resister {
+.register {
   width: 40%;
   height: 50px;
   border: none;

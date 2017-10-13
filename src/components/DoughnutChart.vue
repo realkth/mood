@@ -59,7 +59,7 @@ export default {
           datasets: [
             {
               label: 'Data One',
-              backgroundColor: ['#6f8b78', '#e4d49e', '#e5e6d6', '#4d8696', '#c96466', '#5f1a2b'],
+              backgroundColor: ['#5f8b78', '#e4d49e', '#e5e6d6', '#4d8696', '#c96466', '#5f1a2b'],
               data: [this.haha, this.happy, this.soso, this.sad, this.surprised, this.angry]
             }
           ]

@@ -69,7 +69,7 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      if (this.$store.getters.isWrite.length < 1000){
+      if (this.$store.getters.isWrite.length < 600){
         this.a_writePostSubmit();
         this.a_getAllData();
         setTimeout(() => {
@@ -77,7 +77,7 @@ export default {
         }, 2500);
       }
       else{
-        let message = '1000자를 넘을 수 없습니다.'
+        let message = '600자를 넘을 수 없습니다.'
         this.$store.dispatch('a_setToastMessage', message)
       }
     },

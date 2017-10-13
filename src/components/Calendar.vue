@@ -38,7 +38,6 @@
       <tbody v-for="n in 5">
         <tr>
           <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))">
-            <!-- <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
           </td>
         </tr>
@@ -376,8 +375,7 @@ caption {
 tbody td {
   color: $color-white;
   cursor: pointer;
-  height: 70px;
-  border: 5px solid $color-opacity;
+  height: 73px; // border: 5px solid $color-opacity;
   padding: 7px;
   &:hover {
     opacity: 0.5;
@@ -399,12 +397,7 @@ tbody td {
 }
 
 .sun {
-  color: $color-sunday;
-  border-left: 5px solid $color-opacity;
-}
-
-.sat {
-  border-right: 5px solid $color-opacity;
+  color: $color-sunday; // border-left: 5px solid $color-opacity;
 }
 
 .emotion-haha {
@@ -415,6 +408,7 @@ tbody td {
     background: url('../assets/emoji-haha.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 100%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -431,6 +425,7 @@ tbody td {
     background: url('../assets/emoji-angry.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -447,6 +442,7 @@ tbody td {
     background: url('../assets/emoji-happy.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -463,6 +459,7 @@ tbody td {
     background: url('../assets/emoji-sad.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -479,6 +476,7 @@ tbody td {
     background: url('../assets/emoji-soso.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -495,6 +493,7 @@ tbody td {
     background: url('../assets/emoji-surprised.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;

@@ -38,7 +38,6 @@
       <tbody v-for="n in 5">
         <tr>
           <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))">
-            <!-- <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))"> -->
             <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
           </td>
         </tr>

@@ -21,7 +21,7 @@
             </div>
           </div>
           <div class="form col">
-            <input class="nickTest" type="text" @input="setting_displayname" :placeholder="isCurrentUser.displayName" v-focus="true">
+            <input class="nickTest" type="text" @input="setting_displayname" :placeholder="isCurrentUser.displayName" v-focus="true" @keyup.enter="submitInfo">
             <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
           </div>
         </section>

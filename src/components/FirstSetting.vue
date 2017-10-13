@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임" v-focus="true">
+          <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임" v-focus="true" @keyup.enter="a_firstSetting">
           <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
         </div>
         <div class="buttons col">

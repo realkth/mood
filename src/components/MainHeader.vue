@@ -3,18 +3,18 @@
     <div class="grid">
       <div class="col">
         <div class="logo col col-m-2 col-m-offset-1 col-d-4 col-d-offset-4">
-          <a href="">
+          <a href="" class="tabfocus">
             <img alt="mood 로고" class="logo-mood" src="../assets/l-mood.svg" height="40px">
           </a>
         </div>
         <div class="dropdown col col-m-1 col-d-offset-3 col-d-1">
-          <div class="img-wrapper">
-            <img class="dropbtn" alt="회원 이미지" @click="openMenu" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null"  width= "40px" height="40px">
-            <span class="dropbtn user-icon" @click="openMenu" v-else></span>
-          </div>
+          <a class="img-wrapper tabfocus" tabindex="0" @click="openMenu" @keyup.enter="openMenu">
+            <img class="dropbtn" alt="회원 이미지" :src="isCurrentUser.photoURL" v-if="isCurrentUser.photoURL !== null" width="40px" height="40px">
+            <span class="dropbtn user-icon" v-else></span>
+          </a>
           <div id="myDropdown" class="dropdown-content">
-            <a href="" @click.prevent="openMySettingModal">내 설정</a>
-            <a href="" @click.prevent="logout">로그아웃</a>
+            <a href="" tabindx="0" class="tabfocus" @click.prevent="openMySettingModal">내 설정</a>
+            <a href="" tabindx="0" class="tabfocus" @click.prevent="logout">로그아웃</a>
           </div>
         </div>
       </div>
@@ -49,8 +49,12 @@ export default {
     ...mapGetters(['isCurrentUser'])
   },
   methods: {
-    openMenu: function() {
-      document.getElementById("myDropdown").classList.toggle("show");
+    openMenu: () => {
+      if (!document.getElementById("myDropdown").classList.contains("show")) {
+        document.getElementById("myDropdown").classList.add("show");
+      } else {
+        document.getElementById("myDropdown").classList.remove("show")
+      }
     },
     logout: function() {
       firebase.auth().signOut().then(() => {
@@ -95,6 +99,15 @@ export default {
 
 .logo-mood {
   padding: 5px 0 5px 0;
+}
+
+.tabfocus {
+  &:focus {
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
+  }
 }
 
 .img-wrapper {

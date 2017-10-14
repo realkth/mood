@@ -3,9 +3,9 @@
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
       <!-- <div class="grid post-buttons">
-        <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
-        <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
-      </div> -->
+          <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
+          <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
+        </div> -->
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
@@ -57,7 +57,7 @@ const focus = {
 }
 
 export default {
-  props: ['targetFullDate','urlDate', 'targetEmotion', 'targetContent'],
+  props: ['targetFullDate', 'urlDate', 'targetEmotion', 'targetContent'],
   computed: {
     ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isListKey', 'isUrlDate', 'isTargeturldaylist']),
   },
@@ -79,7 +79,7 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      if (this.$store.getters.isWrite.length < 600) {
+      if (this.$store.getters.isWrite.length < 2000) {
         let content = this.targetContent
         let fullDate = this.targetFullDate
         axios.delete(this.$store.getters.isTargeturldaylist)
@@ -92,7 +92,7 @@ export default {
           this.closeModal()
         }, 2500);
       } else {
-        let message = '600자를 넘을 수 없습니다.'
+        let message = '2000자를 넘을 수 없습니다.'
         this.$store.dispatch('a_setToastMessage', message)
       }
     },
@@ -155,7 +155,6 @@ h3 {
   overflow: hidden;
   display: inline-block;
 }
-
 
 .content {
   padding: 5px 12.5%;
@@ -237,6 +236,8 @@ h3 {
   transform: translateY(-50%);
   position: absolute;
   z-index: 3;
+  overflow-y: scroll;
+  max-height: 70%;
 }
 
 .textarea {

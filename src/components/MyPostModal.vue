@@ -240,12 +240,9 @@ h3 {
   z-index: 3; 
   max-height: 80%;
   overflow: auto;
-  overflow: -moz-scrollbars-none;
   -ms-overflow-style: none;
 }
-// .modal-content::-webkit-scrollbar { 
-//   display: none; 
-// }
+
 .textarea {
   width: 85%;
   padding: 0;

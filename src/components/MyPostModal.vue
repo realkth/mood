@@ -3,9 +3,9 @@
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
       <!-- <div class="grid post-buttons">
-          <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
-          <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
-        </div> -->
+              <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
+              <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
+            </div> -->
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
@@ -71,6 +71,7 @@ export default {
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
+      window.scrollTo(0, 0);
     },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
@@ -101,10 +102,11 @@ export default {
       document.getElementById('content').style.display = 'none';
       document.getElementById('send').style.display = 'inline';
       document.getElementById('textarea').style.display = 'inline';
-      document.getElementById('cancel').style.color = '#e4d49e'
-      document.getElementById('cancel').style.backgroundColor = '#5f8b78'
-      document.getElementById('content-emotion').style.display = 'none'
-      document.getElementById('edit-emotion').style.display = 'block'
+      document.getElementById('cancel').style.color = '#e4d49e';
+      document.getElementById('cancel').style.backgroundColor = '#5f8b78';
+      document.getElementById('content-emotion').style.display = 'none';
+      document.getElementById('edit-emotion').style.display = 'block';
+      window.scrollTo(0, 0);
     },
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
@@ -235,11 +237,15 @@ h3 {
   top: 50%;
   transform: translateY(-50%);
   position: absolute;
-  z-index: 3;
-  overflow-y: scroll;
-  max-height: 70%;
+  z-index: 3; 
+  max-height: 80%;
+  overflow: auto;
+  overflow: -moz-scrollbars-none;
+  // -ms-overflow-style: none;
 }
-
+// .modal-content::-webkit-scrollbar { 
+//   display: none; 
+// }
 .textarea {
   width: 85%;
   padding: 0;

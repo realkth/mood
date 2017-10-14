@@ -61,6 +61,7 @@ export default {
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
+      window.scrollTo(0, 0);
     },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)

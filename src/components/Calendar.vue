@@ -231,6 +231,7 @@ export default {
           }
         }
       }
+      window.scrollTo(0, 0);
       this.currentMonth = new Date();
       let message = '오늘은 ' + date.getFullYear() + '년 ' +
         (this.currentMonth.getMonth() + 1) + "월 "

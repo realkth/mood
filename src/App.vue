@@ -68,7 +68,6 @@ export default {
 </script>
 
 <style lang="scss">
-// @import "~style";
 body {
   background: #c3c194;
   /* For browsers that do not support gradients */
@@ -88,32 +87,6 @@ body {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.browser {
-  display: none;
-  background: #435353;
-  color: #fff;
-  padding: 15px;
-  text-align: center;
-  position: relative;
-  p {
-    margin: 0;
-  }
-}
-
-.btn-close {
-  background-color: #e4d49e;
-  color: #435353;
-  border-style: none;
-  border-radius: 5px;
-  padding: 8px 15px;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 20%;
-  cursor: pointer;
-  font-size: 0.8rem;
 }
 
 .browser {

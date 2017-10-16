@@ -68,7 +68,7 @@ export default {
       window.scrollTo(0, 0);
     },
     checkImage(file) {
-      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
+      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase()) && file.size < 1024 * 1024 * 3) {
         return true;
       }
     },
@@ -86,7 +86,7 @@ export default {
         }
       }
       else {
-        this.$store.dispatch('a_setToastMessage', '이미지 파일만 선택 가능합니다.')
+        this.$store.dispatch('a_setToastMessage', '3MB 이하의 이미지 파일만 선택 가능합니다.')
       }
     },
     setting_displayname(e) {

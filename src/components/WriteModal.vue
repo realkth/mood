@@ -9,18 +9,19 @@
         <section class="modal-body">
           <form class="emoji-wrapper">
             <input @change="setEmotion" type="radio" id="haha" value="emotion-haha" name="emotion">
-            <label class="haha" for="haha" tabindex="0"></label>
+            <label class="haha" for="haha"></label>
             <input @change="setEmotion" type="radio" id="happy" value="emotion-happy" name="emotion">
-            <label class="happy" for="happy" tabindex="0"></label>
+            <label class="happy" for="happy"></label>
             <input @change="setEmotion" type="radio" id="soso" value="emotion-soso" name="emotion">
-            <label class="soso" for="soso" tabindex="0"></label>
+            <label class="soso" for="soso"></label>
             <input @change="setEmotion" type="radio" id="sad" value="emotion-sad" name="emotion">
-            <label class="sad" for="sad" tabindex="0"></label>
+            <label class="sad" for="sad"></label>
             <input @change="setEmotion" type="radio" id="surprised" value="emotion-surprised" name="emotion">
-            <label class="surprised" for="surprised" tabindex="0"></label>
+            <label class="surprised" for="surprised"></label>
             <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion">
-            <label class="angry" for="angry" tabindex="0"></label>
+            <label class="angry" for="angry"></label>
           </form>
+
           <textarea class="textarea" type="text" @input='setWrite' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
         </section>
         <footer class="modal-footer buttons">
@@ -108,7 +109,10 @@ h3 {
 
 .tabfocus {
   &:focus {
-    outline: 2px solid black;
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
   }
 }
 
@@ -117,7 +121,9 @@ h3 {
 }
 
 input {
-  display: none;
+  // display: none;
+  // opacity: 0;
+  @extend %readable-hidden;
 }
 
 input[type="radio"]+label {

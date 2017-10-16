@@ -18,11 +18,6 @@ export default {
   components: {
     ToastMessage
   },
-  data() {
-    return {
-      // visible: true
-    }
-  },
   mounted() {
     this.checkBrowser()
   },
@@ -31,12 +26,10 @@ export default {
   },
   methods: {
     closeInfoMessage: () => {
-      // this.visible = false
       document.getElementById('browser').style.display = 'none';
-      // console.log('닫기');
     },
     checkBrowser: () => {
-      var agent = navigator.userAgent.toLowerCase(),
+      let agent = navigator.userAgent.toLowerCase(),
         name = navigator.appName,
         browser;
 
@@ -67,7 +60,6 @@ export default {
 
       document.getElementsByTagName('html')[0].className = browser;
       if (browser.indexOf("Microsoft Internet Explorer") > -1 || agent.indexOf('trident') > -1) {
-        // console.log('되니');
         document.getElementById('browser').style.display = 'block';
       }
     },
@@ -76,7 +68,6 @@ export default {
 </script>
 
 <style lang="scss">
-// @import "~style";
 body {
   background: #c3c194;
   /* For browsers that do not support gradients */
@@ -89,17 +80,13 @@ body {
   background: linear-gradient(#c3c194 10%, #6f8b78 60%, #353e45 100%);
   /* Standard syntax */
   min-height: 100vh; // max-height: 100%;
+  padding: 0;
+  margin: 0;
 }
-
 
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-  padding: 0;
-  margin: 0;
 }
 
 .browser {

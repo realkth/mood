@@ -84,7 +84,7 @@ export default {
     a_targeturldaylist: (context, val) => {
       context.commit('m_targeturldaylist', val)
     },
-    a_writePostSubmit({ state, dispatch }) {
+    a_writePostSubmit({ state, dispatch }, targetFullDate) {
       let token = window.localStorage.getItem('token');
       let email = window.localStorage.getItem('email');
       let myAPI = window.localStorage.getItem('myAPI');
@@ -98,7 +98,7 @@ export default {
         }
       }
       if (emotion_btn_check === 0) {
-        let message = '오늘의 감정을 선택해주세요.'
+        let message = targetFullDate + '의 감정을 선택해주세요.'
         dispatch('a_setToastMessage', message)
         setTimeout(() => {
         }, 2500);
@@ -111,7 +111,7 @@ export default {
       }
       )
         .then(response => {
-          let message = '오늘의 일기를 기록하셨습니다.'
+          let message = targetFullDate + '의 일기를 기록하셨습니다.'
           dispatch('a_setToastMessage', message)
           dispatch('a_write', '')
           dispatch('a_getAllData')
@@ -122,7 +122,7 @@ export default {
           dispatch('a_setToastMessage', message)
         })
     },
-    a_editPostSubmit({ state, dispatch }) {
+    a_editPostSubmit({ state, dispatch }, targetContent) {
       let token = window.localStorage.getItem('token');
       let email = window.localStorage.getItem('email');
       let myAPI = window.localStorage.getItem('myAPI');
@@ -146,11 +146,11 @@ export default {
       axios.post(state.targeturldaylist, {
         userEmail: email,
         emotion: state.emotion,
-        content: state.write.content
+        content: state.write.content || targetContent[0]
       }
       )
         .then(response => {
-          let message = '오늘의 일기를 수정하셨습니다.'
+          let message = targetContent[1] + '의 일기를 수정하셨습니다.'
           dispatch('a_setToastMessage', message)
           dispatch('a_write', '')
           dispatch('a_getAllData')

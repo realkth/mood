@@ -21,6 +21,7 @@
             <input @change="setEmotion" type="radio" id="angry" value="emotion-angry" name="emotion">
             <label class="angry" for="angry"></label>
           </form>
+
           <textarea class="textarea" type="text" @input='setWrite' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
         </section>
         <footer class="modal-footer buttons">
@@ -61,6 +62,7 @@ export default {
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
+      window.scrollTo(0, 0);
     },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
@@ -69,15 +71,15 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      if (this.$store.getters.isWrite.length < 1000){
-        this.a_writePostSubmit();
+      if (this.$store.getters.isWrite.length < 2000){
+        this.a_writePostSubmit(this.targetFullDate);
         this.a_getAllData();
         setTimeout(() => {
           this.closeModal()
         }, 2500);
       }
       else{
-        let message = '1000자를 넘을 수 없습니다.'
+        let message = '2000자를 넘을 수 없습니다.'
         this.$store.dispatch('a_setToastMessage', message)
       }
     },
@@ -105,12 +107,23 @@ h3 {
   margin-bottom: 20px;
 }
 
+.tabfocus {
+  &:focus {
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
+  }
+}
+
 .emoji-wrapper {
   margin-bottom: 20px;
 }
 
 input {
-  display: none;
+  // display: none;
+  // opacity: 0;
+  @extend %readable-hidden;
 }
 
 input[type="radio"]+label {
@@ -212,7 +225,6 @@ input[type="radio"]:checked+label {
   padding: 0;
   background-color: $color-happy;
   color: $color-haha;
-  outline: none;
 }
 
 .write {
@@ -222,6 +234,5 @@ input[type="radio"]:checked+label {
   padding: 0;
   background-color: $color-haha;
   color: $color-happy;
-  outline: none;
 }
 </style>

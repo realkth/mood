@@ -3,9 +3,9 @@
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
       <!-- <div class="grid post-buttons">
-        <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
-        <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
-      </div> -->
+                  <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
+                  <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
+                </div> -->
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
@@ -34,7 +34,7 @@
             <label class="select-angry" for="angry"></label>
           </form>
           <p class="content" id='content' style='white-space: pre-line'>{{ targetContent }}</p>
-          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{targetContent}}</textarea>
+          <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{ targetContent }}</textarea>
         </section>
         <footer class="modal-footer buttons">
           <button class="modify" id="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
@@ -49,8 +49,15 @@ import firebase from 'firebase'
 import axios from 'axios'
 import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
+
+const focus = {
+  inserted(el) {
+    el.focus()
+  },
+}
+
 export default {
-  props: ['targetFullDate','urlDate', 'targetEmotion', 'targetContent'],
+  props: ['targetFullDate', 'urlDate', 'targetEmotion', 'targetContent'],
   computed: {
     ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isListKey', 'isUrlDate', 'isTargeturldaylist']),
   },
@@ -64,6 +71,7 @@ export default {
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
+      window.scrollTo(0, 0);
     },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
@@ -72,17 +80,20 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      if (this.$store.getters.isWrite.length < 1000) {
+      if (this.$store.getters.isWrite.length < 2000) {
+        let content = this.targetContent
+        let fullDate = this.targetFullDate
         axios.delete(this.$store.getters.isTargeturldaylist)
           .then(response => {
-            this.a_editPostSubmit()
+            this.a_getAllData();
+            this.a_editPostSubmit([content, fullDate])
           })
           .catch(error => console.warn(error))
         setTimeout(() => {
           this.closeModal()
         }, 2500);
       } else {
-        let message = '1000자를 넘을 수 없습니다.'
+        let message = '2000자를 넘을 수 없습니다.'
         this.$store.dispatch('a_setToastMessage', message)
       }
     },
@@ -91,10 +102,11 @@ export default {
       document.getElementById('content').style.display = 'none';
       document.getElementById('send').style.display = 'inline';
       document.getElementById('textarea').style.display = 'inline';
-      document.getElementById('cancel').style.color = '#e4d49e'
-      document.getElementById('cancel').style.backgroundColor = '#6f8b78'
-      document.getElementById('content-emotion').style.display = 'none'
-      document.getElementById('edit-emotion').style.display = 'block'
+      document.getElementById('cancel').style.color = '#e4d49e';
+      document.getElementById('cancel').style.backgroundColor = '#5f8b78';
+      document.getElementById('content-emotion').style.display = 'none';
+      document.getElementById('edit-emotion').style.display = 'block';
+      window.scrollTo(0, 0);
     },
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
@@ -137,6 +149,15 @@ h3 {
   margin-bottom: 20px;
 }
 
+.tabfocus {
+  &:focus {
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
+  }
+}
+
 .emoji-wrapper {
   margin-bottom: 20px;
   width: 128px;
@@ -146,7 +167,6 @@ h3 {
   display: inline-block;
 }
 
-
 .content {
   padding: 5px 12.5%;
   text-align: left;
@@ -155,10 +175,11 @@ h3 {
 .haha {
   background: url(../assets/emoji-haha.svg) no-repeat $color-haha;
   background-size: 80%;
-  width: 128px;
-  height: 128px;
+  width: 130px;
+  height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .happy {
@@ -168,6 +189,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .soso {
@@ -177,6 +199,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .sad {
@@ -186,6 +209,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .surprised {
@@ -195,6 +219,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .angry {
@@ -204,6 +229,7 @@ h3 {
   height: 130px;
   background-position: 50%;
   transform: translate(-1px, -1px);
+  display: block;
 }
 
 .modal-bg {
@@ -221,6 +247,9 @@ h3 {
   transform: translateY(-50%);
   position: absolute;
   z-index: 3;
+  max-height: 80%;
+  overflow: auto; // -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
 }
 
 .textarea {
@@ -242,7 +271,6 @@ h3 {
   padding: 0;
   background-color: $color-happy;
   color: $color-haha;
-  outline: none;
 }
 
 .modify {
@@ -252,7 +280,6 @@ h3 {
   padding: 0;
   background-color: $color-haha;
   color: $color-happy;
-  outline: none;
 }
 
 #send {
@@ -262,7 +289,6 @@ h3 {
   padding: 0;
   background-color: $color-happy;
   color: $color-haha;
-  outline: none;
   display: none;
 }
 
@@ -272,7 +298,8 @@ h3 {
 }
 
 input {
-  display: none;
+  // display: none;
+  @extend %readable-hidden;
 }
 
 input[type="radio"]+label {

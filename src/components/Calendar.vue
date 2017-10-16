@@ -10,7 +10,7 @@
       </div>
 
     </div>
-    <table class="grid">
+    <table class="grid" v-touch:swipe.left="swipeHandler" v-touch-class="'active'" v-touch:swipe.right="swipeHandler">
       <caption>
         <h3 class="year"> {{ calYear }} </h3>
         <button class="btn-today" @click="thisMonth">today</button>
@@ -37,9 +37,8 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))">
-            <!-- <td class="td" :id="arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join('')" :class="[arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(arrTargetDate[ (n-1)*7 + m-1 ])" v-on="setState(arrTargetDate[ (n-1)*7 + m-1 ].toISOString().split('T')[0].split('-').join(''))"> -->
-            <a href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
+          <td class="td" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))">
+            <a class="tabfocus" href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
           </td>
         </tr>
 
@@ -59,22 +58,22 @@ export default {
     DoughnutChart
   },
   created() {
-    this.makeCalendar();
     this.myAPI();
     this.a_getAllData();
     this.setState();
+    this.makeCalendar();
     this.$store.watch(
       (state) => {
         return this.$store.getters.isList
       },
       (val) => {
-        this.makeCalendar();
         this.setState();
+        this.makeCalendar();
       },
       {
         deep: true
       }
-    );
+    )
   },
   data() {
     return {
@@ -102,13 +101,6 @@ export default {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
       window.localStorage.setItem('myAPI', api)
-    },
-    nowTime: () => {
-      let currentdate = new Date();
-      let datetime =
-        (currentdate.getMonth() + 1) + "월 "
-        + currentdate.getDate() + "일 "
-      return datetime
     },
     openWriteModal() {
       window.scrollTo(0, 0)
@@ -239,6 +231,7 @@ export default {
           }
         }
       }
+      window.scrollTo(0, 0);
       this.currentMonth = new Date();
       let message = '오늘은 ' + date.getFullYear() + '년 ' +
         (this.currentMonth.getMonth() + 1) + "월 "
@@ -259,15 +252,23 @@ export default {
       this.a_getAllData();
     },
     setState(date) {
+
       let myAPI = window.localStorage.getItem('myAPI');
       let dateGetAPI = myAPI + `${date}` + '.json'
       let token = window.localStorage.getItem('token');
+
       axios.get(dateGetAPI, {
       }).then(response => {
         let result = response.data;
         if (result !== null) {
           let dateId = document.getElementById(date);
           let content = Object.values(result)[0].emotion
+          dateId.classList.remove('emotion-haha')
+          dateId.classList.remove('emotion-happy')
+          dateId.classList.remove('emotion-soso')
+          dateId.classList.remove('emotion-sad')
+          dateId.classList.remove('emotion-surprised')
+          dateId.classList.remove('emotion-angry')
           dateId.classList.add(content);
         }
       })
@@ -277,7 +278,7 @@ export default {
       let object_month = moment(target_date).format().split('T')[0].split('-').join('').slice(4, 6);
       let object_date = moment(target_date).format().split('T')[0].split('-').join('').slice(6, 8);
       let urlDate = object_year + object_month + object_date;
-      let fullDate = object_year + '년 ' + object_month + '월 ' + object_date + '일';
+      let fullDate = Number(object_year) + '년 ' + Number(object_month) + '월 ' + Number(object_date) + '일';
 
       this.targetFullDate = fullDate;
       this.urlDate = urlDate;
@@ -301,6 +302,13 @@ export default {
         this.openPostModal();
       } else {
         this.openWriteModal();
+      }
+    },
+    swipeHandler(direction) {
+      if (direction === 'left') {
+        this.nextCalendar();
+      } else if (direction === 'right') {
+        this.prevCalendar();
       }
     },
   }
@@ -376,11 +384,19 @@ caption {
 tbody td {
   color: $color-white;
   cursor: pointer;
-  height: 70px;
-  border: 5px solid $color-opacity;
+  height: 73px; // border: 5px solid $color-opacity;
   padding: 7px;
   &:hover {
     opacity: 0.5;
+  }
+}
+
+.tabfocus {
+  &:focus {
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
   }
 }
 
@@ -399,12 +415,7 @@ tbody td {
 }
 
 .sun {
-  color: $color-sunday;
-  border-left: 5px solid $color-opacity;
-}
-
-.sat {
-  border-right: 5px solid $color-opacity;
+  color: $color-sunday; // border-left: 5px solid $color-opacity;
 }
 
 .emotion-haha {
@@ -431,6 +442,7 @@ tbody td {
     background: url('../assets/emoji-angry.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -447,6 +459,7 @@ tbody td {
     background: url('../assets/emoji-happy.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -463,6 +476,7 @@ tbody td {
     background: url('../assets/emoji-sad.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -479,6 +493,7 @@ tbody td {
     background: url('../assets/emoji-soso.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -495,6 +510,7 @@ tbody td {
     background: url('../assets/emoji-surprised.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
+    -ms-background-size: 60%;
     width: 50%;
     height: 50%;
     position: absolute;

@@ -12,7 +12,7 @@
           <p class="msg" id="email_msg" v-show="!validateEmail.sign_email">{{ isSignup_err_email_msg }}</p>
         </div>
         <div class="form form-password col">
-          <input type="password" @input="sign_pw" v-model="password" placeholder="Password">
+          <input type="password" @input="sign_pw" v-model="password" placeholder="Password" @keyup.enter="a_signUp({e: sign_email, p: sign_pw})">
           <p class="ok-msg" v-if="this.password.length >= 6">사용가능한 비밀번호입니다.</p>
           <p class="msg" id="pw_msg" v-else>{{ isSignup_err_pw_msg }}</p>
         </div>

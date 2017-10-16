@@ -3,7 +3,7 @@
     <div class="modal-bg glass" @click="closeModal()"></div>
     <div class="container">
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
-        <button class="modal-close" alt="모달창 닫기" @click="closeModal()"></button>
+        <button class="modal-close" alt="모달창 닫기" @click="closeModal()" tabindex="0"></button>
         <header class="col">
           <h3>프로필 설정</h3>
         </header>
@@ -21,12 +21,12 @@
             </div>
           </div>
           <div class="form col">
-            <input class="nickTest" type="text" @input="setting_displayname" :placeholder="isCurrentUser.displayName" v-focus="true">
+            <input class="nickTest" type="text" @input="setting_displayname" :placeholder="isCurrentUser.displayName" @keyup.enter="submitInfo">
             <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
           </div>
         </section>
         <footer class="buttons col">
-          <button v-on:click="submitInfo" class="resister">등록!</button>
+          <button v-on:click="submitInfo" class="register" v-focus="true">등록!</button>
         </footer>
       </div>
     </div>
@@ -37,7 +37,6 @@
 import firebase from 'firebase'
 import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
-
 
 const focus = {
   inserted(el) {
@@ -65,7 +64,8 @@ export default {
   methods: {
     closeModal() {
       this.visible = false;
-      this.$parent.blur = null
+      this.$parent.blur = null;
+      window.scrollTo(0, 0);
     },
     checkImage(file) {
       if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
@@ -228,7 +228,7 @@ input {
   text-align: center;
 }
 
-.resister {
+.register {
   width: 40%;
   height: 50px;
   border: none;

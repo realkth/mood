@@ -61,6 +61,7 @@ export default {
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
+      window.scrollTo(0, 0);
     },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
@@ -69,7 +70,7 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      if (this.$store.getters.isWrite.length < 600){
+      if (this.$store.getters.isWrite.length < 2000){
         this.a_writePostSubmit(this.targetFullDate);
         this.a_getAllData();
         setTimeout(() => {
@@ -77,7 +78,7 @@ export default {
         }, 2500);
       }
       else{
-        let message = '600자를 넘을 수 없습니다.'
+        let message = '2000자를 넘을 수 없습니다.'
         this.$store.dispatch('a_setToastMessage', message)
       }
     },

@@ -37,7 +37,7 @@
       </thead>
       <tbody v-for="n in 5">
         <tr>
-          <td class="td" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))">
+          <td class="td" v-on="setState(moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''))" :id="moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join('')" :class="[moment(arrTargetDate[ (n-1)*7 + m-1 ]).format().split('T')[0].split('-').join(''), arrThisMonth[ (n-1)*7 + m-1 ]]" v-for="m in 7" @click.prevent="clickTargetDate(moment(arrTargetDate[ (n-1)*7 + m-1 ]))">
             <a class="tabfocus" href="">{{ arrTargetDate[ (n-1)*7 + m-1 ].getDate() }}</a>
           </td>
         </tr>
@@ -58,22 +58,22 @@ export default {
     DoughnutChart
   },
   created() {
-    this.makeCalendar();
     this.myAPI();
     this.a_getAllData();
     this.setState();
+    this.makeCalendar();
     this.$store.watch(
       (state) => {
         return this.$store.getters.isList
       },
       (val) => {
-        this.makeCalendar();
         this.setState();
+        this.makeCalendar();
       },
       {
         deep: true
       }
-    );
+    )
   },
   data() {
     return {
@@ -101,13 +101,6 @@ export default {
       let token = window.localStorage.getItem('token')
       let api = 'https://mood-vuex.firebaseio.com/users/' + `${token}` + '/' + 'post/'
       window.localStorage.setItem('myAPI', api)
-    },
-    nowTime: () => {
-      let currentdate = new Date();
-      let datetime =
-        (currentdate.getMonth() + 1) + "월 "
-        + currentdate.getDate() + "일 "
-      return datetime
     },
     openWriteModal() {
       window.scrollTo(0, 0)
@@ -238,6 +231,7 @@ export default {
           }
         }
       }
+      window.scrollTo(0, 0);
       this.currentMonth = new Date();
       let message = '오늘은 ' + date.getFullYear() + '년 ' +
         (this.currentMonth.getMonth() + 1) + "월 "
@@ -258,15 +252,23 @@ export default {
       this.a_getAllData();
     },
     setState(date) {
+
       let myAPI = window.localStorage.getItem('myAPI');
       let dateGetAPI = myAPI + `${date}` + '.json'
       let token = window.localStorage.getItem('token');
+
       axios.get(dateGetAPI, {
       }).then(response => {
         let result = response.data;
         if (result !== null) {
           let dateId = document.getElementById(date);
           let content = Object.values(result)[0].emotion
+          dateId.classList.remove('emotion-haha')
+          dateId.classList.remove('emotion-happy')
+          dateId.classList.remove('emotion-soso')
+          dateId.classList.remove('emotion-sad')
+          dateId.classList.remove('emotion-surprised')
+          dateId.classList.remove('emotion-angry')
           dateId.classList.add(content);
         }
       })

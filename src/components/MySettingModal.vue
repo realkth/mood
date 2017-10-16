@@ -64,7 +64,8 @@ export default {
   methods: {
     closeModal() {
       this.visible = false;
-      this.$parent.blur = null
+      this.$parent.blur = null;
+      window.scrollTo(0, 0);
     },
     checkImage(file) {
       if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {

@@ -3,9 +3,9 @@
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
       <!-- <div class="grid post-buttons">
-        <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
-        <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
-      </div> -->
+                  <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
+                  <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
+                </div> -->
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
@@ -37,7 +37,7 @@
           <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{ targetContent }}</textarea>
         </section>
         <footer class="modal-footer buttons">
-          <button class="modify" id="modify" v-on:click="modifyPostSubmit()" v-focus="true">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
+          <button class="modify" id="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
         </footer>
       </div>
     </div>
@@ -57,7 +57,7 @@ const focus = {
 }
 
 export default {
-  props: ['targetFullDate','urlDate', 'targetEmotion', 'targetContent'],
+  props: ['targetFullDate', 'urlDate', 'targetEmotion', 'targetContent'],
   computed: {
     ...mapGetters(['isToastMessage', 'isCurrentUser', 'isWrite', 'isEmotion', 'isItem', 'isListKey', 'isUrlDate', 'isTargeturldaylist']),
   },
@@ -71,6 +71,7 @@ export default {
     closeModal() {
       this.visible = false;
       this.$parent.blur = null;
+      window.scrollTo(0, 0);
     },
     setWrite(e) {
       this.$store.dispatch('a_write', e.target.value)
@@ -79,11 +80,12 @@ export default {
       this.$store.dispatch('a_emotion', e.target.value)
     },
     submit() {
-      if (this.$store.getters.isWrite.length < 600) {
+      if (this.$store.getters.isWrite.length < 2000) {
         let content = this.targetContent
         let fullDate = this.targetFullDate
         axios.delete(this.$store.getters.isTargeturldaylist)
           .then(response => {
+            this.a_getAllData();
             this.a_editPostSubmit([content, fullDate])
           })
           .catch(error => console.warn(error))
@@ -91,7 +93,7 @@ export default {
           this.closeModal()
         }, 2500);
       } else {
-        let message = '600자를 넘을 수 없습니다.'
+        let message = '2000자를 넘을 수 없습니다.'
         this.$store.dispatch('a_setToastMessage', message)
       }
     },
@@ -100,10 +102,11 @@ export default {
       document.getElementById('content').style.display = 'none';
       document.getElementById('send').style.display = 'inline';
       document.getElementById('textarea').style.display = 'inline';
-      document.getElementById('cancel').style.color = '#e4d49e'
-      document.getElementById('cancel').style.backgroundColor = '#5f8b78'
-      document.getElementById('content-emotion').style.display = 'none'
-      document.getElementById('edit-emotion').style.display = 'block'
+      document.getElementById('cancel').style.color = '#e4d49e';
+      document.getElementById('cancel').style.backgroundColor = '#5f8b78';
+      document.getElementById('content-emotion').style.display = 'none';
+      document.getElementById('edit-emotion').style.display = 'block';
+      window.scrollTo(0, 0);
     },
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
@@ -154,7 +157,6 @@ h3 {
   overflow: hidden;
   display: inline-block;
 }
-
 
 .content {
   padding: 5px 12.5%;
@@ -236,6 +238,9 @@ h3 {
   transform: translateY(-50%);
   position: absolute;
   z-index: 3;
+  max-height: 80%;
+  overflow: auto; // -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
 }
 
 .textarea {

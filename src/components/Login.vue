@@ -37,6 +37,9 @@ export default {
   computed: {
     ...mapGetters(['isEmail', 'isErrEmailMsg', 'isErrPwMsg'])
   },
+  created() {
+    this.logout()
+  },
   data: function() {
     return {
       input_pw: '',
@@ -46,14 +49,23 @@ export default {
   },
   methods: {
     ...mapActions([
-      'a_logInUser', 'a_signInAuthState', 'a_email', 'a_password'
+      'a_logInUser', 'a_signInAuthState', 'a_email', 'a_password', 'a_setFirstPhoto'
     ]),
     email(e) {
       this.$store.dispatch('a_email', e.target.value)
     },
     password(e) {
       this.$store.dispatch('a_password', e.target.value)
-    }
+    },
+    logout: function() {
+      firebase.auth().signOut().then(() => {
+        window.localStorage.removeItem('token')
+        window.localStorage.removeItem('email')
+        window.localStorage.removeItem('photoURL')
+        window.localStorage.removeItem('myAPI')
+        this.$store.dispatch('a_setFirstPhoto', '')
+      })
+    },
   }
 }
 </script>

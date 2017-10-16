@@ -3,9 +3,9 @@
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
       <!-- <div class="grid post-buttons">
-              <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
-              <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
-            </div> -->
+                  <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
+                  <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
+                </div> -->
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
@@ -237,9 +237,9 @@ h3 {
   top: 50%;
   transform: translateY(-50%);
   position: absolute;
-  z-index: 3; 
+  z-index: 3;
   max-height: 80%;
-  overflow: auto;
+  overflow: auto; // -webkit-overflow-scrolling: touch;
   -ms-overflow-style: none;
 }
 

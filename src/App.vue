@@ -33,6 +33,7 @@ body {
   background: linear-gradient(#c3c194 10%, #6f8b78 60%, #353e45 100%);
   /* Standard syntax */
   min-height: 100vh;
+  // max-height: 100%;
 }
 
 // @media screen and (min-width: 0px) and (max-width: 767px) {

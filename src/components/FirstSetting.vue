@@ -42,17 +42,25 @@ const focus = {
 }
 
 export default {
+  beforeRouteEnter (to, from, next) {
+    let signup = window.localStorage.getItem('signup')
+    if (signup === null) {
+      next('/login');
+    } else {
+      next();
+    }
+  },
   name: 'firstSetting',
   directives: { focus },
   components: {
     HomeHeader
   },
   computed: {
-    ...mapGetters(['isSetting_err_msg', 'isCurrentUser']),
+    ...mapGetters(['isSetting_err_msg', 'isCurrentUser','isSignup_email']),
   },
   methods: {
     checkImage(file) {
-      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
+      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase()) && file.size < 1024 * 1024 * 3) {
         return true;
       }
     },
@@ -61,6 +69,7 @@ export default {
       let _this = this;
       let file = e.target.files[0];
       let reader = new FileReader();
+      // console.log('파일',file.size);
       if (this.checkImage(file)) {
         this.file = file;
         reader.readAsDataURL(file);
@@ -68,7 +77,7 @@ export default {
           this.$store.dispatch('a_setFirstPhoto', data.srcElement.result);
           this.$store.dispatch('a_setFirstErrMsg', '')
         }
-      } else { this.$store.dispatch('a_setFirstErrMsg', '이미지 파일만 선택 가능합니다.') }
+      } else { this.$store.dispatch('a_setFirstErrMsg', '3MB 이하의 이미지 파일만 선택 가능합니다.') }
     },
     setting_first_displayname(e) {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)

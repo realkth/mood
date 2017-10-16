@@ -3,7 +3,9 @@
     <div class="grid">
       <div class="col">
         <h1>
-          <img src="../assets/l-mood.svg" width="200">
+          <router-link to="/login">
+            <img src="../assets/l-mood.svg" width="200">
+          </router-link>
         </h1>
       </div>
     </div>

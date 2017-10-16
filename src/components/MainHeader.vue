@@ -62,6 +62,7 @@ export default {
         window.localStorage.removeItem('email')
         window.localStorage.removeItem('photoURL')
         window.localStorage.removeItem('myAPI')
+        window.localStorage.removeItem('signup')
         this.$store.dispatch('a_setFirstPhoto', '')
         this.$router.replace('login')
         window.location.reload(true);

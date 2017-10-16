@@ -65,6 +65,7 @@ const router = new Router({
     },
     {
       path: '/first-setting',
+      // redirect: '/login',
       name: 'FirstSetting',
       component: FirstSetting,
       beforeEnter (to, from, next) {
@@ -78,6 +79,7 @@ const router = new Router({
     },
     {
       path: '/second-setting',
+      // redirect: '/login',
       name: 'SecondSetting',
       component: SecondSetting,
       beforeEnter (to, from, next) {

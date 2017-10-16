@@ -3,10 +3,10 @@
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
       <!-- <div class="grid post-buttons">
-                  <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
-                  <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
-                </div> -->
-      <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4">
+                    <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
+                    <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
+                  </div> -->
+      <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4" id="modal-content">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
         </header>
@@ -105,6 +105,7 @@ export default {
       document.getElementById('cancel').style.color = '#e4d49e';
       document.getElementById('cancel').style.backgroundColor = '#5f8b78';
       document.getElementById('content-emotion').style.display = 'none';
+      document.getElementById('modal-content').style.maxHeight = 'none';
       document.getElementById('edit-emotion').style.display = 'block';
       window.scrollTo(0, 0);
     },
@@ -242,14 +243,28 @@ h3 {
   z-index: 2;
 }
 
-.modal-content {
-  top: 50%;
-  transform: translateY(-50%);
-  position: absolute;
-  z-index: 3;
-  max-height: 80%;
-  overflow: auto; // -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
+@media screen and (min-height: 768px) {
+  .modal-content {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    z-index: 3;
+    max-height: 54%;
+    overflow: auto; // -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+  }
+}
+
+@media screen and (min-height: 0px) and (max-height: 767px) {
+  .modal-content {
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    z-index: 3;
+    max-height: 80%;
+    overflow: auto; // -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
+  }
 }
 
 .textarea {

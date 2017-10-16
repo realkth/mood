@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임" v-focus="true" @keyup.enter="a_firstSetting">
+          <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임을 설정해주세요." v-focus="true" @keyup.enter="a_firstSetting">
           <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
         </div>
         <div class="buttons col">
@@ -69,7 +69,6 @@ export default {
       let _this = this;
       let file = e.target.files[0];
       let reader = new FileReader();
-      // console.log('파일',file.size);
       if (this.checkImage(file)) {
         this.file = file;
         reader.readAsDataURL(file);

@@ -426,8 +426,6 @@ tbody td {
     background: url('../assets/emoji-haha.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 100%;
-    // -ms-background-size: 20%;
-    // -moz-background-clip: 0;
     width: 50%;
     height: 50%;
     position: absolute;

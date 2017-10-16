@@ -18,11 +18,6 @@ export default {
   components: {
     ToastMessage
   },
-  data() {
-    return {
-      // visible: true
-    }
-  },
   mounted() {
     this.checkBrowser()
   },
@@ -31,12 +26,10 @@ export default {
   },
   methods: {
     closeInfoMessage: () => {
-      // this.visible = false
       document.getElementById('browser').style.display = 'none';
-      // console.log('닫기');
     },
     checkBrowser: () => {
-      var agent = navigator.userAgent.toLowerCase(),
+      let agent = navigator.userAgent.toLowerCase(),
         name = navigator.appName,
         browser;
 
@@ -67,7 +60,6 @@ export default {
 
       document.getElementsByTagName('html')[0].className = browser;
       if (browser.indexOf("Microsoft Internet Explorer") > -1 || agent.indexOf('trident') > -1) {
-        // console.log('되니');
         document.getElementById('browser').style.display = 'block';
       }
     },
@@ -89,17 +81,39 @@ body {
   background: linear-gradient(#c3c194 10%, #6f8b78 60%, #353e45 100%);
   /* Standard syntax */
   min-height: 100vh; // max-height: 100%;
+  padding: 0;
+  margin: 0;
 }
-
 
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  padding: 0;
-  margin: 0;
+.browser {
+  display: none;
+  background: #435353;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  position: relative;
+  p {
+    margin: 0;
+  }
+}
+
+.btn-close {
+  background-color: #e4d49e;
+  color: #435353;
+  border-style: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20%;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .browser {

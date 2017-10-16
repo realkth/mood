@@ -35,6 +35,14 @@ import ToastMessage from './ToastMessage.vue'
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
 export default {
+  beforeRouteEnter (to, from, next) {
+    let signup = window.localStorage.getItem('signup')
+    if (signup === null) {
+      next('/login');
+    } else {
+      next();
+    }
+  },
   name: 'secondSetting',
   components: {
     HomeHeader,

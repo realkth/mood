@@ -19,7 +19,7 @@
           </div>
         </div>
         <div class="form col">
-          <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임" v-focus="true" @keyup.enter="a_firstSetting">
+          <input class="nickTest" type="text" @input="setting_first_displayname" placeholder="유저 네임을 설정해주세요." v-focus="true" @keyup.enter="a_firstSetting">
           <p class="errmsg" id="pw_msg">{{ isSetting_err_msg }}</p>
         </div>
         <div class="buttons col">
@@ -42,17 +42,25 @@ const focus = {
 }
 
 export default {
+  beforeRouteEnter (to, from, next) {
+    let signup = window.localStorage.getItem('signup')
+    if (signup === null) {
+      next('/login');
+    } else {
+      next();
+    }
+  },
   name: 'firstSetting',
   directives: { focus },
   components: {
     HomeHeader
   },
   computed: {
-    ...mapGetters(['isSetting_err_msg', 'isCurrentUser']),
+    ...mapGetters(['isSetting_err_msg', 'isCurrentUser','isSignup_email']),
   },
   methods: {
     checkImage(file) {
-      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase())) {
+      if (/.*\.(gif)|(jpeg)|(jpg)|(png)$/.test(file.name.toLowerCase()) && file.size < 1024 * 1024 * 3) {
         return true;
       }
     },
@@ -68,7 +76,7 @@ export default {
           this.$store.dispatch('a_setFirstPhoto', data.srcElement.result);
           this.$store.dispatch('a_setFirstErrMsg', '')
         }
-      } else { this.$store.dispatch('a_setFirstErrMsg', '이미지 파일만 선택 가능합니다.') }
+      } else { this.$store.dispatch('a_setFirstErrMsg', '3MB 이하의 이미지 파일만 선택 가능합니다.') }
     },
     setting_first_displayname(e) {
       this.$store.dispatch('a_setFirstDisplayName', e.target.value)

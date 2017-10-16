@@ -47,7 +47,9 @@ export default {
 
     a_signUp: ({ state, dispatch, commit }, user) => {
       firebase.auth().createUserWithEmailAndPassword(state.sign_email, state.sign_Pw).then(
-        (user) => { },
+        (user) => { 
+          window.localStorage.setItem('signup', true)
+        },
         (err) => {
           console.log('Oops. ' + err.message);
           if (err.message === 'Password should be at least 6 characters') {

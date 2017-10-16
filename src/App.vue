@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <div class="browser" id="browser">
+      <p>원활한 이용을 위해 최신 브라우저를 이용해주세요.</p>
+      <button class="btn-close" @click="closeInfoMessage">닫기</button>
+    </div>
     <router-view></router-view>
     <toast-message></toast-message>
   </div>
@@ -14,15 +18,18 @@ export default {
   components: {
     ToastMessage
   },
+  mounted() {
+    this.checkBrowser()
+  },
   computed: {
     ...mapGetters(['isToastMessage']),
   },
-  created () {
-    this.checkBrowser()
-  },
   methods: {
-    checkBrowser:() => {
-      var agent = navigator.userAgent.toLowerCase(),
+    closeInfoMessage: () => {
+      document.getElementById('browser').style.display = 'none';
+    },
+    checkBrowser: () => {
+      let agent = navigator.userAgent.toLowerCase(),
         name = navigator.appName,
         browser;
 
@@ -52,11 +59,10 @@ export default {
       }
 
       document.getElementsByTagName('html')[0].className = browser;
-      if (browser.indexOf("Microsoft Internet Explorer") > -1 || agent.indexOf('trident') > -1){
-      alert('브라우저 바꾸세여..')
+      if (browser.indexOf("Microsoft Internet Explorer") > -1 || agent.indexOf('trident') > -1) {
+        document.getElementById('browser').style.display = 'block';
       }
     },
-    
   }
 }
 </script>
@@ -74,34 +80,38 @@ body {
   background: linear-gradient(#c3c194 10%, #6f8b78 60%, #353e45 100%);
   /* Standard syntax */
   min-height: 100vh; // max-height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
-// @media screen and (min-width: 0px) and (max-width: 767px) {
-//   // body {
-//   //   min-height: 100vh;
-//   //   max-height: 160vh;
-//   // }
-// }
-// @media screen and (min-width: 768px) and (max-width: 1200px) {
-//   body {
-//     min-height: 100vh;
-//     max-height: 130vh;
-//   }
-// }
-// @media screen and (min-width: 768px) {
-//   body {
-//     // min-height: 100vh;
-//     // max-height: 130vh;
-//     height: 100%;
-//   }
-// }
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body {
-  padding: 0;
-  margin: 0;
+.browser {
+  display: none;
+  background: #435353;
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  position: relative;
+  p {
+    margin: 0;
+  }
+}
+
+.btn-close {
+  background-color: #e4d49e;
+  color: #435353;
+  border-style: none;
+  border-radius: 5px;
+  padding: 8px 15px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 20%;
+  cursor: pointer;
+  font-size: 0.8rem;
 }
 </style>

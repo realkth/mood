@@ -149,6 +149,15 @@ h3 {
   margin-bottom: 20px;
 }
 
+.tabfocus {
+  &:focus {
+    outline-color: rgb(77, 144, 254); // #4D90FE
+    outline-offset: -2px;
+    outline-style: auto;
+    outline-width: 5px;
+  }
+}
+
 .emoji-wrapper {
   margin-bottom: 20px;
   width: 128px;
@@ -289,7 +298,8 @@ h3 {
 }
 
 input {
-  display: none;
+  // display: none;
+  @extend %readable-hidden;
 }
 
 input[type="radio"]+label {

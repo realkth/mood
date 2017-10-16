@@ -42,13 +42,21 @@ const focus = {
 }
 
 export default {
+  beforeRouteEnter (to, from, next) {
+    let signup = window.localStorage.getItem('signup')
+    if (signup === null) {
+      next('/login');
+    } else {
+      next();
+    }
+  },
   name: 'firstSetting',
   directives: { focus },
   components: {
     HomeHeader
   },
   computed: {
-    ...mapGetters(['isSetting_err_msg', 'isCurrentUser']),
+    ...mapGetters(['isSetting_err_msg', 'isCurrentUser','isSignup_email']),
   },
   methods: {
     checkImage(file) {

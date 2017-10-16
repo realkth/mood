@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     ...mapActions([
-      'a_logInUser', 'a_signInAuthState', 'a_email', 'a_password', 'a_setFirstPhoto'
+      'a_logInUser', 'a_signInAuthState', 'a_email', 'a_password','a_setFirstPhoto'
     ]),
     email(e) {
       this.$store.dispatch('a_email', e.target.value)
@@ -63,6 +63,7 @@ export default {
         window.localStorage.removeItem('email')
         window.localStorage.removeItem('photoURL')
         window.localStorage.removeItem('myAPI')
+        window.localStorage.removeItem('signup')
         this.$store.dispatch('a_setFirstPhoto', '')
       })
     },

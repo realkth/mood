@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="browser" id="browser">
-      <p>원활한 이용을 위해 최신 브라우저를 이용해주세요.</p>
+      <p>보다 만족스러운 사용자경험을 위해 최신 브라우저를 이용해주세요.</p>
       <button class="btn-close" @click="closeInfoMessage">닫기</button>
     </div>
     <router-view></router-view>

@@ -1,20 +1,22 @@
 # Project - 'mood'
 ## 하루의 감정을 기록 할 수 있는 다이어리
 
-- 팀 구성원: [고세민](https://github.com/degose/mood/tree/gose), [김태훈](https://github.com/realkth/mood/tree/th)    
+- 팀 구성원: [고세민](https://github.com/degose/mood/tree/master), [김태훈](https://github.com/realkth/mood/tree/th)    
 - 서비스 이름: 'a state or quality of feeling at a particular time' 이라는 의미의 영단어 'mood' => `무드`
 
 ```
-기능 MVP
-1. 회원가입
+주요 기능
+1. 회원 가입 및 이메일 인증
 2. 로그인
-3. 내 정보 수정
-4. 달력 - 달력에서 날짜를 선택하면 해당 날짜의 일기 쓰기
-5. 일기 쓰기
-6. 감정 이모티콘으로 감정 기록
-7. 감정 선택 횟수 통계
-8. 한달에 일기를 얼마나 기록했는지 통계 제공
+3. 회원 정보 설정 및 수정 (프로필 사진 및 유저 네임)
+4. 달력 => 날짜를 선택해 해당 날짜에 작성
+5. 일기 쓰기 및 수정
+6. 감정 이모티콘으로 감정 기록 => 선택한 감정 이모티콘이 달력에 반영
+7. 감정 선택 횟수 통계 => 도넛 차트로 감정 선택 횟수 통계를 시각화
+8. 한달에 일기를 몇 번 기록했는지 통계 제공
 ```  
+<!-- ## ![완성된 페이지](./달력.PNG) -->
+
 - 개발 환경
   - Vue.js
   - Vuex

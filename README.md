@@ -56,7 +56,7 @@
 > ## 프로젝트 진행과정 : [프로젝트](https://github.com/realkth/mood/projects/1) / [이슈](https://github.com/realkth/mood/issues?q=is%3Aissue+is%3Aclosed) -->
 
 --------------------------------------------
-##### 완성된 페이지
+##### 완성된 페이지  
 ![완성된 페이지](./달력.PNG)  
 ##### IE 페이지
   - 브라우저 감지를 통해 IE의 경우 최신브라우저 이용 안내메시지  

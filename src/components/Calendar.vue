@@ -384,7 +384,7 @@ caption {
 tbody td {
   color: $color-white;
   cursor: pointer;
-  height: 73px; // border: 5px solid $color-opacity;
+  height: 73px;
   padding: 7px;
   &:hover {
     opacity: 0.5;
@@ -415,7 +415,7 @@ tbody td {
 }
 
 .sun {
-  color: $color-sunday; // border-left: 5px solid $color-opacity;
+  color: $color-sunday;
 }
 
 .emotion-haha {
@@ -434,6 +434,23 @@ tbody td {
   }
 }
 
+_:-ms-input-placeholder,
+ :root .emotion-haha {
+  background: $color-haha;
+  position: relative;
+  &::before {
+    content: '';
+    background: url('../assets/emoji-haha.svg') no-repeat;
+    background-position: 100% 100%;
+    background-size: 43%;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+  }
+}
+
 .emotion-angry {
   background: $color-angry;
   position: relative;
@@ -442,7 +459,23 @@ tbody td {
     background: url('../assets/emoji-angry.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
-    -ms-background-size: 60%;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+  }
+}
+
+_:-ms-input-placeholder,
+ :root .emotion-angry {
+  background: $color-angry;
+  position: relative;
+  &::before {
+    content: '';
+    background: url('../assets/emoji-angry.svg') no-repeat;
+    background-position: 100% 100%;
+    background-size: 40%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -459,7 +492,23 @@ tbody td {
     background: url('../assets/emoji-happy.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
-    -ms-background-size: 60%;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+  }
+}
+
+_:-ms-input-placeholder,
+ :root .emotion-happy {
+  background: $color-happy;
+  position: relative;
+  &::before {
+    content: '';
+    background: url('../assets/emoji-happy.svg') no-repeat;
+    background-position: 100% 100%;
+    background-size: 40%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -476,7 +525,23 @@ tbody td {
     background: url('../assets/emoji-sad.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
-    -ms-background-size: 60%;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+  }
+}
+
+_:-ms-input-placeholder,
+ :root .emotion-sad {
+  background: $color-sad;
+  position: relative;
+  &::before {
+    content: '';
+    background: url('../assets/emoji-sad.svg') no-repeat;
+    background-position: 100% 100%;
+    background-size: 40%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -493,7 +558,23 @@ tbody td {
     background: url('../assets/emoji-soso.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
-    -ms-background-size: 60%;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+  }
+}
+
+_:-ms-input-placeholder,
+ :root .emotion-soso {
+  background: $color-soso;
+  position: relative;
+  &::before {
+    content: '';
+    background: url('../assets/emoji-soso.svg') no-repeat;
+    background-position: 100% 100%;
+    background-size: 40%;
     width: 50%;
     height: 50%;
     position: absolute;
@@ -510,7 +591,23 @@ tbody td {
     background: url('../assets/emoji-surprised.svg') no-repeat;
     background-position: 100% 100%;
     background-size: 90%;
-    -ms-background-size: 60%;
+    width: 50%;
+    height: 50%;
+    position: absolute;
+    right: 7px;
+    bottom: 7px;
+  }
+}
+
+_:-ms-input-placeholder,
+ :root .emotion-surprised {
+  background: $color-surprised;
+  position: relative;
+  &::before {
+    content: '';
+    background: url('../assets/emoji-surprised.svg') no-repeat;
+    background-position: 100% 100%;
+    background-size: 40%;
     width: 50%;
     height: 50%;
     position: absolute;

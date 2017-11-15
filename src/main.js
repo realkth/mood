@@ -20,6 +20,7 @@ Vue.use(Vue2TouchEvents, {
 Vue.prototype.$http = axios
 Vue.prototype.moment = moment
 let app;
+// includes 메소드 폴리필
 if (!Array.prototype.includes) {
   Object.defineProperty(Array.prototype, 'includes', {
     value: function (searchElement, fromIndex) {
@@ -60,6 +61,7 @@ if (!String.prototype.includes) {
     }
   };
 }
+// matches 메소드 폴리필
 if (!Element.prototype.matches) {
   Element.prototype.matches =
     Element.prototype.msMatchesSelector ||

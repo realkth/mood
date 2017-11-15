@@ -2,10 +2,6 @@
   <div class="post-modal" v-if="visible">
     <div class="modal-bg" @click="closeModal()"></div>
     <div class="container">
-      <!-- <div class="grid post-buttons">
-                    <button class="prev-post col col-d-offset-1 col-d-1 col-m-1" @click="prevPost(urlDate)"></button>
-                    <button class="next-post col col-d-offset-8 col-d-1 col-m-1 col-m-offset-2" @click=""></button>
-                  </div> -->
       <div class="modal-content box col col-d-6 col-d-offset-3 col-m-4" id="modal-content">
         <header class="modal-header">
           <h3> {{ targetFullDate }} </h3>
@@ -37,6 +33,7 @@
           <textarea class="textarea" id='textarea' type="text" @input='setWrite' cols="30" rows="10" :placeholder='placeholder()' style="display:none">{{ targetContent }}</textarea>
         </section>
         <footer class="modal-footer buttons">
+          <!-- HTML자체 white-space때문에 줄 바꿈시 두 요소에 각각 width 50%설정 시 width값의 합이 100%가 초과함-->
           <button class="modify" id="modify" v-on:click="modifyPostSubmit()">수정하기</button><button class="modify" id="send" v-on:click="submit()">기록하기</button><button class="cancel" id="cancel" @click="closeModal()">닫기</button>
         </footer>
       </div>
@@ -111,24 +108,7 @@ export default {
     },
     placeholder: function() {
       return this.$store.getters.isCurrentUser.displayName + "님, 오늘 하루는 어떠셨나요?"
-    },
-    // prevPost(urlDate) {
-    //   let prevDate = urlDate -=1
-    //   let myAPI = window.localStorage.getItem('myAPI');
-    //   console.log('myAPI',myAPI);
-    //   // let getAPI = myAPI + '.json'
-    //   let token = window.localStorage.getItem('token');
-    //   // axios.get(targeturldaylist, {
-
-    //   // }).then(response => {
-    //   //   let data = response.data;
-    //   //   let item = Object.values(data);
-    //   //   this.$parent.targetEmotion = item[0].emotion
-    //   //   this.$parent.targetContent = item[0].content
-    //   // }).catch(error => { })
-
-    //   console.log('prevDate',prevDate);
-    // }
+    }
   }
 }
 </script>

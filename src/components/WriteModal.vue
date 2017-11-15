@@ -25,6 +25,7 @@
           <textarea class="textarea" type="text" @input='setWrite' v-focus="true" cols="30" rows="10" :placeholder='placeholder()'></textarea>
         </section>
         <footer class="modal-footer buttons">
+          <!-- HTML자체 white-space때문에 줄 바꿈시 두 요소에 각각 width 50%설정 시 width값의 합이 100%가 초과함-->
           <button class="write" v-on:click="submit()">기록 남기기</button><button class="cancel" @click="closeModal()">취소</button>
         </footer>
       </div>
@@ -92,6 +93,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "~style";
+
 .box {
   @extend %box-style;
   display: block;

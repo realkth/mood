@@ -2,7 +2,6 @@
   <div>
     <main-header ref="main_header" v-bind:style="blur"></main-header>
     <calendar ref="calendar" v-bind:style="blur"></calendar>
-    <div class="hello"></div>
     <my-setting-modal ref='my_setting_modal'></my-setting-modal>
     <write-modal :targetFullDate="targetFullDate" ref='write_modal'></write-modal>
     <my-post-modal :targetFullDate="targetFullDate" :urlDate="urlDate" :targetEmotion="targetEmotion" :targetContent="targetContent" ref='my_post_modal'></my-post-modal>

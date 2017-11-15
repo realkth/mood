@@ -27,9 +27,9 @@
 import firebase from 'firebase';
 import { state, mapGetters, mapMutations, mapActions } from 'vuex'
 
+// 드롭다운 메뉴 외 영역 클릭시 닫히게.
 window.onclick = function(event) {
   if (!event.target.matches('.dropbtn')) {
-
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
     for (i = 0; i < dropdowns.length; i++) {

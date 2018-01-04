@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="browser" id="browser">
-      <p>보다 만족스러운 사용자경험을 위해 최신 브라우저를 이용해주세요.</p>
+      <a class="guide" target="_blank" href="https://www.google.com/chrome/browser/desktop/index.html">보다 만족스러운 사용자경험을 위해 최신 브라우저를 이용해주세요.</a>
       <button class="btn-close" @click="closeInfoMessage">닫기</button>
     </div>
     <router-view></router-view>
@@ -96,8 +96,10 @@ body {
   padding: 15px;
   text-align: center;
   position: relative;
-  p {
+  a {
     margin: 0;
+    text-decoration: none;
+    color: #fff;
   }
 }
 
